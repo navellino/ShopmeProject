@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+		
+		<title>Home - Shopme Admin</title>
+		
+		<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.3.0/css/bootstrap.min.css}">
+		<script type="text/javascript" th:src="@{/webjars/jquery/dist/jquery.min.js}"></script>
+		<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div>
+				<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+					<a class="navbar-brand" th:href="@{/}">
+					<img th:src="@{/images/ShopmeAdminSmall.png}">
+					</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="topNavbar">
+						<ul class="navbar-nav">
+							<li class="nav-itme"><a class="nav-link" th:href="@{/users}" th:text="#{label.users}"></a></li>
+							<li class="nav-itme"><a class="nav-link" th:href="@{/categories}" th:text="#{label.categories}"></a></li>
+							<li class="nav-itme"><a class="nav-link" th:href="@{/brands}" th:text="#{label.brands}"></a></li>
+							<li class="nav-itme"><a class="nav-link" th:href="@{/products}" th:text="#{label.products}"></a></li>
+							<li class="nav-itme"><a class="nav-link" th:href="@{/customers}" th:text="#{label.customers}"></a></li>
+							<li class="nav-itme"><a class="nav-link" th:href="@{/shippings}" th:text="#{label.shippings}"></a></li>
+							<li class="nav-itme"><a class="nav-link" th:href="@{/orders}" th:text="#{label.orders}"></a></li>
+							<li class="nav-itme"><a class="nav-link" th:href="@{/report}" th:text="#{label.report}"></a></li>
+							<li class="nav-itme"><a class="nav-link" th:href="@{/articles}" th:text="#{label.articles}"></a></li>
+							<li class="nav-itme"><a class="nav-link" th:href="@{/menus}" th:text="#{label.menus}"></a></li>
+							<li class="nav-itme"><a class="nav-link" th:href="@{/settings}" th:text="#{label.settings}"></a></li>
+						</ul>					
+					</div>
+				</nav>
+			</div>
+		</div>
+			<div class="alert alert-primary" role="alert">
+				<h1 class="">Benvenuto nel pannello di amministrazione di ShopMe</h1>
+			</div>
+		<div>
+			<p>ShopMe Control Panel - CopyRight &copy; ShopMe S.p.A.</p>
+		</div>
+	</body>
+</html>
