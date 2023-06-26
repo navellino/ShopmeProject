@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -22,7 +23,7 @@ public class User {
 	@Column(name = "email", length = 128, nullable = false, unique = true)
 	private String email;
 	
-	@Column(name = "email", length = 64, nullable = false)
+	@Column(name = "password", length = 64, nullable = false)
 	private String password;
 	
 	@Column(name = "first_name", length = 100, nullable = false)	
