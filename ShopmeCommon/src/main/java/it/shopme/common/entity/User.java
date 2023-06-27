@@ -124,4 +124,12 @@ public class User {
 	public void addRole(Role role) {
 		this.roles.add(role);
 	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", email=" + email + ", password=" + password + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", roles=" + roles + "]";
+	}
+	
+	
 }
