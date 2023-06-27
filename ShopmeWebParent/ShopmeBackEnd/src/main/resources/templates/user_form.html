@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+	<title>Home - Shopme Admin - Nuovo Utente</title>
+
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.3.0/css/bootstrap.min.css}">
+	<script type="text/javascript" th:src="@{/webjars/jquery/dist/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div>
+			<nav th:replace="~{template :: navFragment}"></nav>
+		</div>
+	</div>
+	<div class="alert alert-primary" role="alert">
+		<h2 class="">Nuovo Utente</h2>
+		<a type="button" class="btn btn-primary" th:text="#{label.back}" th:href="@{/users}"></a>
+	</div>
+	<!--
+	<form th:action="@{/users/save}" method="post" style="max-width: 700px; margin: 0 auto;" th:object="${user}">
+		<div class="border boreder-secondary rounded p-3">
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label" th:text="#{label.email}"></label>
+				<div class="col-sm-8"><input type="email" class="form-control" th:field="*{email}" required minlength="8" maxlength="128"/></div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label" th:text="#{label.email}"></label>
+				<div class="col-sm-8"><input type="email" class="form-control" th:field="*{email}" required minlength="8" maxlength="128"/></div>
+			</div>
+			<div class="text-center">
+				<input type="submit" value="Invia" class="btn btn-primary"/>
+				<input type="button" value="Indietro" class="btn btn-secondary"/>
+			</div>
+		</div>
+	</form>
+-->
+	<form th:action="@{/users/save}" method="post" style="max-width: 700px; margin: 0 auto;" th:object="${user}">
+		<!-- 2 column grid layout with text inputs for the first and last names -->
+		<div class="row mb-4">
+			<div class="col">
+				<div class="form-outline">
+					<input type="text" id="form6Example1" class="form-control" th:field="*{firstName}" />
+					<label class="form-label" for="form6Example1" th:text="#{label.firstName}"></label>
+				</div>
+			</div>
+			<div class="col">
+				<div class="form-outline">
+					<input type="text" id="form6Example2" class="form-control" th:field="*{lastName}" />
+					<label class="form-label" for="form6Example2" th:text="#{label.lastName}"></label>
+				</div>
+			</div>
+		</div>
+		<!-- Email input -->
+		<div class="form-outline mb-4">
+			<input type="email" id="form6Example5" class="form-control" th:field="*{email}" />
+			<label class="form-label" for="form6Example5" th:text="#{label.email}"></label>
+		</div>
+
+		<!-- Text input -->
+		<div class="form-outline mb-4">
+			<input type="password" id="form6Example4" class="form-control" th:field="*{password}" />
+			<label class="form-label" for="form6Example4">Password</label>
+		</div>
+		
+		<!-- Roles checkbox -->
+		<div class="form-outline mb-4">
+				<th:block th:each="role : ${roles}">
+					<input class="form-check-input me-2" type="checkbox" th:field="*{roles}" th:text="${role.name}" th:value="${role.id}" id="form6Example8"  />
+					&nbsp;-&nbsp;
+					<label  class="form-check-label" th:text="${role.description}"></label>
+					<br/>
+				</th:block>
+		</div>
+		
+		<div class="form-check d-flex mb-4">
+			<input class="form-check-input me-2" type="checkbox" value="" id="form6Example8" th:field="*{enabled}" />
+			<label class="form-check-label" for="form6Example8"> Abilitato </label>
+		</div>
+	
+		<!-- Message input
+		<div class="form-outline mb-4">
+			<textarea class="form-control" id="form6Example7" rows="4"></textarea>
+			<label class="form-label" for="form6Example7">Additional information</label>
+		</div>
+
+		 Checkbox 
+		<div class="form-check d-flex justify-content-center mb-4">
+			<input class="form-check-input me-2" type="checkbox" value="" id="form6Example8" checked />
+			<label class="form-check-label" for="form6Example8"> Create an account? </label>
+		</div>
+		-->
+
+		<!-- Submit button -->
+		<div class="text-center">
+			<input type="submit" value="Invia" class="btn btn-primary" />
+			<input type="button" value="Indietro" class="btn btn-secondary" />
+		</div>
+	</form>
+
+
+
+	<div class="text-center">
+		<p>ShopMe Control Panel - CopyRight &copy; ShopMe S.p.A.</p>
+	</div>
+</body>
+
+</html>
