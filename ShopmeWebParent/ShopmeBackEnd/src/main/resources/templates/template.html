@@ -1,3 +1,20 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!--Head Fragment-->
+
+<head th:fragment="headFragment">
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+	<title th:text="${title}"></title>
+
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.3.0/css/bootstrap.min.css}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script type="text/javascript" th:src="@{/webjars/jquery/dist/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+
+<!--Navigation Fragment-->
 <nav th:fragment="navFragment" class="navbar navbar-expand-lg bg-dark navbar-dark">
 	<a class="navbar-brand" th:href="@{/}">
 		<img th:src="@{/images/ShopmeAdminSmall.png}">
@@ -21,3 +38,25 @@
 		</ul>
 	</div>
 </nav>
+<!--Modal Dialog Fragment-->
+<div th:fragment="modal_dialog" class="modal fade text-center" id="modalDialog" tabindex="-1" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="modalTitle">Warning</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+				<span id="modalBody"></span>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--Footer Fragment-->
+<div th:fragment="footerFragment" class="text-center">
+	<p>ShopMe Control Panel - CopyRight &copy; ShopMe S.p.A.</p>
+</div>

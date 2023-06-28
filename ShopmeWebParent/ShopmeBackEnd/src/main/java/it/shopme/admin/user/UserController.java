@@ -35,6 +35,7 @@ public class UserController {
 		listRole = service.roleList();
 		
 		User user = new User();
+		model.addAttribute("title", "ShopMe - Nuovo Utente");
 		model.addAttribute("user", user);
 		model.addAttribute("roles", listRole);
 		

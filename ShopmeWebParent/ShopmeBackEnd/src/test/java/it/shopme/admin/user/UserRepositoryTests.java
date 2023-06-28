@@ -80,4 +80,11 @@ public class UserRepositoryTests {
 		Integer deletedUser = 2;
 		repo.deleteById(deletedUser);
 	}
+	
+	@Test
+	public void testFindByEmail() {
+		User user = repo.findByEmail("delucatomma@gmail.com");
+		System.out.println(user);
+		assertThat(user).isNotNull();
+	}
 }

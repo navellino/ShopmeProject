@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-		
-		<title>Home - Shopme Admin</title>
-		
-		<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.3.0/css/bootstrap.min.css}">
-		<script type="text/javascript" th:src="@{/webjars/jquery/dist/jquery.min.js}"></script>
-		<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-	</head>
+<head th:replace="~{template :: headFragment}"></head>
 	<body>
 		<div class="container-fluid">
 			<div>
@@ -40,16 +31,20 @@
 					<tbody>
 						<tr th:each="user : ${users}">
 							<td th:text="${user.id}"></td>
-							<td th:text="${user.photos}"></td>
+					<!--	<td th:text="${user.photos}"></td> -->
+							<td><i class="fa-solid fa-image-portrait fa-2xl" style="color: #757575;"></i></td>
 							<td th:text="${user.firstName}"></td>
 							<td th:text="${user.lastName}"></td>
 							<td th:text="${user.roles}"></td>
 							<td th:text="${user.email}"></td>
-							<td th:text="${user.enabled}"></td>
+							<td class="text-center">
+								<i th:if="${user.enabled == true}" class="fa-solid fa-circle-check fa-2xl" style="color: #00c70d;"></i>
+								<i th:if="${user.enabled == false}" class="fa-solid fa-circle-xmark fa-2xl" style="color: #ff0000;"></i>
+							</td>
 							<td>
-								<button type="button" class="btn btn-primary" th:text="#{label.edit}"></button>
+								<a href="#" class="fa-solid fa-user-pen fa-2xl" style="color: #00c70d;"></a>
 								&nbsp;
-								<button type="button" class="btn btn-danger" th:text="#{label.delete}"></button>
+								<a href="#" class="fa-solid fa-trash fa-2xl" style="color: #ff0000;"></a>
 							</td>
 						</tr>
 					</tbody>
