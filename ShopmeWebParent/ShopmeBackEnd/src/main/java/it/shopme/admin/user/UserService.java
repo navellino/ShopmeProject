@@ -2,6 +2,9 @@ package it.shopme.admin.user;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,6 +13,7 @@ import it.shopme.common.entity.User;
 
 
 @Service
+@Transactional
 public class UserService {
 	
 	@Autowired
@@ -67,8 +71,11 @@ public class UserService {
 				return false;
 			}
 		}
-		
 		return true;
+	}
+	
+	public void updateUserEnabledStatus(Integer id, boolean enabled) {
+		repo.updateEnableStatus(id, enabled);
 	}
 	
 	public User getUserById(Integer id) throws UserNotFoundException {
@@ -77,7 +84,13 @@ public class UserService {
 		} catch (NoSuchElementException e) {
 			throw new UserNotFoundException("Nessun utente trovato con id: "+id);
 		}
-		
-		
+	}
+	
+	public void delete(Integer id) throws UserNotFoundException {
+		Long countById = repo.countById(id);
+		if (countById == null || countById == 0) {
+			throw new UserNotFoundException("Nessun utente trovato con id: "+id);
+		}
+		repo.deleteById(id);
 	}
 }

@@ -38,20 +38,39 @@
 							<td th:text="${user.roles}"></td>
 							<td th:text="${user.email}"></td>
 							<td class="text-center">
-								<i th:if="${user.enabled == true}" class="fa-solid fa-circle-check fa-2xl" style="color: #00c70d;"></i>
-								<i th:if="${user.enabled == false}" class="fa-solid fa-circle-xmark fa-2xl" style="color: #ff0000;"></i>
+								<a th:if="${user.enabled == true}" th:href="@{'/users/' + ${user.id} + '/enabled/false' }" 
+								 title="Diabilita l'utente" class="fa-solid fa-circle-check fa-2xl" style="color: #00c70d;"></a>
+								<a th:if="${user.enabled == false}" th:href="@{'/users/' + ${user.id} + '/enabled/true' }"
+								title="Abilita l'utente" class="fa-solid fa-circle-xmark fa-2xl" style="color: #ff0000;"></a>
 							</td>
 							<td>
 								<a th:href="@{'/users/edit/' + ${user.id}}" class="fa-solid fa-user-pen fa-2xl" style="color: #00c70d;"></a>
 								&nbsp;
-								<a href="#" class="fa-solid fa-trash fa-2xl" style="color: #ff0000;"></a>
+								<a th:href="@{'/users/delete/' + ${user.id}}" class="fa-solid fa-trash fa-2xl link-delete" style="color: #ff0000;" 
+								th:userId="${user.id}" title="elimina questo utente"></a>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-		<div class="text-center">
-			<p>ShopMe Control Panel - CopyRight &copy; ShopMe S.p.A.</p>
-		</div>
+		<!--Modal dialog non unique email-->
+		<div th:replace="~{template :: modal_delete_dialog}"></div>
+	
+		<!--Footer-->
+		<div th:replace="~{template :: footerFragment}"></div>
+	
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$(".link-delete").on("click", function(e){
+					e.preventDefault();
+					link = $(this);
+					//alert($(this).attr("href"));
+					userId = link.attr("userId");
+					$("#yesButton").attr("href", link.attr("href"));
+					$("#confirmText").text("Sei sicuro di eliminalere l'utente" + userId);
+					$("#confirmModal").modal('show');
+				});
+			})
+		</script>
 	</body>
 </html>
