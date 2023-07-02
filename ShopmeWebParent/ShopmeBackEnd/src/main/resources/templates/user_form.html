@@ -10,12 +10,13 @@
 		</div>
 	</div>
 	<div class="alert alert-primary" role="alert">
-		<h2 class="">Nuovo Utente</h2>
+		<h2 class="" th:text="${title}"></h2>
 		<a type="button" class="btn btn-primary" th:text="#{label.back}" th:href="@{/users}"></a>
 	</div>
 
 	<form th:action="@{/users/save}" method="post" style="max-width: 700px; margin: 0 auto;" th:object="${user}"
 		onsubmit="return checkEmailUnique(this);">
+		<input type="hidden" id="id" th:field="*{id}">
 		<!-- 2 column grid layout with text inputs for the first and last names -->
 		<div class="row mb-4">
 			<div class="col">
@@ -39,7 +40,8 @@
 
 		<!-- Text input -->
 		<div class="form-outline mb-4">
-			<input type="password" class="form-control" th:field="*{password}" />
+			<input th:if="${user.id == null}" type="password" class="form-control" th:field="*{password}" required/>
+			<input th:if="${user.id != null}" type="password" class="form-control" th:field="*{password}" />
 			<label class="form-label" for="form6Example4">Password</label>
 		</div>
 
@@ -76,9 +78,10 @@
 	<script type="text/javascript">
 		function checkEmailUnique(form) {
 			url = "[[@{/users/check_email}]]";
+			userId = $("#id").val();
 			userEmail = $("#email").val();
 			csrfValue = $("input[name='_csrf']").val();
-			params = {email: userEmail, _csrf: csrfValue}
+			params = {id: userId, email: userEmail, _csrf: csrfValue}
 
 			$.post(url, params, function (response) {
 				if (response == "OK") {

@@ -42,7 +42,7 @@
 								<i th:if="${user.enabled == false}" class="fa-solid fa-circle-xmark fa-2xl" style="color: #ff0000;"></i>
 							</td>
 							<td>
-								<a href="#" class="fa-solid fa-user-pen fa-2xl" style="color: #00c70d;"></a>
+								<a th:href="@{'/users/edit/' + ${user.id}}" class="fa-solid fa-user-pen fa-2xl" style="color: #00c70d;"></a>
 								&nbsp;
 								<a href="#" class="fa-solid fa-trash fa-2xl" style="color: #ff0000;"></a>
 							</td>
