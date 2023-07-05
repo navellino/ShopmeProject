@@ -6,6 +6,10 @@ import java.util.NoSuchElementException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import it.shopme.common.entity.Role;
@@ -15,6 +19,8 @@ import it.shopme.common.entity.User;
 @Service
 @Transactional
 public class UserService {
+	
+	public static final int USER_PER_PAGE = 4;
 	
 	@Autowired
 	private UserRepository repo;
@@ -30,11 +36,19 @@ public class UserService {
 		return (List<User>) repo.findAll();
 	}
 	
+	public Page<User> listByPage(int pageNum, String sortField, String sortDir){
+		Sort sort = Sort.by(sortField);
+		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+		
+		Pageable pageable = PageRequest.of(pageNum - 1, USER_PER_PAGE, sort);
+		return repo.findAll(pageable);
+	}
+	
 	public List<Role> roleList(){
 		return (List<Role>) roleRepo.findAll(); 
 	}
 	
-	public void saveUser(User user) {
+	public User saveUser(User user) {
 		boolean isUptadingUser = (user.getId() != null);
 		
 		if(isUptadingUser) {
@@ -48,7 +62,7 @@ public class UserService {
 			encodePassword(user);
 		}
 		//encodePassword(user);
-		repo.save(user);
+		return repo.save(user);
 	}
 	
 	private void encodePassword(User user) {

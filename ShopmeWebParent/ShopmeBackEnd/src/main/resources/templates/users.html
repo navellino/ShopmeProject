@@ -20,8 +20,21 @@
 						<tr>
 							<th th:text="#{label.thUser}"></th>
 							<th th:text="#{label.thFoto}"></th>
+							<th>
+								<a th:text="#{label.lastName}"
+									th:if="${sortField != 'lastName'}" class="text-white"
+									th:href="@{'users/page/'+${currentPage}+'?sortField=lastName&sortDir='+${sortDir}}">
+								</a>
+								
+								<a th:text="#{label.lastName}" class="text-white"
+									th:if="${sortField == 'lastName'}"
+									th:href="@{${currentPage}+'?sortField=lastName&sortDir='+${reverseSortDir}}">
+								</a>
+								
+								<i th:if="${sortField == 'lastName'}" 
+								th:class="${sortDir == 'asc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'}"></i>
+							</th>
 							<th th:text="#{label.firstName}"></th>
-							<th th:text="#{label.lastName}"></th>
 							<th th:text="#{label.roles}"></th>
 							<th th:text="#{label.email}"></th>
 							<th th:text="#{label.enabled}"></th>
@@ -31,10 +44,14 @@
 					<tbody>
 						<tr th:each="user : ${users}">
 							<td th:text="${user.id}"></td>
-					<!--	<td th:text="${user.photos}"></td> -->
-							<td><i class="fa-solid fa-image-portrait fa-2xl" style="color: #757575;"></i></td>
-							<td th:text="${user.firstName}"></td>
+							<td>
+								<i th:if="${user.photos == null}" class="fa-solid fa-image-portrait fa-2xl" style="color: #757575;"></i>
+								<img th:if="${user.photos != null}" th:src="@{${user.getPhotoImagePath}}" 
+								style="max-width: 100px;" class="rounded img-fluid"/>
+							
+							</td>
 							<td th:text="${user.lastName}"></td>
+							<td th:text="${user.firstName}"></td>
 							<td th:text="${user.roles}"></td>
 							<td th:text="${user.email}"></td>
 							<td class="text-center">
@@ -53,9 +70,39 @@
 					</tbody>
 				</table>
 			</div>
+			
+		<!--Paginating -->
+		<div class="text-center m-1" th:if="${totalItems>0}">
+			<span th:text="#{label.paginating} + ' '+ ${startCount} + ' - '+ ${endCount} + ' ' +#{label.di} + ' ' + ${totalItems}"></span>
+		</div>
+		<div class="text-center m-1" th:unless="${totalItems>0}">
+			<span th:text="#{label.nouserfound}"></span>
+		</div>
 		<!--Modal dialog non unique email-->
 		<div th:replace="~{template :: modal_delete_dialog}"></div>
-	
+		<div>
+			<nav >
+			  <ul class="pagination justify-content-center">
+				<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+					<a class="page-link" th:href="@{'/users/page/1?sortField='+${sortField}+'&sortDir='+${sortDir}}" th:text="#{label.first}"></a>
+				</li>
+			    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+					<a class="page-link" th:href="@{'/users/page/'+${currentPage-1}+'?sortField='+${sortField}+'&sortDir='+${sortDir}}" th:text="#{label.previus}"></a>
+				</li>
+				
+			    <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" 
+			    	th:each="i : ${#numbers.sequence(1, lastPage)}">
+					<a class="page-link" th:href="@{'/users/page/'+ ${i}+'?sortField='+${sortField}+'&sortDir='+${sortDir}}" th:text="${i}"></a>
+				</li>
+			    <li th:class="${currentPage < lastPage ? 'page-item' : 'page-item disabled'}">
+					<a class="page-link" th:href="@{'/users/page/'+${currentPage+1}+'?sortField='+${sortField}+'&sortDir='+${sortDir}}" th:text="#{label.next}"></a>
+				</li>
+			    <li th:class="${currentPage < lastPage ? 'page-item' : 'page-item disabled'}">
+					<a class="page-link" th:href="@{'/users/page/'+${lastPage}+'?sortField='+${sortField}+'&sortDir='+${sortDir}}" th:text="#{label.last}"></a>
+				</li>
+			  </ul>
+			</nav>
+		</div>
 		<!--Footer-->
 		<div th:replace="~{template :: footerFragment}"></div>
 	
