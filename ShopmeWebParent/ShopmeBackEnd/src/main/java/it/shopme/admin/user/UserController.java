@@ -35,16 +35,17 @@ public class UserController {
 		model.addAttribute("title", "User Management");
 		model.addAttribute("users", users);
 		return "users";*/
-		return listByPage(1, model, "lastName", "asc");
+		return listByPage(1, model, "lastName", "asc", null);
 	}
 	
 	@GetMapping("/users/page/{pageNum}")
 	public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model,
-			@Param("sortField") String sortField, @Param("sortDir") String sortDir
-			
+			@Param("sortField") String sortField, @Param("sortDir") String sortDir,
+			@Param("keyword") String keyword
 			) 
 	{
-		Page<User> page = service.listByPage(pageNum, sortField, sortDir);
+		
+		Page<User> page = service.listByPage(pageNum, sortField, sortDir, keyword);
 		List<User> listUsers = page.getContent();
 
 		
@@ -56,7 +57,8 @@ public class UserController {
 		}
 		
 		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
-		
+		String curPaglink = "/users/page/";
+		model.addAttribute("link", curPaglink);
 		model.addAttribute("lastPage", page.getTotalPages());
 		model.addAttribute("currentPage", pageNum);
 		model.addAttribute("startCount", startCount);
@@ -66,6 +68,7 @@ public class UserController {
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDir", sortDir);
 		model.addAttribute("reverseSortDir", reverseSortDir);
+		model.addAttribute("keyword", keyword);
 		return "users";
 	}
 	
@@ -97,7 +100,13 @@ public class UserController {
 			service.saveUser(user);
 		}
 		redirectAttributes.addFlashAttribute("message", "Utente salvato con successo!"); 
-		return "redirect:/users";	
+		
+		return getRedirectUrlafterUser(user);
+	}
+
+	private String getRedirectUrlafterUser(User user) {
+		String firstPartOfEmail = user.getEmail().split("@")[0];
+		return "redirect:/users/page/1?sortField=lastName&sortDir=asc&keyword="+firstPartOfEmail;
 	}
 	
 	@GetMapping("/users/edit/{id}")

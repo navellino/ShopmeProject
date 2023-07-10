@@ -11,8 +11,21 @@
 				<h2 class="">Pagina di Amministrazione Utenti</h2>
 				<a type="button" class="btn btn-primary" th:text="#{label.newUser}" th:href="@{/users/new}"></a>
 			</div>
+
 			<div th:if="${message != null}" class="alert alert-success text-center">
 				<label th:text="${message}"></label>
+			</div>
+			<div>
+				<form th:action="@{/users/page/1}" class="form-inline">
+					<div class="input-group mb-3">
+						<input type="hidden" name="sortField" th:value="${sortField}" />
+						<input type="hidden" name="sortDir" th:value="${sortDir}" />
+					  	<span class="input-group-text" id="inputGroup-sizing-default">Cerca</span>
+					 	<input type="search" name="keyword" th:value="${keyword}" class="form-control" required />
+					  	<input type="submit" class="btn btn-primary" value="Cerca" />
+					  	<input type="button" class="btn btn-secondary" value="Cancella" onclick="clearFilter()" />
+					</div>
+				</form>
 			</div>
 			<div>
 				<table class="table table-bordered table-striped table-over	 table-responsive-xl"> 
@@ -20,23 +33,49 @@
 						<tr>
 							<th th:text="#{label.thUser}"></th>
 							<th th:text="#{label.thFoto}"></th>
+							<th th:replace="~{template :: columnLink('lastName', #{label.lastName})}"></th>
+							<th th:replace="~{template :: columnLink('firstName', #{label.firstName})}"></th>
+							<!-- Old version
 							<th>
-								<a th:text="#{label.lastName}"
-									th:if="${sortField != 'lastName'}" class="text-white"
-									th:href="@{'users/page/'+${currentPage}+'?sortField=lastName&sortDir='+${sortDir}}">
+								<a th:if="${sortField != 'lastName'}"  
+									th:href="@{${link}+${currentPage}+'?sortField=lastName&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}"
+									th:text="#{label.lastName}" class="text-white">
 								</a>
-								
-								<a th:text="#{label.lastName}" class="text-white"
-									th:if="${sortField == 'lastName'}"
-									th:href="@{${currentPage}+'?sortField=lastName&sortDir='+${reverseSortDir}}">
+								<a 	th:if="${sortField == 'lastName'}"
+									th:href="@{${link}+${currentPage}+'?sortField=lastName&sortDir='+${reverseSortDir}+${keyword != null ? '&keyword='+keyword : ''}}"
+									th:text="#{label.lastName}" class="text-white">
 								</a>
-								
 								<i th:if="${sortField == 'lastName'}" 
+									th:class="${sortDir == 'asc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'}"></i>
+							</th> 
+							<th>
+								<a th:text="#{label.firstName}"
+									th:if="${sortField != 'firstName'}" class="text-white"
+									th:href="@{${link}+${currentPage}+'?sortField=firstName&sortDir='+${sortDir}}">
+								</a>
+								<a th:text="#{label.firstName}" class="text-white"
+									th:if="${sortField == 'firstName'}"
+									th:href="@{${link}+${currentPage}+'?sortField=firstName&sortDir='+${reverseSortDir}}">
+								</a>
+								<i th:if="${sortField == 'firstName'}" 
 								th:class="${sortDir == 'asc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'}"></i>
-							</th>
-							<th th:text="#{label.firstName}"></th>
+							</th> -->
 							<th th:text="#{label.roles}"></th>
-							<th th:text="#{label.email}"></th>
+							<th th:replace="~{template :: columnLink('email', #{label.email})}"></th>
+						<!--	<th th:text="#{label.email}"></th>-->
+						<!-- OLD VERSION
+							<th>
+								<a th:text="#{label.email}"
+									th:if="${sortField != 'email'}" class="text-white"
+									th:href="@{${link}+${currentPage}+'?sortField=email&sortDir='+${sortDir}}">
+								</a>
+								<a th:text="#{label.email}" class="text-white"
+									th:if="${sortField == 'email'}"
+									th:href="@{${link}+${currentPage}+'?sortField=email&sortDir='+${reverseSortDir}}">
+								</a>
+								<i th:if="${sortField == 'email'}" 
+								th:class="${sortDir == 'asc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'}"></i>
+							</th>-->
 							<th th:text="#{label.enabled}"></th>
 							<th></th>
 						</tr>
@@ -80,29 +119,30 @@
 		</div>
 		<!--Modal dialog non unique email-->
 		<div th:replace="~{template :: modal_delete_dialog}"></div>
-		<div>
-			<nav >
+		<div th:if="${lastPage>1}">
+			<nav>
 			  <ul class="pagination justify-content-center">
 				<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-					<a class="page-link" th:href="@{'/users/page/1?sortField='+${sortField}+'&sortDir='+${sortDir}}" th:text="#{label.first}"></a>
+					<a class="page-link" th:href="@{'/users/page/1?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}" th:text="#{label.first}"></a>
 				</li>
 			    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-					<a class="page-link" th:href="@{'/users/page/'+${currentPage-1}+'?sortField='+${sortField}+'&sortDir='+${sortDir}}" th:text="#{label.previus}"></a>
+					<a class="page-link" th:href="@{'/users/page/'+${currentPage-1}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}" th:text="#{label.previus}"></a>
 				</li>
 				
 			    <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" 
 			    	th:each="i : ${#numbers.sequence(1, lastPage)}">
-					<a class="page-link" th:href="@{'/users/page/'+ ${i}+'?sortField='+${sortField}+'&sortDir='+${sortDir}}" th:text="${i}"></a>
+					<a class="page-link" th:href="@{'/users/page/'+ ${i}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}" th:text="${i}"></a>
 				</li>
 			    <li th:class="${currentPage < lastPage ? 'page-item' : 'page-item disabled'}">
-					<a class="page-link" th:href="@{'/users/page/'+${currentPage+1}+'?sortField='+${sortField}+'&sortDir='+${sortDir}}" th:text="#{label.next}"></a>
+					<a class="page-link" th:href="@{'/users/page/'+${currentPage+1}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}" th:text="#{label.next}"></a>
 				</li>
 			    <li th:class="${currentPage < lastPage ? 'page-item' : 'page-item disabled'}">
-					<a class="page-link" th:href="@{'/users/page/'+${lastPage}+'?sortField='+${sortField}+'&sortDir='+${sortDir}}" th:text="#{label.last}"></a>
+					<a class="page-link" th:href="@{'/users/page/'+${lastPage}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}" th:text="#{label.last}"></a>
 				</li>
 			  </ul>
 			</nav>
 		</div>
+		<span th:text="${currentPage}"></span>
 		<!--Footer-->
 		<div th:replace="~{template :: footerFragment}"></div>
 	
@@ -117,7 +157,10 @@
 					$("#confirmText").text("Sei sicuro di eliminalere l'utente" + userId);
 					$("#confirmModal").modal('show');
 				});
-			})
+			});
+			function clearFilter(){
+				window.location="[[@{/users}]]";
+			}
 		</script>
 	</body>
 </html>

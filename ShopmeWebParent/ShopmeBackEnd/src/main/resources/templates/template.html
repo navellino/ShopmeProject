@@ -81,3 +81,11 @@
 <div th:fragment="footerFragment" class="text-center">
 	<p>ShopMe Control Panel - CopyRight &copy; ShopMe S.p.A.</p>
 </div>
+
+<th th:fragment="columnLink(fieldName, colLabel)">
+	<a  th:href="@{${link}+${currentPage}+'?sortField='+${fieldName}+'&sortDir='+ ${sortField != fieldName ? sortDir : reverseSortDir} +${keyword != null ? '&keyword='+keyword : ''}}"
+		th:text="${colLabel}" class="text-white">
+	</a>
+	<i th:if="${sortField == fieldName}" 
+		th:class="${sortDir == 'asc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'}"></i>
+</th>
