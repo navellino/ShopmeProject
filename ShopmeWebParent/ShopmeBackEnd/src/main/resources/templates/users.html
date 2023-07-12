@@ -9,11 +9,12 @@
 		</div>
 			<div class="alert alert-primary" role="alert">
 				<h2 class="">Pagina di Amministrazione Utenti</h2>
-				<a type="button" class="btn btn-primary" th:text="#{label.newUser}" th:href="@{/users/new}"></a>
-				&nbsp;
+				<a th:href="@{/users/new}" type="button" class="btn btn-primary" th:text="#{label.newUser}" ></a>
 				<a th:href="@{/users/export/csv}" type="button" class="btn btn-primary" th:text="#{label.exportCsv}"></a>
-			</div>
+				<a th:href="@{/users/export/excel}" type="button" class="btn btn-primary" th:text="#{label.exportXls}"></a>
+				<a th:href="@{/users/export/pdf}" type="button" class="btn btn-primary" th:text="#{label.exportPdf}"></a>
 
+			</div>
 			<div th:if="${message != null}" class="alert alert-success text-center">
 				<label th:text="${message}"></label>
 			</div>
