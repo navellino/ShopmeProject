@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -151,5 +153,14 @@ public class UserController {
 			redirectAttributes.addFlashAttribute("message", e.getMessage()); 
 			return "redirect:/users";	
 		}
+	}
+	
+	@GetMapping("/users/export/csv")
+	public void exportToCsv(HttpServletResponse response) throws IOException {
+		List<User> listUsers = service.listAll();
+		UserCsvExporter exporter = new UserCsvExporter();
+		exporter.export(listUsers, response);
+		
+		
 	}
 }
