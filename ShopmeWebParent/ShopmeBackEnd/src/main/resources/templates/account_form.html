@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{template :: headFragment(#{label.newAccount})}"></head>
+<head th:replace="~{template :: headFragment(#{label.accountDetail})}"></head>
 
 <body>
 	<div class="container-fluid">
@@ -10,13 +10,14 @@
 		</div>
 	</div>
 	<div class="alert alert-primary" role="alert">
-		<h2 class="" th:text="${title}"></h2>
-		<a type="button" class="btn btn-primary" th:text="#{label.back}" th:href="@{/users}"></a>
+		<h2 class="" th:text="#{label.accountDetail}"></h2>
+		<div th:if="${message != null}" class="alert alert-success text-center">
+			<label th:text="${message}"></label>
+		</div>
 	</div>
 
-	<form th:action="@{/users/save}" method="post" style="max-width: 700px; margin: 0 auto;" th:object="${user}"
-		enctype="multipart/form-data"
-		onsubmit="return checkEmailUnique(this);">
+	<form th:action="@{/account/update}" method="post" style="max-width: 700px; margin: 0 auto;" th:object="${user}"
+		enctype="multipart/form-data">
 		<input type="hidden" id="id" th:field="*{id}">
 		<!-- 2 column grid layout with text inputs for the first and last names -->
 		<div class="row mb-4">
@@ -35,19 +36,29 @@
 		</div>
 		<!-- Email input -->
 		<div class="form-outline mb-4">
-			<input type="email" class="form-control" th:field="*{email}" />
+			<input type="email" class="form-control" th:field="*{email}" readonly="readonly"/>
 			<label class="form-label" for="form6Example5" th:text="#{label.email}"></label>
 		</div>
 
 		<!-- Text input -->
 		<div class="form-outline mb-4">
+			<!--
 			<input th:if="${user.id == null}" type="password" class="form-control" th:field="*{password}" required/>
 			<input th:if="${user.id != null}" type="password" class="form-control" th:field="*{password}" />
 			<label class="form-label" for="form6Example4">Password</label>
+			-->
+			<input type="password" th:field="*{password}" class="form-control" placeholder="Lascia in bianco se non vuoi cambiare la password"
+			oninput="checkPasswordMatch(document.getElementById('confirmPassword'))" />
+			<label class="form-label" for="form6Example4">Password</label>
+		</div>
+		<div class="form-outline mb-4">
+			<input type="password" id="confirmPassword" class="form-control" oninput="checkPasswordMatch(this)" />
+			<label class="form-label" for="form6Example4">Conferma Password</label>
 		</div>
 
 		<!-- Roles checkbox -->
 		<div class="form-outline mb-4">
+			<!--
 			<th:block th:each="role : ${roles}">
 				<input class="form-check-input me-2" type="checkbox" th:field="*{roles}" th:text="${role.name}"
 					th:value="${role.id}" />
@@ -55,13 +66,12 @@
 				<label class="form-check-label" th:text="${role.description}"></label>
 				<br />
 			</th:block>
+			-->
+			<p th:text="#{label.assRoles}"></p>
+			<p th:text="${user.roles}" style="font-weight: bold;"></p>
 		</div>
-
-		<div class="form-check d-flex mb-4">
-			<input class="form-check-input me-2" type="checkbox" value="" th:field="*{enabled}" />
-			<label class="form-check-label"> Abilitato </label>
-		</div>
-				
+		<br>
+	
 		<!-- Profile Photo-->
 		<div class="form-outline d-flex mb-4">
 			<input type="hidden" th:field="*{photos}" />
@@ -72,9 +82,9 @@
 		</div>
 		
 		<!-- Submit button -->
-		<div class="text-center">
-			<input type="submit" value="Invia" class="btn btn-primary" />
-			<input type="button" value="Indietro" class="btn btn-secondary" />
+		<a class="text-center">
+			<input type="submit" value="Salva" class="btn btn-primary" />
+			<a type="button" class="btn btn-secondary" th:text="#{label.back}" th:href="@{/}"></a>
 		</div>
 	</form>
 	<!--Modal dialog non unique email-->
@@ -85,50 +95,37 @@
 
 
 
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$("#fileImage").change(function(){
-				fileSize = this.files[0].size;
-				//alert("Dimensione Immagine " + fileSize);
-				if(fileSize > 3000000){
-					this.setCustomValidity("Scegli un immagine più piccola di 3mb!");
-					this.reportValidity();
-				}else{
-					showImageThumbnail(this);
-				}
-			});
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#fileImage").change(function(){
+			fileSize = this.files[0].size;
+			//alert("Dimensione Immagine " + fileSize);
+			if(fileSize > 3000000){
+				this.setCustomValidity("Scegli un immagine più piccola di 3mb!");
+				this.reportValidity();
+			}else{
+				showImageThumbnail(this);
+			}
 		});
-		
-		function showImageThumbnail(fileInput){
-			var file = fileInput.files[0];
-			var reader = new FileReader();
-			reader.onload = function(e){
-				$("#thumbnail").attr("src", e.target.result);
-			};
-			reader.readAsDataURL(file);
+	});
+	function showImageThumbnail(fileInput){
+		var file = fileInput.files[0];
+		var reader = new FileReader();
+		reader.onload = function(e){
+			$("#thumbnail").attr("src", e.target.result);
+		};
+		reader.readAsDataURL(file);
+	}	
+	
+	function checkPasswordMatch(confirmPassword){
+		if(confirmPassword.value != $("#password").val()){
+			confirmPassword.setCustomValidity("Le password non corrispondono");
+		}else{
+			confirmPassword.setCustomValidity("");
 		}
-		
-		function checkEmailUnique(form) {
-			url = "[[@{/users/check_email}]]";
-			userId = $("#id").val();
-			userEmail = $("#email").val();
-			csrfValue = $("input[name='_csrf']").val();
-			params = {id: userId, email: userEmail, _csrf: csrfValue}
-
-			$.post(url, params, function (response) {
-				if (response == "OK") {
-					form.submit();
-				} else if (response == "Duplicated") {
-					showModalDialog("Attenzione", "Indirizzo e-mail già presente nel database");
-				}
-			});
-			return false;
-		}
-		function showModalDialog(title, message){
-			$("#modalTitle").text(title);
-			$("#modalBody").text(message);
-			$("#modalDialog").modal('show');
-		}	
+	}
+	
+	
 	</script>
 </body>
 

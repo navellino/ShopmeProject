@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	<head th:replace="~{template :: headFragment(#{label.erroPage})}"></head>
+	<body>
+		<div class="container-fluid">
+			<div th:replace="~{template :: navFragment}"></div>
+		</div>
+		<div class=" container m-3">
+			<h2>Spiacente - non hai il permesso di accedere alla risorsa!</h2>
+		</div>
+		<div>
+		</div>
+	</body>
+</html>

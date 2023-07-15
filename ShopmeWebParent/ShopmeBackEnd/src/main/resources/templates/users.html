@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{template :: headFragment}"></head>
+<head th:replace="~{template :: headFragment(#{label.titleUsers})}"></head>
 	<body>
 		<div class="container-fluid">
 			<div>
@@ -8,11 +8,11 @@
 			</div>
 		</div>
 			<div class="alert alert-primary" role="alert">
-				<h2 class="">Pagina di Amministrazione Utenti</h2>
-				<a th:href="@{/users/new}" type="button" class="btn btn-primary" th:text="#{label.newUser}" ></a>
-				<a th:href="@{/users/export/csv}" type="button" class="btn btn-primary" th:text="#{label.exportCsv}"></a>
-				<a th:href="@{/users/export/excel}" type="button" class="btn btn-primary" th:text="#{label.exportXls}"></a>
-				<a th:href="@{/users/export/pdf}" type="button" class="btn btn-primary" th:text="#{label.exportPdf}"></a>
+				<h2 class="prova">[[#{label.h1Users}]]</h2>
+				<a th:href="@{/users/new}" type="button"><i class="fa-solid fa-user-plus fa-2xl"></i></a>&nbsp;&nbsp;
+				<a th:href="@{/users/export/csv}" type="button"><i class="fa-solid fa-file-csv fa-2xl"></i></a>&nbsp;&nbsp;
+				<a th:href="@{/users/export/excel}" type="button"><i class="fa-solid fa-file-excel fa-2xl"></i></a>&nbsp;&nbsp;
+				<a th:href="@{/users/export/pdf}" type="button"><i class="fa-solid fa-file-pdf fa-2xl"></i></a>
 
 			</div>
 			<div th:if="${message != null}" class="alert alert-success text-center">
@@ -23,18 +23,19 @@
 					<div class="input-group mb-3">
 						<input type="hidden" name="sortField" th:value="${sortField}" />
 						<input type="hidden" name="sortDir" th:value="${sortDir}" />
-					  	<span class="input-group-text" id="inputGroup-sizing-default">Cerca</span>
+					  	<span class="input-group-text" id="inputGroup-sizing-default">[[#{label.search}]]</span>
 					 	<input type="search" name="keyword" th:value="${keyword}" class="form-control" required />
-					  	<input type="submit" class="btn btn-primary" value="Cerca" />
-					  	<input type="button" class="btn btn-secondary" value="Cancella" onclick="clearFilter()" />
+					  	<button type="submit" class="btn btn-primary" value="Cerca"><i class="fa-sharp fa-solid fa-magnifying-glass fa-xl"></i></button>
+					  	<button type="button" class="btn btn-secondary" value="Cancella" onclick="clearFilter()"><i class="fa-solid fa-eraser fa-xl"></i></button>
+
 					</div>
 				</form>
 			</div>
-			<div>
+			<div class="full-details">
 				<table class="table table-bordered table-striped table-over	 table-responsive-xl"> 
 					<thead class="table-dark">
 						<tr>
-							<th th:text="#{label.thUser}"></th>
+							<th class="hideable-column" th:text="#{label.thUser}"></th>
 							<th th:text="#{label.thFoto}"></th>
 							<th th:replace="~{template :: columnLink('lastName', #{label.lastName})}"></th>
 							<th th:replace="~{template :: columnLink('firstName', #{label.firstName})}"></th>
@@ -64,7 +65,7 @@
 								th:class="${sortDir == 'asc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'}"></i>
 							</th> -->
 							<th th:text="#{label.roles}"></th>
-							<th th:replace="~{template :: columnLink('email', #{label.email})}"></th>
+							<th class="hideable-column" th:replace="~{template :: columnLink('email', #{label.email})}"></th>
 						<!--	<th th:text="#{label.email}"></th>-->
 						<!-- OLD VERSION
 							<th>
@@ -85,7 +86,7 @@
 					</thead>
 					<tbody>
 						<tr th:each="user : ${users}">
-							<td th:text="${user.id}"></td>
+							<td class="hideable-column" th:text="${user.id}"></td>
 							<td>
 								<i th:if="${user.photos == null}" class="fa-solid fa-image-portrait fa-2xl" style="color: #757575;"></i>
 								<img th:if="${user.photos != null}" th:src="@{${user.getPhotoImagePath}}" 
@@ -95,7 +96,7 @@
 							<td th:text="${user.lastName}"></td>
 							<td th:text="${user.firstName}"></td>
 							<td th:text="${user.roles}"></td>
-							<td th:text="${user.email}"></td>
+							<td class="hideable-column" th:text="${user.email}"></td>
 							<td class="text-center">
 								<a th:if="${user.enabled == true}" th:href="@{'/users/' + ${user.id} + '/enabled/false' }" 
 								 title="Diabilita l'utente" class="fa-solid fa-circle-check fa-2xl" style="color: #00c70d;"></a>
@@ -112,7 +113,32 @@
 					</tbody>
 				</table>
 			</div>
-			
+			<div class="less-details">
+				<div th:each="user : ${users}" class="row m-1">
+					<div class="col">
+						<i th:if="${user.photos == null}" class="fa-solid fa-image-portrait fa-2xl" style="color: #757575;"></i>
+						<img th:if="${user.photos != null}" th:src="@{${user.getPhotoImagePath}}" 
+							style="max-width: 100px;" class="rounded img-fluid"/>
+					</div>
+					<div class="col">
+						<div th:text="${user.getFullName}"></div>
+						<div th:text="${user.roles}"></div>
+						<div class="mt-1">
+							<a th:if="${user.enabled == true}" th:href="@{'/users/' + ${user.id} + '/enabled/false' }" 
+							 title="Diabilita l'utente" class="fa-solid fa-circle-check fa-xl" style="color: #00c70d;"></a>
+							 
+							<a th:if="${user.enabled == false}" th:href="@{'/users/' + ${user.id} + '/enabled/true' }"
+							title="Abilita l'utente" class="fa-solid fa-circle-xmark fa-xl" style="color: #ff0000;"></a>
+							&nbsp;
+							
+							<a th:href="@{'/users/edit/' + ${user.id}}" class="fa-solid fa-user-pen fa-xl" style="color: #00c70d;"></a>
+									&nbsp;
+							<a th:href="@{'/users/delete/' + ${user.id}}" class="fa-solid fa-trash fa-xl link-delete" style="color: #ff0000;" 
+							th:userId="${user.id}" title="elimina questo utente"></a>
+						</div>
+					</div>
+				</div>&nbsp;			
+			</div>
 		<!--Paginating -->
 		<div class="text-center m-1" th:if="${totalItems>0}">
 			<span th:text="#{label.paginating} + ' '+ ${startCount} + ' - '+ ${endCount} + ' ' +#{label.di} + ' ' + ${totalItems}"></span>
@@ -124,7 +150,7 @@
 		<div th:replace="~{template :: modal_delete_dialog}"></div>
 		<div th:if="${lastPage>1}">
 			<nav>
-			  <ul class="pagination justify-content-center">
+			  <ul class="pagination justify-content-center flex-wrap" >
 				<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
 					<a class="page-link" th:href="@{'/users/page/1?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}" th:text="#{label.first}"></a>
 				</li>

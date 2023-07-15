@@ -32,6 +32,10 @@ public class UserService {
 	private PasswordEncoder passEnc;
 	
 	
+	public User getByEmail(String email) {
+		return repo.findByEmail(email);
+	}
+	
 	public List<User> listAll(){
 		return (List<User>) repo.findAll(Sort.by("lastName").ascending());
 	}
@@ -66,6 +70,23 @@ public class UserService {
 		}
 		//encodePassword(user);
 		return repo.save(user);
+	}
+	
+	public User updateUserAccount(User userInForm) {
+		User userInDB = repo.findById(userInForm.getId()).get();
+		if(!userInForm.getPassword().isEmpty()) {
+			userInDB.setPassword(userInForm.getPassword());
+			encodePassword(userInDB);
+		}
+		
+		if(userInForm.getPhotos() != null) {
+			userInDB.setPhotos(userInForm.getPhotos());
+		}
+		
+		userInDB.setFirstName(userInForm.getFirstName());
+		userInDB.setLastName(userInForm.getLastName());
+		
+		return repo.save(userInDB);
 	}
 	
 	private void encodePassword(User user) {

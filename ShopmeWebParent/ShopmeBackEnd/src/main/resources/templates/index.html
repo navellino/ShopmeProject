@@ -1,23 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-		
-		<title>Home - Shopme Admin</title>
-		
-		<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.3.0/css/bootstrap.min.css}">
-		<script type="text/javascript" th:src="@{/webjars/jquery/dist/jquery.min.js}"></script>
-		<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-	</head>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	<head th:replace="~{template :: headFragment(#{label.titleIndex})}"></head>
 	<body>
 		<div class="container-fluid">
-			<div>
-				<nav th:replace="~{template :: navFragment}"></nav>
-			</div>
+			<div th:replace="~{template :: navFragment}"></div>
 		</div>
 			<div class="alert alert-primary" role="alert">
-				<h1 class="">Benvenuto nel pannello di amministrazione di ShopMe</h1>
+				<h2 class="">Benvenuto nel pannello di amministrazione di ShopMe</h2>
+				<p>
+					[[#{label.welcome}]]&nbsp;&nbsp;<a th:href="@{/account}" sec:authentication="principal.FullName"></a>
+					&nbsp;&nbsp;<span sec:authentication="principal.authorities"></span>
+				</p>
 			</div>
 		<div>
 			<p>ShopMe Control Panel - CopyRight &copy; ShopMe S.p.A.</p>

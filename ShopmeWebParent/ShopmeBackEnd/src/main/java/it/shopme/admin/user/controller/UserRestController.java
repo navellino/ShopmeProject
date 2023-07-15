@@ -1,9 +1,11 @@
-package it.shopme.admin.user;
+package it.shopme.admin.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import it.shopme.admin.user.UserService;
 
 @RestController
 public class UserRestController {

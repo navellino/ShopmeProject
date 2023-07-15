@@ -1,4 +1,4 @@
-package it.shopme.admin.user;
+package it.shopme.admin.user.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +20,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.shopme.admin.FileUploadUtil;
+import it.shopme.admin.user.UserNotFoundException;
+import it.shopme.admin.user.UserService;
+import it.shopme.admin.user.export.UserCsvExporter;
+import it.shopme.admin.user.export.UserExcelExporter;
+import it.shopme.admin.user.export.UserPdfExporter;
 import it.shopme.common.entity.Role;
 import it.shopme.common.entity.User;
 
@@ -37,6 +42,7 @@ public class UserController {
 		model.addAttribute("title", "User Management");
 		model.addAttribute("users", users);
 		return "users";*/
+		model.addAttribute("title", "User Management");
 		return listByPage(1, model, "lastName", "asc", null);
 	}
 	
