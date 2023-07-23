@@ -13,7 +13,6 @@
 				<a th:href="@{/users/export/csv}" type="button"><i class="fa-solid fa-file-csv fa-2xl"></i></a>&nbsp;&nbsp;
 				<a th:href="@{/users/export/excel}" type="button"><i class="fa-solid fa-file-excel fa-2xl"></i></a>&nbsp;&nbsp;
 				<a th:href="@{/users/export/pdf}" type="button"><i class="fa-solid fa-file-pdf fa-2xl"></i></a>
-
 			</div>
 			<div th:if="${message != null}" class="alert alert-success text-center">
 				<label th:text="${message}"></label>
@@ -27,12 +26,11 @@
 					 	<input type="search" name="keyword" th:value="${keyword}" class="form-control" required />
 					  	<button type="submit" class="btn btn-primary" value="Cerca"><i class="fa-sharp fa-solid fa-magnifying-glass fa-xl"></i></button>
 					  	<button type="button" class="btn btn-secondary" value="Cancella" onclick="clearFilter()"><i class="fa-solid fa-eraser fa-xl"></i></button>
-
 					</div>
 				</form>
 			</div>
 			<div class="full-details">
-				<table class="table table-bordered table-striped table-over	 table-responsive-xl"> 
+				<table class="table table-bordered table-striped table-hover table-responsive-xl"> 
 					<thead class="table-dark">
 						<tr>
 							<th class="hideable-column" th:text="#{label.thUser}"></th>
@@ -91,7 +89,6 @@
 								<i th:if="${user.photos == null}" class="fa-solid fa-image-portrait fa-2xl" style="color: #757575;"></i>
 								<img th:if="${user.photos != null}" th:src="@{${user.getPhotoImagePath}}" 
 								style="max-width: 100px;" class="rounded img-fluid"/>
-							
 							</td>
 							<td th:text="${user.lastName}"></td>
 							<td th:text="${user.firstName}"></td>

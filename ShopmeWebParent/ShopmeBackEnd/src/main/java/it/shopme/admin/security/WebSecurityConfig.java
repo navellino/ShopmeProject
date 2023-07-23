@@ -21,9 +21,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public UserDetailsService userDetailsService() {
 		return new ShopmeUserDetailService();
 	}
-	
-	@Bean
-	public PasswordEncoder passwordEncoder() {
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 	
@@ -43,18 +43,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-       // http.authorizeRequests(requests -> requests.anyRequest().authenticated()).formLogin(login -> login.loginPage("/login").permitAll());
-       
-		//http.authorizeRequests().anyRequest().permitAll();
-		http.authorizeRequests()
-		.antMatchers("/users/**").hasAuthority("Admin")
-		.antMatchers("/categories/**").hasAnyAuthority("Admin","Editor")
-		.anyRequest().authenticated()
-		.and().formLogin().loginPage("/login").usernameParameter("email").permitAll()
-		.and().logout().permitAll().and().rememberMe() //di default il coockie scade dopo 2 settimane e il token quando restarto il server viene resettato e quindi bisogna comunque riloggarsi
-		.key("AbcDefGhilmnoPQrs_123456789")//aggiungendo la key statica anche restartando il cookie rimane
-		.tokenValiditySeconds(7*24*60*60);//così è possibile settare la scadenza del cookie
-
+        http.authorizeHttpRequests()
+                .antMatchers("/users/**").hasAuthority("Admin")
+                .antMatchers("/categories/**").hasAnyAuthority("Admin", "Editor")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin(login -> login
+                        .loginPage("/login")
+                        .usernameParameter("email")
+                        .permitAll()).logout(logout -> logout.permitAll()).rememberMe(me -> me //di default il coockie scade dopo 2 settimane e il token quando restarto il server viene resettato e quindi bisogna comunque riloggarsi
+                .key("AbcDefGhilmnoPQrs_123456789")//aggiungendo la key statica anche restartando il cookie rimane
+                .tokenValiditySeconds(7 * 24 * 60 * 60));//così è possibile settare la scadenza del cookie
 	}
 
 	@Override

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head th:replace="~{template :: headFragment(#{label.newCategory})}"></head>
+
+<body>
+	<div class="container-fluid">
+		<div>
+			<nav th:replace="~{template :: navFragment}"></nav>
+		</div>
+	</div>
+	<div class="alert alert-primary" role="alert">
+		<h2 class="prova" th:text="#{label.newCategory}"></h2>
+		<a type="button" class="btn btn-primary" th:text="#{label.back}" th:href="@{/categories}"></a>
+		<div th:if="${message != null}" class="alert alert-success text-center">
+			<label th:text="${message}"></label>
+		</div>
+	</div>
+
+	<form th:action="@{/categories/save}" method="post" style="max-width: 700px; margin: 0 auto;" th:object="${category}"
+		enctype="multipart/form-data">
+		<input type="hidden" id="id" th:field="*{id}">
+		<!-- 2 column grid layout with text inputs for the first and last names -->
+		<div class="row mb-4">
+			<div class="col">
+				<div class="form-outline">
+					<input type="text" class="form-control" th:field="*{name}" />
+					<label class="form-label" th:text="#{label.categoryDescription}"></label>
+				</div>
+			</div>
+			<div class="col">
+				<div class="form-outline">
+					<input type="text" class="form-control" th:field="*{alias}" />
+					<label class="form-label" th:text="#{label.categoryAlias}"></label>
+				</div>
+			</div>
+		</div>
+		<!-- Email input -->
+		<div class="form-outline mb-4">
+			<select class="form-select" th:field="*{parent}">
+				<option value="0">[no parent]</option>
+				<th:block th:each="cat : ${listCategories}">
+					<option th:text="${cat.name}" th:value="${cat.id}"></option>
+				</th:block>
+			</select>
+			<label class="form-label" for="form6Example5" th:text="#{label.parentCategory}"></label>
+		</div>
+
+		<div class="form-check d-flex mb-4">
+			<input class="form-check-input me-2" type="checkbox" value="" th:field="*{enabled}" />
+			<label class="form-check-label"> Abilitato </label>
+		</div>
+		<div class="form-outline d-flex mb-4">
+			<input type="hidden" th:field="*{image}">
+			<input type="file" id="fileImage" name="fileImage" class="mb-2" accept="image/png, image/jpeg" 
+			th:required="${category.getImagePath == null}" />
+			<div>
+				<img id="thumbnail" alt="Anteprima" th:src="@{${category.getImagePath}}" style="max-width: 100px;" class="rounded img-fluid">
+			</div>
+						
+		</div>
+			
+		<!-- Profile Photo
+		<div class="form-outline d-flex mb-4">
+			<input type="hidden" th:field="*{image}" />
+			<label class="form-label mg-2" th:text="#{label.profilephoto}"></label>
+			<input type="file" id="fileImage" name="image" class="mb-2" accept="image/png, image/jpeg" />
+			<img id="thumbnail" alt="Anteprima" th:src="@{${user.getPhotoImagePath}}" style="max-width: 200px;"
+			 class="rounded img-fluid" />
+		</div>
+		-->
+		<!-- Submit button -->
+		<div class="text-center">
+			<input type="submit" value="Invia" class="btn btn-primary" />
+			<input type="button" value="Indietro" class="btn btn-secondary" />
+		</div>
+	</form>
+	<!--Modal dialog non unique email-->
+	<div th:replace="~{template :: modal_dialog}"></div>
+	
+	<!--Footer-->
+	<div th:replace="~{template :: footerFragment}"></div>
+
+
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#fileImage").change(function(){
+				fileSize = this.files[0].size;
+				//alert("Dimensione Immagine " + fileSize);
+				if(fileSize > 3000000){
+					this.setCustomValidity("Scegli un immagine più piccola di 3mb!");
+					this.reportValidity();
+				}else{
+					showImageThumbnail(this);
+				}
+			});
+		});
+		
+		function showImageThumbnail(fileInput){
+			var file = fileInput.files[0];
+			var reader = new FileReader();
+			reader.onload = function(e){
+				$("#thumbnail").attr("src", e.target.result);
+			};
+			reader.readAsDataURL(file);
+		}
+	</script>
+</body>
+
+</html>

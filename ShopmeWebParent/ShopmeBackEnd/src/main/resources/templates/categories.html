@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{template :: headFragment(#{label.titleUsers})}"></head>
+<body>
+	<div class="container-fluid">
+		<nav th:replace="~{template :: navFragment}"></nav>
+	</div>
+	<div class="alert alert-primary" role="alert">
+		<h2 class="prova">[[#{label.h1Categories}]]</h2>
+		<div th:if="${message != null}" class="alert alert-success text-center">
+			<label th:text="${message}"></label>
+		</div>
+		<a th:href="@{/categories/new}" class="fa-solid fa-folder-plus fa-2xl"></a>
+		<a th:href="@{/categories/prova}" class="fa-solid fa-folder-plus fa-2xl"></a>
+	</div>
+	<form th:action="@{/categories/page/1}" class="form-inline m-3">
+		
+	</form>
+	<div>
+		<table class="table table-bordered table-striped table-hover table-responsive-xl">
+			<thead class="table-dark">
+				<tr>
+					<th>ID</th>
+					<th>Description</th>
+					<th>Alias</th>
+					<th>Photos</th>
+					<th>Enabled</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="category : ${categories}">
+						<td th:text="${category.id}"></td>
+						<td><img th:src="@{${category.getImagePath}}" style="max-width: 100px;" class="rounded img-fluid"></td>
+						<td th:text="${category.name}"></td>
+						<td th:text="${category.alias}"></td>
+						<td class="text-center">
+							<a th:if="${category.enabled == true}" class="fa-solid fa-circle-check fa-2xl" style="color: #00c70d;"></a>
+							<a th:if="${category.enabled == false}" class="fa-solid fa-circle-xmark fa-2xl" style="color: #ff0000;"></a>
+						</td>
+						<td class="text-center">  
+							<a class="fa-solid fa-pen-to-square fa-2xl" th:href="@{'/categories/edit/' + ${category.id}}" style="color: #00ff33;">
+							</a>
+								&nbsp;
+							<a class="fa-solid fa-trash fa-2xl link-delete" style="color: #ff0000;"></a>
+						</td>
+				</tr>
+			</tbody>
+			
+		</table>
+	</div>
+</body>
