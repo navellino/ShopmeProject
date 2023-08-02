@@ -119,7 +119,9 @@
 				if (response == "OK") {
 					form.submit();
 				} else if (response == "Duplicated") {
-					showModalDialog("Attenzione", "Indirizzo e-mail già presente nel database");
+					showWarningModalDialog("Indirizzo e-mail già presente nel database");
+				} else {
+					showErrorModalDialog("Risposta inattesa dal server");
 				}
 			});
 			return false;
@@ -128,7 +130,14 @@
 			$("#modalTitle").text(title);
 			$("#modalBody").text(message);
 			$("#modalDialog").modal('show');
-		}	
+		}
+		
+		function showErrorModalDialog(message){
+			showModalDialog("Errore", message);
+		}
+		function showWarningModalDialog(message){
+			showModalDialog("Attenzione", message);
+		}
 	</script>
 </body>
 

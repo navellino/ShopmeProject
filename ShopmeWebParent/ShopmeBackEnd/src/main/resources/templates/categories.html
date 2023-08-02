@@ -5,48 +5,116 @@
 	<div class="container-fluid">
 		<nav th:replace="~{template :: navFragment}"></nav>
 	</div>
-	<div class="alert alert-primary" role="alert">
-		<h2 class="prova">[[#{label.h1Categories}]]</h2>
+	<div class="alert container" role="alert">
+		<div class="row">
+			<div class="col-12 text-center"><h2 class="prova">[[#{label.h1Categories}]]</h2></div>
+		</div>
+		<div class="row">
+			<div class="col-2">
+				<a th:href="@{/categories/new}" class="fa-solid fa-folder-plus fa-2xl"></a>
+				<a th:href="@{/categories/export/csv}" class="fa-solid fa-file-csv fa-2xl"></a>
+			</div>
+			<div class="col-6"><div th:replace="~{template :: module_search('/categories/page/1')}"></div></div>
+		</div>
 		<div th:if="${message != null}" class="alert alert-success text-center">
 			<label th:text="${message}"></label>
 		</div>
-		<a th:href="@{/categories/new}" class="fa-solid fa-folder-plus fa-2xl"></a>
-		<a th:href="@{/categories/prova}" class="fa-solid fa-folder-plus fa-2xl"></a>
 	</div>
 	<form th:action="@{/categories/page/1}" class="form-inline m-3">
 		
 	</form>
-	<div>
-		<table class="table table-bordered table-striped table-hover table-responsive-xl">
-			<thead class="table-dark">
-				<tr>
-					<th>ID</th>
-					<th>Description</th>
-					<th>Alias</th>
-					<th>Photos</th>
-					<th>Enabled</th>
-					<th>Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="category : ${categories}">
-						<td th:text="${category.id}"></td>
+		<div class="full-details">
+			<table class="table table-bordered table-striped table-hover table-responsive-xl">
+				<thead class="table-dark">
+					<tr>
+						<th class="hideable-column">ID</th>
+						<th>Foto</th>
+						<th>
+							<a class="text-white" th:href="@{'/categories/page/'+${pageNum}+'?sortDir='+${reverseSortDir} + ${keyword != null ? '&keyword='+keyword : ''}}">Descrizione</a>
+							<i th:if="${sortDir != 'null'}" th:class="${reverseSortDir == 'asc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'}"></i>
+						</th>
+						<th class="hideable-column">Alias</th>
+						<th>Abilitato</th>
+						<th>Azioni</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="category : ${categories}">
+						<td class="hideable-column" th:text="${category.id}"></td>
 						<td><img th:src="@{${category.getImagePath}}" style="max-width: 100px;" class="rounded img-fluid"></td>
 						<td th:text="${category.name}"></td>
-						<td th:text="${category.alias}"></td>
+						<td class="hideable-column" th:text="${category.alias}"></td>
 						<td class="text-center">
-							<a th:if="${category.enabled == true}" class="fa-solid fa-circle-check fa-2xl" style="color: #00c70d;"></a>
-							<a th:if="${category.enabled == false}" class="fa-solid fa-circle-xmark fa-2xl" style="color: #ff0000;"></a>
+							<a th:if="${category.enabled == true}" class="fa-solid fa-circle-check fa-2xl" style="color: #00c70d;"
+								th:href="@{'/categories/' + ${category.id} + '/enabled/false' }"></a>
+							<a th:if="${category.enabled == false}" class="fa-solid fa-circle-xmark fa-2xl" style="color: #ff0000;"
+								th:href="@{'/categories/' + ${category.id} + '/enabled/true' }"></a>
 						</td>
 						<td class="text-center">  
 							<a class="fa-solid fa-pen-to-square fa-2xl" th:href="@{'/categories/edit/' + ${category.id}}" style="color: #00ff33;">
 							</a>
 								&nbsp;
-							<a class="fa-solid fa-trash fa-2xl link-delete" style="color: #ff0000;"></a>
+							<th:block th:if="${category.hasChildren == false}">
+								<a th:href="@{'categories/delete/'+${category.id}}" 
+									th:entityId="${category.id}" 
+									title="Elimina la categoria selezionata" class="fa-solid fa-trash fa-2xl link-delete" style="color: #ff0000;"></a>
+							</th:block>
 						</td>
-				</tr>
-			</tbody>
-			
-		</table>
-	</div>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="less-details">
+			<div th:each="category : ${categories}">
+				<div class="row">
+				<div class="col-4">
+					<img th:src="@{${category.getImagePath}}" style="max-width: 100px;" class="rounded img-fluid">
+				</div>
+				<div class="col-8">
+					<div th:text="${category.name}"></div>
+					<div class="mt-2">
+					<div>
+						<a th:if="${category.enabled == true}" class="fa-solid fa-circle-check fa-2xl" style="color: #00c70d;"
+							th:href="@{'/categories/' + ${category.id} + '/enabled/false' }"></a>
+							&nbsp;
+						<a th:if="${category.enabled == false}" class="fa-solid fa-circle-xmark fa-2xl" style="color: #ff0000;"
+							th:href="@{'/categories/' + ${category.id} + '/enabled/true' }"></a>
+
+						<a class="fa-solid fa-pen-to-square fa-2xl" th:href="@{'/categories/edit/' + ${category.id}}" style="color: #00ff33;">
+						</a>
+							&nbsp;
+						<th:block th:if="${category.hasChildren == false}">
+							<a th:href="@{'categories/delete/'+${category.id}}" 
+								th:entityId="${category.id}" 
+								title="Elimina la categoria selezionata" class="fa-solid fa-trash fa-2xl link-delete" style="color: #ff0000;"></a>
+						</th:block>
+					</div>
+					</div>
+				</div>
+				</div>
+			</div>
+			</div>
+		<div th:replace="~{template :: pagination('/categories', category)}"></div>
+	<div th:replace="~{template :: confirm_modal}" ></div>
+	<div th:replace="~{template :: footerFragment}"></div>
+	<script>
+		
+		$(document).ready(function(){
+			$(".link-delete").on("click", function(e){
+				e.preventDefault();
+				showDeleteConfirmModal($(this), 'category');
+			});
+		});
+		
+		function showDeleteConfirmModal(link, entityName){
+			entityId = link.attr("entityId");
+			$("#yesButton").attr("href", link.attr("href"));
+			$("#confirmText").text("Sei sicuro di cancellare la categoria " + entityName + "?");
+			$("#confirmModal").modal('show');
+		}
+		
+		function clearFilter(){
+				window.location="[[@{/categories}]]";
+			}
+	</script>
 </body>

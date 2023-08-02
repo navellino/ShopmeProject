@@ -18,6 +18,7 @@
 	</div>
 
 	<form th:action="@{/categories/save}" method="post" style="max-width: 700px; margin: 0 auto;" th:object="${category}"
+		onsubmit="return checkUnique(this)"
 		enctype="multipart/form-data">
 		<input type="hidden" id="id" th:field="*{id}">
 		<!-- 2 column grid layout with text inputs for the first and last names -->
@@ -105,7 +106,32 @@
 			};
 			reader.readAsDataURL(file);
 		}
+		
+		function checkUnique(form){
+			catId = $("#id").val();
+			catName = $("#name").val();
+			catAlias = $("#alias").val();
+			csrfValue = $("input[name='_csrf']").val();
+			
+			url = "[[@{/check_unique}]]";
+			
+			params = {id: catId, name: catName, alias: catAlias, _csrf: csrfValue};
+			
+			$.post(url, params, function(response){
+				if(response == "OK"){
+					form.submit();
+				} else if(response == "Nome duplicato"){
+					showWarningModalDialog("Nome categoria duplicato nel database: "+catName);
+				} else if(response == "Alias duplicato"){
+					showWarningModalDialog("Alias categoria duplicato nel database: "+catAlias);
+				} 
+			}).fail(function(){
+				showErrorModalDialog("Risposta inattesa dal server");
+			});
+			return false;
+		}
 	</script>
+	<script th:src="@{/js/common.js}"></script>
 </body>
 
 </html>

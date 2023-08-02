@@ -11,3 +11,17 @@ function customizeDropDownMenu(){
 		location.href = this.href
 	});
 }
+
+function showModalDialog(title, message){
+	$("#modalTitle").text(title);
+	$("#modalBody").text(message);
+	$("#modalDialog").modal('show');
+}
+
+function showErrorModalDialog(message){
+	showModalDialog("Errore", message);
+}
+function showWarningModalDialog(message){
+	showModalDialog("Attenzione", message);
+}
+

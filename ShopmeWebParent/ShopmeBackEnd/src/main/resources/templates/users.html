@@ -18,16 +18,7 @@
 				<label th:text="${message}"></label>
 			</div>
 			<div>
-				<form th:action="@{/users/page/1}" class="form-inline">
-					<div class="input-group mb-3">
-						<input type="hidden" name="sortField" th:value="${sortField}" />
-						<input type="hidden" name="sortDir" th:value="${sortDir}" />
-					  	<span class="input-group-text" id="inputGroup-sizing-default">[[#{label.search}]]</span>
-					 	<input type="search" name="keyword" th:value="${keyword}" class="form-control" required />
-					  	<button type="submit" class="btn btn-primary" value="Cerca"><i class="fa-sharp fa-solid fa-magnifying-glass fa-xl"></i></button>
-					  	<button type="button" class="btn btn-secondary" value="Cancella" onclick="clearFilter()"><i class="fa-solid fa-eraser fa-xl"></i></button>
-					</div>
-				</form>
+				<div th:replace="~{template :: module_search('/users/page/1')}"></div>
 			</div>
 			<div class="full-details">
 				<table class="table table-bordered table-striped table-hover table-responsive-xl"> 

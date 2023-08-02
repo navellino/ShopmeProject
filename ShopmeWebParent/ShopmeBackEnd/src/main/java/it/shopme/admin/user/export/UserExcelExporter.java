@@ -13,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import it.shopme.admin.AbstractExporter;
 import it.shopme.common.entity.User;
 
 public class UserExcelExporter extends AbstractExporter {
@@ -57,7 +58,7 @@ public class UserExcelExporter extends AbstractExporter {
 	}
 	
 	public void export(List<User> listUsers, HttpServletResponse response) throws IOException {
-		super.setResponseHeader(response, "application/octet-stream", ".xlsx");
+		super.setResponseHeader(response, "application/octet-stream", ".xlsx","user_");
 	
 		writeHeaderLine();
 		writeDataLines(listUsers);

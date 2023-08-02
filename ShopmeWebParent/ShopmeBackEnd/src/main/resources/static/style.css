@@ -18,7 +18,7 @@
 }
 
 @media screen and (min-width: 1024px){
-	/*small screen*/
+	/*big screen*/
 	div.less-details{display: none;}
 	.hideable-column{display: table-cell;}
 	
