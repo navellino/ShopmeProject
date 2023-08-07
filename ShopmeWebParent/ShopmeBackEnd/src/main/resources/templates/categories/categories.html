@@ -29,7 +29,10 @@
 					<tr>
 						<th class="hideable-column">ID</th>
 						<th>Foto</th>
-						<th th:replace="~{template :: columnLink('name', #{label.description})}"></th>
+						<th>
+							<a class="text-white" th:href="@{'/categories/page/'+${pageNum}+'?sortDir='+${reverseSortDir} + ${keyword != null ? '&keyword='+keyword : ''}}">Descrizione</a>
+							<i th:if="${sortDir != 'null'}" th:class="${reverseSortDir == 'asc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'}"></i>
+						</th>
 						<th class="hideable-column">Alias</th>
 						<th>Abilitato</th>
 						<th>Azioni</th>
@@ -95,6 +98,7 @@
 	<div th:replace="~{template :: confirm_modal}" ></div>
 	<div th:replace="~{template :: footerFragment}"></div>
 	<script>
+		
 		$(document).ready(function(){
 			$(".link-delete").on("click", function(e){
 				e.preventDefault();
@@ -110,7 +114,7 @@
 		}
 		
 		function clearFilter(){
-			window.location="[[@{/categories}]]";
-		}
+				window.location="[[@{/categories}]]";
+			}
 	</script>
 </body>

@@ -30,7 +30,7 @@ public class CategoryController {
 	public String listFirstPage(@Param("sortDir") String sortDir, Model model) {
 		return listByPage(1, model, sortDir,null);
 	}
-	
+
 	@GetMapping("/categories/page/{pageNum}")
 	public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model,
 							@Param("sortDir") String sortDir,
@@ -51,6 +51,9 @@ public class CategoryController {
 		int totalItem = service.countItem();
 		
 		String reversSortDir = sortDir.equals("asc") ? "desc" : "asc";
+		
+		String curPaglink = "/categories/page/";
+		
 		model.addAttribute("totalPages", pageInfo.getTotalPages());
 		model.addAttribute("totalItems", pageInfo.getTotalElements());
 		model.addAttribute("currentPage", pageNum);
@@ -62,6 +65,7 @@ public class CategoryController {
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("reverseSortDir", reversSortDir);
 		model.addAttribute("items", totalItem);
+		model.addAttribute("link", curPaglink);
 		return "categories";
 	}
 	

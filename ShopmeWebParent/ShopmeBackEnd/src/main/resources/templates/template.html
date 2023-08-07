@@ -154,10 +154,10 @@
     th:href="@{${moduleURL}+'/page/'+${pageNum}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}">	
 		[[${label}]]</a>
 
-<DIV th:fragment="pagination(moduleURL, entityName)" th:remove="tag">
+<div th:fragment="pagination(moduleURL, entityName)" th:remove="tag">
 	
 	<div class="text-center m-1" th:if="${totalItems>0}">
-		<span th:text="${entityName} + ' '+ ${startCount} + ' - '+ ${endCount} + ' ' +#{label.di} + ' ' + ${items} "}></span>
+		<span th:text="${entityName} + ' '+ ${startCount} + ' - '+ ${endCount} + ' ' +#{label.di} + ' ' + ${items}"}></span>
 	</div>
 	
 	<div class="text-center m-1" th:unless="${totalItems>0}">
@@ -183,7 +183,7 @@
 			</li>
 		</nav>
 	</div>
-</DIV>
+</div>
 
 
 <!--Footer Fragment-->

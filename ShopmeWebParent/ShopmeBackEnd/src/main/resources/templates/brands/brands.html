@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{template :: headFragment(#{label.titleUsers})}"></head>
+<body>
+	<div class="container-fluid">
+		<nav th:replace="~{template :: navFragment}"></nav>
+	</div>
+	<div class="alert container" role="alert">
+		<div class="row">
+			<div class="col-12 text-center"><h2 class="prova">[[#{label.h1Brands}]]</h2></div>
+		</div>
+		<div class="row">
+			<div class="col-2">
+				<a th:href="@{/brands/new}" class="fa-solid fa-folder-plus fa-2xl"></a>
+				<a th:href="@{/brands/export/csv}" class="fa-solid fa-file-csv fa-2xl"></a>
+			</div>
+			<div class="col-6"><div th:replace="~{template :: module_search('/brands/page/1')}"></div></div>
+		</div>
+		<div th:if="${message != null}" class="alert alert-success text-center">
+			<label th:text="${message}"></label>
+		</div>
+	</div>
+	<div class="full-details">
+		<table class="table table-bordered table-striped table-hover table-responsive-xl">
+			<thead class="table-dark">
+				<tr>
+					<th class="hideable-column">ID</th>
+					<th>Foto</th>
+					<th th:replace="~{template :: columnLink('name', #{label.description})}"></th>
+					<th>Categorie</th>
+					<th>Azioni</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="brand : ${brands}">
+					<td class="hideable-column" th:text="${brand.id}"></td>
+					<td>
+						<img th:src="@{${brand.getLogoPath}}" style="max-width: 100px;" class="rounded img-fluid">
+					</td>
+					<td th:text="${brand.name}"></td>
+					<td>
+						<th:block th:each="cat : ${brand.categories}">
+							<span class="badge text-bg-secondary" th:text="${cat.name}"></span>
+						</th:block>
+					</td>
+					<td class="text-center">  
+						<a class="fa-solid fa-pen-to-square fa-2xl" th:href="@{'/brands/edit/' + ${brand.id}}" style="color: #00ff33;"></a>
+							&nbsp;
+						<a th:href="@{'brands/delete/'+${brand.id}}" th:entityId="${brand.id}" 
+							title="Elimina la categoria selezionata" 
+							class="fa-solid fa-trash fa-2xl link-delete" 
+							style="color: #ff0000;">
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="less-details">
+		<div th:each="brand : ${brands}">
+			<div class="row">
+				<div class="col-4">
+					<img th:src="@{${brand.getLogoPath}}" style="max-width: 100px;" class="rounded img-fluid">
+				</div>
+				<div class="col-8">
+					<div th:text="${brand.name}"></div>
+					<div class="mt-2">
+						<div class="text-center">  
+							<a class="fa-solid fa-pen-to-square fa-2xl" th:href="@{'/brands/edit/' + ${brand.id}}" style="color: #00ff33;"></a>
+								&nbsp;
+							<a th:href="@{'brands/delete/'+${brand.id}}" th:entityId="${brand.id}" 
+								title="Elimina la categoria selezionata" 
+								class="fa-solid fa-trash fa-2xl link-delete" 
+								style="color: #ff0000;">
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="~{template :: pagination('/brands', brands)}"></div>
+	<div th:replace="~{template :: confirm_modal}" ></div>
+	<div th:replace="~{template :: footerFragment}"></div>
+	<script>
+		moduleURL="[[@{/brands}]]";
+		
+		$(document).ready(function(){
+			$(".link-delete").on("click", function(e){
+				e.preventDefault();
+				showDeleteConfirmModal($(this), 'brand');
+			});
+		});
+		
+		function showDeleteConfirmModal(link, entityName){
+			entityId = link.attr("entityId");
+			$("#yesButton").attr("href", link.attr("href"));
+			$("#confirmText").text("Sei sicuro di cancellare la Marca " + entityName + "?");
+			$("#confirmModal").modal('show');
+		}
+		
+		function clearFilter(){
+			window.location="[[@{/brands}]]";
+		}
+	</script>
+
+	<script th:src="@{/js/common.js}"></script>
+</body>

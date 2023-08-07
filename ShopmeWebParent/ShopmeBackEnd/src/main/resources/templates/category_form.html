@@ -53,23 +53,13 @@
 		</div>
 		<div class="form-outline d-flex mb-4">
 			<input type="hidden" th:field="*{image}">
-			<input type="file" id="fileImage" name="fileImage" class="mb-2" accept="image/png, image/jpeg" 
+			<input type="file" id="fileImage" name="fileImage" class="mb-2" accept="image/png, image/jpeg, image/webp" 
 			th:required="${category.getImagePath == null}" />
 			<div>
 				<img id="thumbnail" alt="Anteprima" th:src="@{${category.getImagePath}}" style="max-width: 100px;" class="rounded img-fluid">
-			</div>
-						
+			</div>		
 		</div>
 			
-		<!-- Profile Photo
-		<div class="form-outline d-flex mb-4">
-			<input type="hidden" th:field="*{image}" />
-			<label class="form-label mg-2" th:text="#{label.profilephoto}"></label>
-			<input type="file" id="fileImage" name="image" class="mb-2" accept="image/png, image/jpeg" />
-			<img id="thumbnail" alt="Anteprima" th:src="@{${user.getPhotoImagePath}}" style="max-width: 200px;"
-			 class="rounded img-fluid" />
-		</div>
-		-->
 		<!-- Submit button -->
 		<div class="text-center">
 			<input type="submit" value="Invia" class="btn btn-primary" />

@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import it.shopme.common.entity.Category;
 
 @Service
@@ -133,8 +132,7 @@ public class CategoryService {
 	}
 	
 	public Category save(Category category) {
-		return repo.save(category);
-		
+		return repo.save(category);	
 	}
 	
 	public List<Category> listCategoriesUsedInForm(){

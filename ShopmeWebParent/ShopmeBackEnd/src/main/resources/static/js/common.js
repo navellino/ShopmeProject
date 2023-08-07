@@ -25,3 +25,24 @@ function showWarningModalDialog(message){
 	showModalDialog("Attenzione", message);
 }
 
+$(document).ready(function(){
+	$("#fileImage").change(function(){
+		fileSize = this.files[0].size;
+		//alert("Dimensione Immagine " + fileSize);
+		if(fileSize > 3000000){
+			this.setCustomValidity("Scegli un immagine più piccola di 3mb!");
+			this.reportValidity();
+		}else{
+			showImageThumbnail(this);
+		}
+	});
+});
+		
+function showImageThumbnail(fileInput){
+	var file = fileInput.files[0];
+	var reader = new FileReader();
+	reader.onload = function(e){
+		$("#thumbnail").attr("src", e.target.result);
+	};
+	reader.readAsDataURL(file);
+}
