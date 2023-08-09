@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <!--Head Fragment-->
-<head th:fragment="headFragment(titlef)">
+<head th:fragment="headFragment(title,remove)" th:remove="${remove}">
 	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 	<title th:text="${titlef}"></title>
@@ -36,19 +36,19 @@
 				<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
 					<li class="nav-item"><a class="nav-link" th:href="@{/brands}" th:text="#{label.brands}"></a></li>
 				</th:block>
-				<th:block sec:authorize="hasAnyAuthority('Admin','Editor','Salesperson','Shipper')">
+				<th:block sec:authorize="hasAnyAuthority('Admin','Editor','Commerciale','Spedizioniere')">
 					<li class="nav-item"><a class="nav-link" th:href="@{/products}" th:text="#{label.products}"></a></li>
 				</th:block>
-				<th:block sec:authorize="hasAnyAuthority('Admin','Salesperson')">
+				<th:block sec:authorize="hasAnyAuthority('Admin','Commerciale')">
 					<li class="nav-item"><a class="nav-link" th:href="@{/customers}" th:text="#{label.customers}"></a></li>
 				</th:block>
-				<th:block sec:authorize="hasAnyAuthority('Admin','Salesperson')">
+				<th:block sec:authorize="hasAnyAuthority('Admin','Commerciale')">
 					<li class="nav-item"><a class="nav-link" th:href="@{/shippings}" th:text="#{label.shippings}"></a></li>
 				</th:block>
-				<th:block sec:authorize="hasAnyAuthority('Admin','Salesperson','Shipper')">
+				<th:block sec:authorize="hasAnyAuthority('Admin','Commerciale','Spedizioniere')">
 					<li class="nav-item"><a class="nav-link" th:href="@{/orders}" th:text="#{label.orders}"></a></li>
 				</th:block>
-				<th:block sec:authorize="hasAnyAuthority('Admin','Salesperson')">
+				<th:block sec:authorize="hasAnyAuthority('Admin','Commerciale')">
 					<li class="nav-item"><a class="nav-link" th:href="@{/report}" th:text="#{label.report}"></a></li>
 				</th:block>
 				<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
@@ -187,7 +187,7 @@
 
 
 <!--Footer Fragment-->
-<div th:fragment="footerFragment" class="text-center">
+<div th:fragment="footerFragment" class="text-center pt-3">
 	<p>ShopMe Control Panel - CopyRight &copy; ShopMe S.p.A.</p>
 </div>
 

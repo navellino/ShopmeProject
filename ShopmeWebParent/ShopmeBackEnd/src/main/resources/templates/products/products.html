@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{template :: headFragment(#{label.titleProducts}, ${'none'})}"></head>
+<body>
+	<div class="container-fluid">
+		<nav th:replace="~{template :: navFragment}"></nav>
+	</div>
+	<div class="alert container" role="alert">
+		<div class="row">
+			<div class="col-12 text-center"><h2 class="prova">[[#{label.h1Products}]]</h2></div>
+		</div>
+		<div class="row">
+			<div class="col-2">
+				<a th:href="@{/products/new}" class="fa-solid fa-folder-plus fa-2xl"></a>
+				<a th:href="@{/products/export/csv}" class="fa-solid fa-file-csv fa-2xl"></a>
+			</div>
+			<div class="col-6"><div th:replace="~{template :: module_search('/products/page/1')}"></div></div>
+		</div>
+		<div th:if="${message != null}" class="alert alert-success text-center">
+			<label th:text="${message}"></label>
+		</div>
+	</div>
+	<div class="full-details">
+		<table class="table table-bordered table-striped table-hover table-responsive-xl">
+			<thead class="table-dark">
+				<tr>
+					<th class="hideable-column">ID</th>
+					<th>Foto</th>
+					<th>Nome</th>
+					<th>Marca</th>
+					<th>Categoria</th>
+					<th>Abilitato</th>
+					<th>Azioni</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="product : ${listProducts}">
+					<td class="hideable-column" th:text="${product.id}"></td>
+					<td>FOTO</td>
+					<td th:text="${product.name}"></td>
+					<td th:text="${product.brand.name}"></td>
+					<td th:text="${product.category.name}"></td>
+					<td class="text-center">
+						<a th:if="${product.enabled == true}" class="fa-solid fa-circle-check fa-2xl" style="color: #00c70d;"
+							th:href="@{'/products/' + ${product.id} + '/enabled/false' }"></a>
+						<a th:if="${product.enabled == false}" class="fa-solid fa-circle-xmark fa-2xl" style="color: #ff0000;"
+							th:href="@{'/products/' + ${product.id} + '/enabled/true' }"></a>
+					</td>
+					<td class="text-center">  
+						<a class="fa-solid fa-circle-info fa-2xl" style="color: #00eeff;"
+							th:href="@{'/products/detail/' + ${product.id}}" title="Visualizza i dettagli del prodotto selezionato">
+						</a>
+							&nbsp;
+						<a class="fa-solid fa-pen-to-square fa-2xl" th:href="@{'/products/edit/' + ${product.id}}" style="color: #00ff33;">
+						</a>
+							&nbsp;
+							<a th:href="@{'products/delete/'+${product.id}}" th:entityId="${product.id}" 
+							title="Elimina il prodotto selezionato" 
+							class="fa-solid fa-trash fa-2xl link-delete" 
+							style="color: #ff0000;">
+						</a>
+					</td>	
+				</tr>
+			</tbody>
+		</table>
+	<!--
+	<div th:replace="~{template :: pagination('/products', products)}"></div>
+	-->
+	<div th:replace="~{template :: confirm_modal}" ></div>
+	<div th:replace="~{template :: footerFragment}"></div>
+	</div>
+	<script>
+		moduleURL="[[@{/products}]]";
+		
+		$(document).ready(function(){
+			$(".link-delete").on("click", function(e){
+				e.preventDefault();
+				showDeleteConfirmModal($(this), 'product');
+			});
+		});
+		
+		function showDeleteConfirmModal(link, entityName){
+			entityId = link.attr("entityId");
+			$("#yesButton").attr("href", link.attr("href"));
+			$("#confirmText").text("Sei sicuro di cancellare il prodotto " + entityName + "?");
+			$("#confirmModal").modal('show');
+		}
+		
+		function clearFilter(){
+			window.location="[[@{/products}]]";
+		}
+	</script>
+
+	<script th:src="@{/js/common.js}"></script>
+</body>

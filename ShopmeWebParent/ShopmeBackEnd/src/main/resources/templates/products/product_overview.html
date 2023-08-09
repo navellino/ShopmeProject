@@ -1,0 +1,62 @@
+<div th:fragment="content" th:remove="tag">
+	<input type="hidden" id="id" th:field="*{id}">
+	<div class="container">
+		<div class="row align-items-start">
+			<div class="col-6">
+				<label class="form-label pt-3">Descrizione</label>
+				<input type="text" class="form-control" th:field="*{name}" th:placeholder="#{label.description}" required minlength="3" maxlength="256">
+			</div>
+			<div class="col-6">
+				<label class="form-label pt-3">Alias</label>
+				<input type="text" class="form-control" th:field="*{alias}" placeholder="Alias">
+			</div>
+		</div>
+		<div class="row align-items-start">
+			<div class="col-6">
+				<label class="form-label pt-3">Scegli la marca</label>
+				<select th:field="*{brand}" class="form-select">
+					<th:block th:each="brand : ${listBrands}">
+						<option th:value="${brand.id}" th:text="${brand.name}"></option>
+					</th:block>					
+				</select>
+			</div>
+
+			<div class="col-6">
+				<label class="form-label pt-3">Scegli la categoria</label>
+				<select th:field="*{category}" class="form-select">
+					<!--
+					<th:block th:each="brand : ${listBrands}">
+						<option th:value="${brand.id}" th:text="${brand.name}"></option>
+					</th:block>			
+					-->		
+				</select>
+			</div>
+		</div>
+		<div class="row align-items-start">
+			<div class="col-3">
+				<label class="form-label pt-3">Abilitato</label>&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" th:field="*{enabled}">
+			</div>
+
+			<div class="col-3">
+				<label class="form-label pt-3">Disponibile</label>&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" th:field="*{inStock}">
+			</div>
+		</div>
+		<div class="row align-items-start">
+			<div class="col-4">
+				<label class="form-label pt-3">Prezzo d'acquisto</label>
+				<input type="text" class="form-control" th:field="*{cost}">
+			</div>
+
+			<div class="col-4">
+				<label class="form-label pt-3">Prezzo di vendita</label>
+				<input type="text" class="form-control" th:field="*{price}">
+			</div>
+			<div class="col-4">
+				<label class="form-label pt-3">Sconto</label>
+				<input type="text" class="form-control" th:field="*{discountPercent}">
+			</div>
+		</div>
+	</div>
+</div>
