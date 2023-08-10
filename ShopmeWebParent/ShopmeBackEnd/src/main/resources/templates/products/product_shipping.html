@@ -1,10 +1,22 @@
 <div th:fragment="content" th:remove="tag">
-	<div class="m-2">
-		<label>Descrizione Breve</label>
-		<textarea class="form-control" th:field="*{shortDescription}" rows="5" required></textarea>
-	</div>
-	<div class="m-2">
-		<label>Descrizione</label>
-		<textarea class="form-control" th:field="*{fullDescription}" rows="10" required></textarea>
+	<div class="row align-items-start">
+			<div class="col-4">
+				<label class="form-label pt-3">Altezza</label>
+				<input type="number" step="0.01" class="form-control" th:field="*{height}">
+			</div>
+			<div class="col-4">
+				<label class="form-label pt-3">Larghezza</label>
+				<input type="number" step="0.01" class="form-control" th:field="*{width}">
+			</div>
+	<div class="row align-items-start">
+			<div class="col-4">
+				<label class="form-label pt-3">Profondità</label>
+				<input type="number" step="0.01" class="form-control" th:field="*{length}">
+			</div>
+			<div class="col-4">
+				<label class="form-label pt-3">Peso</label>
+				<input type="number" step="0.01" class="form-control" th:field="*{weight}">
+			</div>
+		</div>
 	</div>
 </div>

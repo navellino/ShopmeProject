@@ -1,0 +1,119 @@
+[33mcommit b0f62c7e350da6616f77e2375dfc8c00b864cea5[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: navellino <115476531+navellino@users.noreply.github.com>
+Date:   Wed Aug 9 17:33:09 2023 +0200
+
+    implementazione sezione prodotti 1
+
+[33mcommit f19932aa5b5ceeee73d1345f968b9fa473ff1d44[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: navellino <navellino@gmail.com>
+Date:   Mon Aug 7 12:27:18 2023 +0200
+
+    implementazione sezione Brands
+
+[33mcommit ced8c1adcc330531dea9679444dba5d5317e1e54[m
+Author: navellino <navellino@gmail.com>
+Date:   Wed Aug 2 07:16:33 2023 +0200
+
+    implementazione sezione categorie
+
+[33mcommit 7e7f9348d13c1f49b4855703c5ed0431d402ae83[m
+Author: navellino <navellino@gmail.com>
+Date:   Sun Jul 23 08:25:52 2023 +0200
+
+    Implementazione form edit categories
+
+[33mcommit 1733867fac90a0bb08a17945851ff829a38258f4[m
+Author: navellino <navellino@gmail.com>
+Date:   Sat Jul 15 08:01:43 2023 +0200
+
+    implementazione sicurezza e ruoli
+
+[33mcommit 9823736bd819e4aa740f95fce04dea4b597b35ce[m
+Author: navellino <navellino@gmail.com>
+Date:   Wed Jul 12 12:26:30 2023 +0200
+
+    implementazione export to excel e pdf
+
+[33mcommit 96c1bbb670840f9d5505d8f918970531a6945255[m
+Author: navellino <navellino@gmail.com>
+Date:   Wed Jul 12 05:27:26 2023 +0200
+
+    implementazione export to csv
+
+[33mcommit e7f6db050cea7b0fcb4553659a36ef02096de00c[m
+Author: navellino <navellino@gmail.com>
+Date:   Wed Jul 12 05:25:51 2023 +0200
+
+    implementazione export to CSV
+
+[33mcommit d1f270871269cfae935bcb3e67dc04d8074b1c8e[m
+Author: navellino <navellino@gmail.com>
+Date:   Mon Jul 10 19:47:05 2023 +0200
+
+    implementazione search e refactoring
+
+[33mcommit 45e06b39042831be65daabd2fb5b5c2791e6a220[m
+Author: navellino <navellino@gmail.com>
+Date:   Wed Jul 5 14:48:38 2023 +0200
+
+    implementazione sorting
+
+[33mcommit 968f209021aa6c136aaad73833d5153ba4d6fb0a[m
+Author: navellino <navellino@gmail.com>
+Date:   Sun Jul 2 18:09:05 2023 +0200
+
+    variazione stato utente
+
+[33mcommit b373b2df872172e3bed555e5d468c23c9f9eb916[m
+Author: navellino <navellino@gmail.com>
+Date:   Sun Jul 2 12:15:53 2023 +0200
+
+    implementazione aggiornamento utenti
+
+[33mcommit 096ba199594aa63f9c52ae95a463da6a0b5d6ad9[m
+Author: navellino <navellino@gmail.com>
+Date:   Wed Jun 28 15:32:10 2023 +0200
+
+    check unique email
+
+[33mcommit 806cf70b1fea73404714300d14977970b7cee694[m
+Author: navellino <navellino@gmail.com>
+Date:   Tue Jun 27 17:16:15 2023 +0200
+
+    implementazione encoding password
+
+[33mcommit 19bc0a565394c96fbdfa39df26d3508d4d6011ea[m
+Author: navellino <navellino@gmail.com>
+Date:   Tue Jun 27 16:36:22 2023 +0200
+
+    pagina di creazione nuovi utenti
+
+[33mcommit f79c4740162242a63f6523605e9ecd6879ecc2b1[m
+Author: navellino <navellino@gmail.com>
+Date:   Tue Jun 27 15:40:48 2023 +0200
+
+    pagina di creazione utenti
+
+[33mcommit 3d7f367a4f70b7bc4f72af11c91ab2d316f8d01d[m
+Author: navellino <navellino@gmail.com>
+Date:   Tue Jun 27 07:39:37 2023 +0200
+
+    configurazione pagina di amministrazione utenti
+
+[33mcommit 414f798f08d1e0da50705a3b7768f1f7fd8a1fdf[m
+Author: navellino <navellino@gmail.com>
+Date:   Mon Jun 26 12:59:16 2023 +0200
+
+    creazione tabella users
+
+[33mcommit 6b4fc83ba77c19a512b5417d6c288efa1882350a[m
+Author: navellino <navellino@gmail.com>
+Date:   Mon Jun 26 12:06:00 2023 +0200
+
+    implementazione entity Users
+
+[33mcommit b77e2200dbc8e3d902ef9904a7e8ffa5e0322232[m
+Author: navellino <navellino@gmail.com>
+Date:   Mon Jun 26 11:08:59 2023 +0200
+
+    prima inizializzazione
