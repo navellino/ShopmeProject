@@ -89,4 +89,11 @@ public class ProductRepositoryTest {
 		assertThat(!deletedProduct.isPresent());
 		
 	}
+	@Test
+	public void replaceAll() {
+		String REGEX = "[\\s-]";
+		String testo = "Redmi-sNote 12 Pro+ 5G";
+		String nuovaString = testo.replaceAll(REGEX, "_");
+		System.out.println(nuovaString);
+	}
 }
