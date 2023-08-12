@@ -1,7 +1,11 @@
 package it.shopme.common.entity;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,12 +13,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "products")
-public class Product {
-	
+public class Product implements Serializable{
+
+	private static final long serialVersionUID = -3280394708665356784L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -54,6 +62,9 @@ public class Product {
 	private float height;
 	private float weight;
 	
+	@Column(name = "main_image", nullable = false, length = 255)
+	private String mainImage;
+	
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
@@ -62,6 +73,9 @@ public class Product {
 	@JoinColumn(name = "brand_id")
 	private Brand brand;
 
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+	private Set<ProductImage> images = new HashSet<>();
+	
 	public Integer getId() {
 		return id;
 	}
@@ -205,13 +219,37 @@ public class Product {
 	public void setBrand(Brand brand) {
 		this.brand = brand;
 	}
+	
+	public String getMainImage() {
+		return mainImage;
+	}
 
+	public void setMainImage(String mainImage) {
+		this.mainImage = mainImage;
+	}
+
+	public Set<ProductImage> getImages() {
+		return images;
+	}
+
+	public void setImages(Set<ProductImage> images) {
+		this.images = images;
+	}
+	
+	public void addExtraImage(String imageName) {
+		this.images.add(new ProductImage(imageName, this));
+	}
+	
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + "]";
 	}
-
 	
+	@Transient
+	public String getMainImagePath() {
+		if(id == null || mainImage == null) return "/images/default_image.png";
+		return "/product-images/"+this.id+"/"+this.mainImage;
+	}
 	
 	
 }

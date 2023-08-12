@@ -1,5 +1,6 @@
 package it.shopme.common.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -11,7 +12,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "roles")
-public class Role {
+public class Role implements Serializable {
+
+	private static final long serialVersionUID = -7089606963352122762L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

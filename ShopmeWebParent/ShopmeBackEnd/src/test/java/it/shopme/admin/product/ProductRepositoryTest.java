@@ -96,4 +96,17 @@ public class ProductRepositoryTest {
 		String nuovaString = testo.replaceAll(REGEX, "_");
 		System.out.println(nuovaString);
 	}
+	
+	@Test
+	public void saveProductWithImage() {
+		Integer id= 1;
+		Product product = repo.findById(id).get();
+		product.setMainImage("main_image.png");
+		product.addExtraImage("extra_image_1.png");
+		product.addExtraImage("extra_image_2.png");
+		product.addExtraImage("extra_image_3.png");
+		
+		Product savedProuct = repo.save(product);
+		assertThat(savedProuct.getImages().size()).isEqualTo(3);
+	}
 }

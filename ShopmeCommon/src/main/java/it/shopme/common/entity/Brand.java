@@ -1,5 +1,6 @@
 package it.shopme.common.entity;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +17,11 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "brand")
-public class Brand {
+public class Brand implements Serializable{
+	
+
+	private static final long serialVersionUID = 3117832431573888417L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;

@@ -37,7 +37,7 @@
 			<tbody>
 				<tr th:each="product : ${listProducts}">
 					<td class="hideable-column" th:text="${product.id}"></td>
-					<td>FOTO</td>
+					<td><img th:src="@{${product.getMainImagePath}}" style="max-width: 100px;" class="rounded img-fluid"></td>
 					<td th:text="${product.name}"></td>
 					<td th:text="${product.brand.name}"></td>
 					<td th:text="${product.category.name}"></td>

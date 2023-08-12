@@ -29,7 +29,7 @@ $(document).ready(function(){
 	$("#fileImage").change(function(){
 		fileSize = this.files[0].size;
 		//alert("Dimensione Immagine " + fileSize);
-		if(fileSize > 3000000){
+		if(fileSize > MAX_FILE_SIZE){
 			this.setCustomValidity("Scegli un immagine più piccola di 3mb!");
 			this.reportValidity();
 		}else{

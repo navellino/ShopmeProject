@@ -1,0 +1,14 @@
+<div th:fragment="content" th:remove="tag">
+	<div class="container">
+		<div class="row align-items-start">
+			<div class="col-3 border m-3 p-2">
+				<div><label>Immagine del prodotto</label></div>
+				<div>
+					<img id="thumbnail" alt="Immagine principale del prodotto" style="max-width: 300px;" class="rounded img-fluid"
+					th:src="@{${product.mainImagePath}}">
+					<input type="file" id="fileImage" name="fileImage" class="mb-2" accept="image/png, image/jpeg, image/webp" required />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
