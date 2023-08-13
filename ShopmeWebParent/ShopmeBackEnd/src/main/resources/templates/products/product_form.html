@@ -57,60 +57,14 @@
 	
 	<!--Footer-->
 	<div th:replace="~{template :: footerFragment}"></div>
-	
-	<script>
+		
+	<script type="text/javascript">
 		MAX_FILE_SIZE = 512000; // 500kb
 		moduleURL="[[@{/products}]]";
 		brandsModuleURL="[[@{/brands}]]";
-		dropdownBrand = $("#brand");
-		dropdownCategory = $("#category");
-		
-		
-		$(document).ready(function(){
-			
-			$("#shortDescription").richText();
-			$("#fullDescription").richText();
-			
-			dropdownBrand.change(function(){
-				dropdownCategory.empty();
-				getCategories();
-			});
-			getCategories();
-		});	
-		function getCategories(){
-			brandId = dropdownBrand.val();
-			url = brandsModuleURL +"/"+brandId+"/categories";
-			$.get(url, function(responseJson){
-				$.each(responseJson, function(index, category){
-					$("<option>").val(category.id).text(category.name).appendTo(dropdownCategory);
-				});
-			});
-			
-		}
-
-		function checkUnique(form){
-			productId = $("#id").val();
-			productName = $("#name").val();
-			
-			csrfValue = $("input[name='_csrf']").val();
-			url = "[[@{/products/check_unique}]]";
-			
-			params = {id:productId, name:productName, _csrf:csrfValue};
-			
-			$.post(url, params, function(response){
-				if(response == "OK"){
-					form.submit();
-				}else if(response == "Duplicato"){
-					showWarningModalDialog("Esiste un prodotto con nome "+ productName);
-				}else{
-					showWarningModalDialog("Nessuna risposta dal server");
-				}
-			}).fail(function(){
-				showErrorModalDialog("Impossibile connettersi al server");
-			});
-			return false;
-		}
+		defaultImageThumbnailSrc = "[[@{/images/default_image.png}]]";
 
 	</script>
-	<script th:src="@{/js/common.js}"></script>
+	<script type="text/javascript" th:inline="javascript" th:src="@{/js/common.js}"></script>
+	<script type="text/javascript" th:inline="javascript" th:src="@{/js/product_form.js}"></script>
 </body>
