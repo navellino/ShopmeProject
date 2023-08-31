@@ -55,23 +55,60 @@ public class ProductController {
 	
 	@PostMapping("/products/save")
 	public String saveProduct(Product product, RedirectAttributes ra, 
-			@RequestParam("fileImage") MultipartFile multipartFile) throws IOException{
-		if(!multipartFile.isEmpty()) {
-			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-			product.setMainImage(fileName);
-			
-			Product savedProduct = productService.save(product);
-			String uploadDir = "../product-images/"+savedProduct.getId();
-			
-			FileUploadUtil.cleanDir(uploadDir);
-			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-		}else {
-			productService.save(product);
-		}
+			@RequestParam("fileImage") MultipartFile mainImageMultipart,
+			@RequestParam("extraFileImage") MultipartFile[] extraMultipartFile) throws IOException{
+		
+		setMainImageName(mainImageMultipart, product);
+		setExtraImageName(extraMultipartFile, product);
+					
+		Product savedProduct = productService.save(product);
+		
+		saveUploadImage(mainImageMultipart, extraMultipartFile, savedProduct);
 		
 		ra.addFlashAttribute("message", "Prodotto salvato con successo.");
 		
 		return "redirect:/products";
+	}
+	
+	private void saveUploadImage(MultipartFile mainImageMultipart, MultipartFile[] extraMultipartFile,
+			Product savedProduct) throws IOException {
+		
+		if(!mainImageMultipart.isEmpty()) {
+			String fileName = StringUtils.cleanPath(mainImageMultipart.getOriginalFilename());
+			String uploadDir = "../product-images/"+savedProduct.getId();
+			
+			FileUploadUtil.cleanDir(uploadDir);
+			FileUploadUtil.saveFile(uploadDir, fileName, mainImageMultipart);
+		}
+		
+		if(extraMultipartFile.length > 0) {	
+			for(MultipartFile multipartFile: extraMultipartFile) {
+				if(multipartFile.isEmpty()) continue;
+				
+				String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename()); 
+				String uploadExtraDir = "../product-images/"+ savedProduct.getId() +"/extras";
+			
+				FileUploadUtil.saveFile(uploadExtraDir, fileName, multipartFile);
+			}
+		}		
+	}
+
+	private void setExtraImageName(MultipartFile[] extraMultipartFile, Product product) {
+		if(extraMultipartFile.length>0) {
+			for(MultipartFile multipartFile: extraMultipartFile) {
+				if(!multipartFile.isEmpty()) {
+					String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+					product.addExtraImage(fileName);
+				}
+			}
+		}	
+	}
+
+	private void setMainImageName(MultipartFile mainImageMultipart, Product product) {
+		if(!mainImageMultipart.isEmpty()) {
+			String fileName = StringUtils.cleanPath(mainImageMultipart.getOriginalFilename());
+			product.setMainImage(fileName);
+		}
 	}
 	
 	@GetMapping("/products/{id}/enabled/{status}")
@@ -91,8 +128,12 @@ public class ProductController {
 	public String deleteProduct(@PathVariable(name="id") Integer id, Model model, RedirectAttributes ra) {
 		try {
 			productService.deleteProduct(id);
-			//String categoryDir = "../category-images/"+id;
-			//FileUploadUtil.removeDir(categoryDir);
+			String productExtraImageDir = "../product-images/"+ id +"/extras";
+			String productImageDir = "../product-images/"+ id;
+			FileUploadUtil.removeDir(productExtraImageDir);
+			FileUploadUtil.removeDir(productImageDir);
+			ra.addFlashAttribute("message", "Prodotto eliminato correttamente");
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

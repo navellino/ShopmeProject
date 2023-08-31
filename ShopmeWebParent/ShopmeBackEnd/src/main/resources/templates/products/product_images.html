@@ -6,14 +6,18 @@
 				<div>
 					<img id="thumbnail" alt="Immagine principale del prodotto" style="max-width: 300px;" class="rounded img-fluid"
 					th:src="@{${product.mainImagePath}}">
-					<input type="file" id="fileImage" name="fileImage" class="mb-2" accept="image/png, image/jpeg, image/webp" required />
+					<input type="file" id="fileImage" name="fileImage" class="mb-2" accept="image/png, image/jpeg, image/webp" />
 				</div>
 			</div>
-			<div class="col-3 border m-3 p-2">
+			<div class="col-3 border m-3 p-2" id="divExtraImage0">
+				<div>
+					<label>Extra immagine</label>
+					<div id="extraImageHeader0" class="text-end" title="Rimuovi questa immagine"></div>
+				</div>
 				<div>
 					<img id="extraThumbnail0" alt="Immagine del prodotto" style="max-width: 300px;" class="rounded img-fluid"
 					th:src="@{${product.mainImagePath}}">
-					<input type="file" name="extraImage" class="mb-2" accept="image/png, image/jpeg, image/webp" />
+					<input type="file" name="extraFileImage" class="mb-2" accept="image/png, image/jpeg, image/webp" />
 				</div>
 			</div>
 		</div>

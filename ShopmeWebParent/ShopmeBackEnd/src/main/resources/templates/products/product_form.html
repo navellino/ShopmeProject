@@ -42,6 +42,7 @@
 			</div>
 		  <div class="tab-pane fade" id="nav-details" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">
 			  <div th:replace="~{products/product_shipping :: content}"></div>
+			  <div><input class="btn btn-secondary mt-3" value="Aggiungi dettagli" onclick="addNextDetailSection()"> </div>
 		  </div>
 		</div>
 		</div>
@@ -63,8 +64,10 @@
 		moduleURL="[[@{/products}]]";
 		brandsModuleURL="[[@{/brands}]]";
 		defaultImageThumbnailSrc = "[[@{/images/default_image.png}]]";
+		checkUniqueUrl = "[[@{/products/check_unique}]]";
 
 	</script>
 	<script type="text/javascript" th:inline="javascript" th:src="@{/js/common.js}"></script>
 	<script type="text/javascript" th:inline="javascript" th:src="@{/js/product_form.js}"></script>
+	<script type="text/javascript" th:inline="javascript" th:src="@{/js/product_form_details.js}"></script
 </body>

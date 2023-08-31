@@ -1,8 +1,10 @@
 package it.shopme.common.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -75,6 +77,9 @@ public class Product implements Serializable{
 
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private Set<ProductImage> images = new HashSet<>();
+	
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+	private List<ProductDetails> details =new ArrayList<>();
 	
 	public Integer getId() {
 		return id;
@@ -250,6 +255,16 @@ public class Product implements Serializable{
 		if(id == null || mainImage == null) return "/images/default_image.png";
 		return "/product-images/"+this.id+"/"+this.mainImage;
 	}
+
+	public List<ProductDetails> getDetails() {
+		return details;
+	}
+
+	public void setDetails(List<ProductDetails> details) {
+		this.details = details;
+	}
 	
-	
+	public void addDetails(String name, String value) {
+		this.details.add(new ProductDetails(name, value, this));
+	}
 }

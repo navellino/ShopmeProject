@@ -1,4 +1,7 @@
 <div th:fragment="content" th:remove="tag">
+	<div class="row align-items-center mt-3">
+		<h2 class="text-center">Dettagli prodotto</h2>
+	</div>
 	<div class="row align-items-start">
 			<div class="col-4">
 				<label class="form-label pt-3">Altezza</label>
@@ -16,6 +19,18 @@
 			<div class="col-4">
 				<label class="form-label pt-3">Peso</label>
 				<input type="number" step="0.01" class="form-control" th:field="*{weight}">
+			</div>
+		</div>
+	</div>
+	<div id="divProductDetails">
+		<div class="form row align-items-center mt-3" id="divDetail0">
+			<div class="col-4">
+				<label>Nome:</label>
+				<input type="text" class="form-control" name="detailNames" maxlength="50" />
+			</div>
+			<div class="col-4">
+				<label>Valore:</label>
+				<input type="text" class="form-control" name="detailValues" maxlength="255" />
 			</div>
 		</div>
 	</div>

@@ -109,4 +109,19 @@ public class ProductRepositoryTest {
 		Product savedProuct = repo.save(product);
 		assertThat(savedProuct.getImages().size()).isEqualTo(3);
 	}
+	
+	@Test
+	public void saveDetailsTest() {
+		Integer id= 2;
+		Product product = repo.findById(id).get();
+		
+		product.addDetails("CPU", "Intel i5");
+		product.addDetails("OD", "Windows 11");
+		product.addDetails("Memoria", "16GB DDR5");
+		
+		Product savedProduct = repo.save(product);
+		
+		assertThat(savedProduct.getDetails()).isNotEmpty();
+		
+	}
 }
