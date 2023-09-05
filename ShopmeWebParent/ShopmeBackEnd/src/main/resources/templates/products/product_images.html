@@ -8,14 +8,33 @@
 					th:src="@{${product.mainImagePath}}">
 					<input type="file" id="fileImage" name="fileImage" class="mb-2" accept="image/png, image/jpeg, image/webp" />
 				</div>
+				<input type="hidden" th:field="*{mainImage}">
 			</div>
-			<div class="col-3 border m-3 p-2" id="divExtraImage0">
+			
+			<th:block th:each="productImage, status : ${product.images}"> 
+				<div class="col-3 border m-3 p-2" th:id="'divExtraImage' + ${status.index}">
+					<a name="linkRemoveExtraImage" class="fa-regular fa-circle-xmark fa-xl text-end" title="Rimuovi questa immagine"></a>
 				<div>
 					<label>Extra immagine</label>
-					<div id="extraImageHeader0" class="text-end" title="Rimuovi questa immagine"></div>
+					<div th:id="'extraImageHeader' + ${status.index}" class="text-end" title="Rimuovi questa immagine"></div>
 				</div>
 				<div>
-					<img id="extraThumbnail0" alt="Immagine del prodotto" style="max-width: 300px;" class="rounded img-fluid"
+					<img th:id="'extraThumbnail' + ${status.index}" alt="Immagine del prodotto" style="max-width: 300px;" class="rounded img-fluid"
+					th:src="@{${productImage.imagePath}}">
+					<input type="file" name="extraFileImage" class="mb-2" accept="image/png, image/jpeg, image/webp" />
+				</div>
+				<input type="hidden" name="imageIds" th:id="'imageId'+${status.index}">
+				<input type="hidden" name="imageNames" th:id="'imageName'+${status.index}">
+			</div>
+			</th:block>
+			
+			<div class="col-3 border m-3 p-2" th:id="'divExtraImage'+${numberOfExtraImages}">
+				<div>
+					<label>Extra immagine</label>
+					<div th:id="'extraImageHeader'+${numberOfExtraImages}" class="text-end" title="Rimuovi questa immagine"></div>
+				</div>
+				<div>
+					<img th:id="'extraThumbnail'+${numberOfExtraImages}" alt="Immagine del prodotto" style="max-width: 300px;" class="rounded img-fluid"
 					th:src="@{${product.mainImagePath}}">
 					<input type="file" name="extraFileImage" class="mb-2" accept="image/png, image/jpeg, image/webp" />
 				</div>

@@ -1,8 +1,3 @@
-/**
- * 
- */
-
-
 function addNextDetailSection() {
 	allDivDetail = $("[id^='divDetail']");
 	divDetailsCount = allDivDetail.length;
@@ -35,7 +30,18 @@ function addNextDetailSection() {
 		$("input[name='detailNames']").last().focus();
 }
 
+$(document).ready(function(){
+	$("a[name='linkRemoveDetail']").each(function(index){
+		$(this).click(function(){
+			removeDetailSectionByIndex(index);
+		});
+	});
+});
 
 function removeDetailSectionById(id){
 	$("#"+id).remove();
+}
+
+function removeDetailSectionByIndex(index){
+	$("#divDetail"+index).remove();
 }

@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "product_images")
@@ -27,13 +28,9 @@ public class ProductImage {
 		this.product = product;
 	}
 	
-	
-
 	public ProductImage() {
 
 	}
-
-
 
 	@ManyToOne
 	@JoinColumn(name = "product_id")
@@ -61,6 +58,11 @@ public class ProductImage {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+	
+	@Transient
+	public String getImagePath() {
+		return "/product-images/"+product.getId()+"/extras/"+this.name;//recupero il path delle immagini
 	}
 	
 }

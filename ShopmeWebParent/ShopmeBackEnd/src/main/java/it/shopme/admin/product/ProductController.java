@@ -56,11 +56,15 @@ public class ProductController {
 	@PostMapping("/products/save")
 	public String saveProduct(Product product, RedirectAttributes ra, 
 			@RequestParam("fileImage") MultipartFile mainImageMultipart,
-			@RequestParam("extraFileImage") MultipartFile[] extraMultipartFile) throws IOException{
+			@RequestParam("extraFileImage") MultipartFile[] extraMultipartFile,
+			@RequestParam(name = "detailNames", required = false) String[] detailNames,
+			@RequestParam(name = "detailValues", required = false) String[] detailValues
+			) throws IOException{
 		
 		setMainImageName(mainImageMultipart, product);
 		setExtraImageName(extraMultipartFile, product);
-					
+		setProductDetails(detailNames, detailValues, product);
+		
 		Product savedProduct = productService.save(product);
 		
 		saveUploadImage(mainImageMultipart, extraMultipartFile, savedProduct);
@@ -70,6 +74,20 @@ public class ProductController {
 		return "redirect:/products";
 	}
 	
+	private void setProductDetails(String[] detailNames, String[] detailValues, Product product) {
+		if(detailNames == null || detailNames.length == 0) return;
+		
+		for(int count = 0; count < detailNames.length; count++) {
+			String name = detailNames[count];
+			String value = detailValues[count];
+			
+			if(!name.isEmpty() && !value.isEmpty()) {
+				product.addDetails(name, value);
+			}
+		}
+		
+	}
+
 	private void saveUploadImage(MultipartFile mainImageMultipart, MultipartFile[] extraMultipartFile,
 			Product savedProduct) throws IOException {
 		
@@ -138,5 +156,19 @@ public class ProductController {
 			// TODO: handle exception
 		}
 		return "redirect:/products";
+	}
+	
+	@GetMapping("/products/edit/{id}")
+	public String editProduct(@PathVariable("id") Integer id, Model model) {
+		Product product = productService.get(id);
+		List<Brand> listBrands = brandService.listAllBrands();
+		
+		model.addAttribute("product", product);
+		model.addAttribute("listBrands", listBrands);
+		model.addAttribute("newProduct", "edit");
+		Integer numberOfExistingExtraImage = product.getImages().size();
+		model.addAttribute("numberOfExtraImages", numberOfExistingExtraImage);
+		
+		return "products/product_form";
 	}
 }

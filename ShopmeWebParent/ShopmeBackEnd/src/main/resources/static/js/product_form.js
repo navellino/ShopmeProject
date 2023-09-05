@@ -11,7 +11,10 @@ $(document).ready(function(){
 		dropdownCategory.empty();
 		getCategories();
 	});
-	getCategories();
+	
+	//getCategories();
+	getCategoriesForNewForm();
+	
 	
 	$("input[name='extraFileImage']").each(function(index){
 		extraImageCount++;
@@ -20,7 +23,25 @@ $(document).ready(function(){
 			showExtraImageThumbnail(this, index);
 		});
 	});
+	
+	$("a[name='linkRemoveExtraImage']").each(function(index){
+		$(this).click(function(){
+			removeExtraImage(index);
+		});
+	});
+	
 });	
+
+function getCategoriesForNewForm(){
+	catIdField = $("#categoryId");
+	editMode = false;
+	
+	if(catIdField.length){
+		editMode = true;
+	}
+	
+	if(!editMode) getCategories();
+}
 
 function showExtraImageThumbnail(fileInput, index){
 	var file = fileInput.files[0];

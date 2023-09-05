@@ -23,13 +23,24 @@
 
 			<div class="col-6">
 				<label class="form-label pt-3">Scegli la categoria</label>
-				<select th:field="*{category}" class="form-select">
-					<!--
-					<th:block th:each="brand : ${listBrands}">
-						<option th:value="${brand.id}" th:text="${brand.name}"></option>
-					</th:block>			
-					-->		
-				</select>
+				
+				<th:block th:if="${product.category != null}"><!-- EDIT PODUCT MODE -->
+					<select th:field="*{category}" class="form-select">
+						<th:block th:each="cat : ${product.brand.categories}">
+							<option th:value="${cat.id}">[[${cat.name}]]</option>
+						</th:block>
+					</select>
+				</th:block>
+				
+				<th:block th:if="${product.category == null}"><!-- NEW PRODUCT MODE -->
+					<select th:field="*{category}" class="form-select">
+						<!--
+						<th:block th:each="brand : ${listBrands}">
+							<option th:value="${brand.id}" th:text="${brand.name}"></option>
+						</th:block>			
+						-->		
+					</select>
+				</th:block>
 			</div>
 		</div>
 		<div class="row align-items-start">
