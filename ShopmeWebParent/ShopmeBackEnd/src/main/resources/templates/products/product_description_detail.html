@@ -1,0 +1,10 @@
+<div th:fragment="content" th:remove="tag">
+	<div class="m-2">
+		<label>Descrizione Breve</label>
+		<div th:utext="${product.shortDescription}" class="border rounded p-2 m-2"></div>
+	</div>
+	<div class="m-2">
+		<label>Descrizione</label>
+		<div th:utext="${product.fullDescription}" class="border rounded p-2 m-2"></div>
+	</div>
+</div>

@@ -40,7 +40,7 @@ public class ProductService {
 	public String checkUnique(Integer id, String name) {
 		boolean isCreatingNew = (id == null || id == 0);
 		
-		Product productByName = repo.findByName(name);
+			Product productByName = repo.findByName(name);
 		
 		if(isCreatingNew) {
 			if(productByName != null) return "Duplicato";

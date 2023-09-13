@@ -3,17 +3,17 @@
 	<div class="container">
 		<div class="row align-items-start">
 			<div class="col-6">
-				<label class="form-label pt-3">Descrizione</label>
+				<label class="form-label pt-3">[[#{label.poductDescription}]]</label>
 				<input type="text" class="form-control" th:field="*{name}" th:placeholder="#{label.description}" required minlength="3" maxlength="256">
 			</div>
 			<div class="col-6">
-				<label class="form-label pt-3">Cod. ASIN</label>
+				<label class="form-label pt-3">[[#{label.codASIN}]]</label>
 				<input type="text" class="form-control" th:field="*{alias}" placeholder="Codice univoco che identifica il prodotto">
 			</div>
 		</div>
 		<div class="row align-items-start">
 			<div class="col-6">
-				<label class="form-label pt-3">Scegli la marca</label>
+				<label class="form-label pt-3">[[#{label.productBrand}]]</label>
 				<select th:field="*{brand}" class="form-select">
 					<th:block th:each="brand : ${listBrands}">
 						<option th:value="${brand.id}" th:text="${brand.name}"></option>
@@ -22,7 +22,7 @@
 			</div>
 
 			<div class="col-6">
-				<label class="form-label pt-3">Scegli la categoria</label>
+				<label class="form-label pt-3">[[#{label.categoryProduct}]]</label>
 				
 				<th:block th:if="${product.category != null}"><!-- EDIT PODUCT MODE -->
 					<select th:field="*{category}" class="form-select">
@@ -45,27 +45,27 @@
 		</div>
 		<div class="row align-items-start">
 			<div class="col-3">
-				<label class="form-label pt-3">Abilitato</label>&nbsp;&nbsp;&nbsp;
+				<label class="form-label pt-3">[[#{label.enabledProduct}]]</label>&nbsp;&nbsp;&nbsp;
 				<input type="checkbox" th:field="*{enabled}">
 			</div>
 
 			<div class="col-3">
-				<label class="form-label pt-3">Disponibile</label>&nbsp;&nbsp;&nbsp;
+				<label class="form-label pt-3">[[#{label.productAvalable}]]</label>&nbsp;&nbsp;&nbsp;
 				<input type="checkbox" th:field="*{inStock}">
 			</div>
 		</div>
 		<div class="row align-items-start">
 			<div class="col-4">
-				<label class="form-label pt-3">Prezzo d'acquisto</label>
+				<label class="form-label pt-3">[[#{label.buyPrice}]]</label>
 				<input type="text" class="form-control" th:field="*{cost}">
 			</div>
 
 			<div class="col-4">
-				<label class="form-label pt-3">Prezzo di vendita</label>
+				<label class="form-label pt-3">[[#{label.sellPrice}]]</label>
 				<input type="text" class="form-control" th:field="*{price}">
 			</div>
 			<div class="col-4">
-				<label class="form-label pt-3">Sconto</label>
+				<label class="form-label pt-3">[[#{label.discount}]]</label>
 				<input type="text" class="form-control" th:field="*{discountPercent}">
 			</div>
 		</div>

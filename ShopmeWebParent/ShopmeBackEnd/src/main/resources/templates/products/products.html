@@ -38,7 +38,13 @@
 				<tr th:each="product : ${listProducts}">
 					<td class="hideable-column" th:text="${product.id}"></td>
 					<td><img th:src="@{${product.getMainImagePath}}" style="max-width: 100px;" class="rounded img-fluid"></td>
-					<td th:text="${product.name}"></td>
+					<td>
+						<a class="link-detail" 
+						th:href="@{'/products/detail/' + ${product.id}}" 
+						th:text="${product.name}" 
+						th:title="#{label.altDetail}">
+						</a>
+					</td>
 					<td th:text="${product.brand.name}"></td>
 					<td th:text="${product.category.name}"></td>
 					<td class="text-center">
@@ -48,8 +54,8 @@
 							th:href="@{'/products/' + ${product.id} + '/enabled/true' }"></a>
 					</td>
 					<td class="text-center">  
-						<a class="fa-solid fa-circle-info fa-2xl" style="color: #00eeff;"
-							th:href="@{'/products/detail/' + ${product.id}}" title="Visualizza i dettagli del prodotto selezionato">
+						<a class="fa-solid fa-circle-info fa-2xl link-detail" style="color: #00eeff;"
+							th:href="@{'/products/detail/' + ${product.id}}" th:title="#{label.altDetail}">
 						</a>
 							&nbsp;
 						<a class="fa-solid fa-pen-to-square fa-2xl" th:href="@{'/products/edit/' + ${product.id}}" style="color: #00ff33;">
@@ -68,6 +74,15 @@
 	<div th:replace="~{template :: pagination('/products', products)}"></div>
 	-->
 	<div th:replace="~{template :: confirm_modal}" ></div>
+		
+	<div class="modal fade" id="detailModal">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				
+			</div>
+		</div>
+	</div>
+	
 	<div th:replace="~{template :: footerFragment}"></div>
 	</div>
 	<script>
@@ -77,6 +92,11 @@
 			$(".link-delete").on("click", function(e){
 				e.preventDefault();
 				showDeleteConfirmModal($(this), 'product');
+			});
+			$(".link-detail").on("click", function(e){
+				e.preventDefault();
+				linkDetailURL = $(this).attr("href");
+				$("#detailModal").modal("show").find(".modal-content").load(linkDetailURL);
 			});
 		});
 		

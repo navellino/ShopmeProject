@@ -1,0 +1,22 @@
+<div th:fragment="content" th:remove="tag">
+	<div class="container">
+		<div><label>[[#{label.labelImage}]]</label></div>
+		<div class="row align-items-start">
+			<div class="col-3 m-3 p-2">
+				<img alt="Immagine principale del prodotto" style="max-width:250px;" class="rounded img-fluid"
+				th:src="@{${product.mainImagePath}}">
+			</div>
+			<th:block th:each="productImage, status : ${product.images}"> 
+				<div class="col-3 m-3 p-2">
+					<div>
+						<label>Immagini del prodotto</label>
+					</div>
+					<div>
+						<img alt="Immagine del prodotto" style="max-width:250px;" class="rounded img-fluid"
+						th:src="@{${productImage.imagePath}}">
+					</div>
+				</div>
+			</th:block>
+		</div>
+	</div>
+</div>

@@ -25,6 +25,7 @@
 	<div id="divProductDetails">
 		<th:block th:each="detail, status : ${product.details}">
 			<div class="form row align-items-center mt-3" th:id="'divDetail'+${status.index}">
+				<input type="hidden" name="detailIds" th:value="${detail.id}">
 			<div class="col-4">
 				<label>Nome:</label>
 				<input type="text" class="form-control" name="detailNames" maxlength="50" th:value="${detail.name}" />
@@ -39,6 +40,7 @@
 		</div>
 		</th:block>
 		<div class="form row align-items-center mt-3" th:id="'divDetail'+${#lists.size(product.details)}">
+			<input type="hidden" name="detailIds" value="0">
 			<div class="col-4">
 				<label>Nome:</label>
 				<input type="text" class="form-control" name="detailNames" maxlength="50" />

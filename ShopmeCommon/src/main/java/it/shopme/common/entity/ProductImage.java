@@ -21,13 +21,17 @@ public class ProductImage {
 	@Column(name="name", nullable = false, length = 255)
 	private String name;
 
-	
-	
 	public ProductImage(String name, Product product) {
 		this.name = name;
 		this.product = product;
 	}
 	
+	public ProductImage(Integer id, String name, Product product) {
+		this.id = id;
+		this.name = name;
+		this.product = product;
+	}
+
 	public ProductImage() {
 
 	}

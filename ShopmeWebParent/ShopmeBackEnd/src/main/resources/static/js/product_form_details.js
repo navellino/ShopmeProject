@@ -1,10 +1,11 @@
 function addNextDetailSection() {
-	allDivDetail = $("[id^='divDetail']");
+	allDivDetail = $("[id='divDetail']");
 	divDetailsCount = allDivDetail.length;
 
 	
 	htmlDetailSection = `
 			<div class="form row align-items-center mt-3" id="divDetail${divDetailsCount}">
+				<input type="hidden" name="detailIds" value="0">
 				<div class="col-4">
 					<label>Nome:</label>
 					<input type="text" class="form-control" name="detailNames" maxlength="50" />

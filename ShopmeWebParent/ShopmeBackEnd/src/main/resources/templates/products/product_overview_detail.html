@@ -1,0 +1,56 @@
+<div th:fragment="content" th:remove="tag">
+	<div class="container">
+		<div class="row align-items-start">
+			<div class="col-6">
+				<label class="form-label pt-3">[[#{label.poductDescription}]]</label>
+				<input type="text" class="form-control" th:value="${product.name}" th:placeholder="#{label.description}" readonly>
+			</div>
+			<div class="col-6">
+				<label class="form-label pt-3">[[#{label.codASIN}]]</label>
+				<input type="text" class="form-control" th:value="${product.alias}" placeholder="Codice univoco che identifica il prodotto" readonly> 
+			</div>
+		</div>
+		<div class="row align-items-start">
+			<div class="col-6">
+				<label class="form-label pt-3">[[#{label.productBrand}]]</label>
+				<input type="text" class="form-control" th:value="${product.brand.name}" readonly>
+			</div>
+
+			<div class="col-6">
+				<label class="form-label pt-3">[[#{label.categoryProduct}]]</label>
+				<input type="text" class="form-control" th:value="${product.category.name}" readonly>
+			</div>
+		</div>
+		<div class="row align-items-start">
+			<div class="col-3">
+				<label class="form-label pt-3">[[#{label.enabledProduct}]]</label>&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" th:checked="${product.enabled}" onclick="return false;">
+			</div>
+
+			<div class="col-3">
+				<label class="form-label pt-3">[[#{label.productAvalable}]]</label>&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" th:checked="${product.inStock}" onclick="return false;">
+			</div>
+		</div>
+		<div class="row align-items-start">
+			<div class="col-4">
+				<label class="form-label pt-3">[[#{label.buyPrice}]]</label>
+				<input type="text" class="form-control" th:value="${product.cost}" readonly>
+			</div>
+			<div class="col-4">
+				<label class="form-label pt-3">[[#{label.sellPrice}]]</label>
+				<input type="text" class="form-control" th:value="${product.price}">
+			</div>
+			<div class="col-4">
+				<label class="form-label pt-3">[[#{label.discount}]]</label>
+				<input type="text" class="form-control" th:value="${product.discountPercent}">
+			</div>
+		</div>
+		<div class="row align-items-start">
+			<div class="col-4">
+				<label class="form-label pt-3">[[#{label.lastUpdate}]]:</label>
+				<p th:text="${#dates.format(product.updatedTime, 'dd-MM-yyyy HH:mm')}"></p>
+			</div>
+		</div>
+	</div>
+</div>
