@@ -82,6 +82,7 @@
 	<div th:replace="~{template :: pagination('/brands', brands)}"></div>
 	<div th:replace="~{template :: confirm_modal}" ></div>
 	<div th:replace="~{template :: footerFragment}"></div>
+	<script th:src="@{/js/common.js}"></script>
 	<script>
 		moduleURL="[[@{/brands}]]";
 		

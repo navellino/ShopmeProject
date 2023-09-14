@@ -27,9 +27,9 @@
 				<tr>
 					<th class="hideable-column">ID</th>
 					<th>Foto</th>
-					<th>Nome</th>
-					<th>Marca</th>
-					<th>Categoria</th>
+					<th th:replace="~{template :: columnLink('name', #{label.description})}"></th>
+					<th th:replace="~{template :: columnLink('brand', #{label.productBrand})}"></th>
+					<th th:replace="~{template :: columnLink('category', #{label.categoryProduct})}"></th>
 					<th>Abilitato</th>
 					<th>Azioni</th>
 				</tr>
@@ -41,8 +41,8 @@
 					<td>
 						<a class="link-detail" 
 						th:href="@{'/products/detail/' + ${product.id}}" 
-						th:text="${product.name}" 
-						th:title="#{label.altDetail}">
+						th:text="${product.shortName}" 
+						th:title="${product.name}">
 						</a>
 					</td>
 					<td th:text="${product.brand.name}"></td>
@@ -70,9 +70,9 @@
 				</tr>
 			</tbody>
 		</table>
-	<!--
+	
 	<div th:replace="~{template :: pagination('/products', products)}"></div>
-	-->
+	
 	<div th:replace="~{template :: confirm_modal}" ></div>
 		
 	<div class="modal fade" id="detailModal">
@@ -85,6 +85,7 @@
 	
 	<div th:replace="~{template :: footerFragment}"></div>
 	</div>
+	<script th:src="@{/js/common.js}"></script>
 	<script>
 		moduleURL="[[@{/products}]]";
 		

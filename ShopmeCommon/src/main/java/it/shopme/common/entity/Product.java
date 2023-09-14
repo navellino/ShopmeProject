@@ -82,6 +82,14 @@ public class Product implements Serializable{
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ProductDetails> details =new ArrayList<>();
 	
+	@Transient
+	public String getShortName() {
+		if(name.length()>20) {
+			return name.substring(0,20).concat("...");
+		}
+		return name;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
