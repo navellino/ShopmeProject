@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head th:replace="~{template :: headFragment(#{label.titleProducts}, ${'none'})}"></head>
 <body>
@@ -12,10 +12,31 @@
 		</div>
 		<div class="row">
 			<div class="col-2">
-				<a th:href="@{/products/new}" class="fa-solid fa-folder-plus fa-2xl"></a>
-				<a th:href="@{/products/export/csv}" class="fa-solid fa-file-csv fa-2xl"></a>
+				<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+					<a th:href="@{/products/new}" class="fa-solid fa-folder-plus fa-2xl"></a>
+					<a th:href="@{/products/export/csv}" class="fa-solid fa-file-csv fa-2xl"></a>
+				</th:block>
 			</div>
-			<div class="col-6"><div th:replace="~{template :: module_search('/products/page/1')}"></div></div>
+			<div class="col-10">
+				<!--<div th:replace="~{template :: module_search('/products/page/1')}"></div>--><!-- Versione senza la ricerca per categoria -->
+				<form th:action="@{/products/page/1}" class="form-inline" id="searchForm">
+					<div class="input-group mb-3">
+						<input type="hidden" name="sortField" th:value="${sortField}" />
+						<input type="hidden" name="sortDir" th:value="${sortDir}" />
+						<span class="input-group-text" id="inputGroup-sizing-default">[[#{label.categoryProduct}]]</span>
+					  	<select class="form-select rounded" name="categoryId" id="dropdownCategory">
+							  <option th:value="0">Tutte le categorie</option>
+							  <th:block th:each="cat : ${listCategories}">
+								  <option th:value="${cat.id}">[[${cat.name}]]</option>
+							  </th:block>
+						</select>
+						&nbsp;<span class="input-group-text" id="inputGroup-sizing-default">[[#{label.search}]]</span>
+					 	<input type="search" name="keyword" th:value="${keyword}" class="form-control rounded" required />
+					  	<button type="submit" class="btn btn-primary" value="Cerca"><i class="fa-sharp fa-solid fa-magnifying-glass fa-xl"></i></button>
+					  	<button type="button" class="btn btn-secondary" value="Cancella" onclick="clearFilter()"><i class="fa-solid fa-eraser fa-xl"></i></button>
+					</div>
+					</form>
+			</div>
 		</div>
 		<div th:if="${message != null}" class="alert alert-success text-center">
 			<label th:text="${message}"></label>
@@ -30,7 +51,9 @@
 					<th th:replace="~{template :: columnLink('name', #{label.description})}"></th>
 					<th th:replace="~{template :: columnLink('brand', #{label.productBrand})}"></th>
 					<th th:replace="~{template :: columnLink('category', #{label.categoryProduct})}"></th>
-					<th>Abilitato</th>
+					<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+						<th>Abilitato</th>
+					</th:block>
 					<th>Azioni</th>
 				</tr>
 			</thead>
@@ -47,29 +70,85 @@
 					</td>
 					<td th:text="${product.brand.name}"></td>
 					<td th:text="${product.category.name}"></td>
-					<td class="text-center">
-						<a th:if="${product.enabled == true}" class="fa-solid fa-circle-check fa-2xl" style="color: #00c70d;"
-							th:href="@{'/products/' + ${product.id} + '/enabled/false' }"></a>
-						<a th:if="${product.enabled == false}" class="fa-solid fa-circle-xmark fa-2xl" style="color: #ff0000;"
-							th:href="@{'/products/' + ${product.id} + '/enabled/true' }"></a>
-					</td>
+					<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+						<td class="text-center">
+							<a th:if="${product.enabled == true}" class="fa-solid fa-circle-check fa-2xl" style="color: #00c70d;"
+								th:href="@{'/products/' + ${product.id} + '/enabled/false' }"></a>
+							<a th:if="${product.enabled == false}" class="fa-solid fa-circle-xmark fa-2xl" style="color: #ff0000;"
+								th:href="@{'/products/' + ${product.id} + '/enabled/true' }"></a>
+						</td>
+					</th:block>
 					<td class="text-center">  
 						<a class="fa-solid fa-circle-info fa-2xl link-detail" style="color: #00eeff;"
 							th:href="@{'/products/detail/' + ${product.id}}" th:title="#{label.altDetail}">
 						</a>
-							&nbsp;
-						<a class="fa-solid fa-pen-to-square fa-2xl" th:href="@{'/products/edit/' + ${product.id}}" style="color: #00ff33;">
-						</a>
-							&nbsp;
-							<a th:href="@{'products/delete/'+${product.id}}" th:entityId="${product.id}" 
-							title="Elimina il prodotto selezionato" 
-							class="fa-solid fa-trash fa-2xl link-delete" 
-							style="color: #ff0000;">
-						</a>
+						<th:block sec:authorize="hasAnyAuthority('Admin','Editor','Commerciale')">
+								&nbsp;
+							<a class="fa-solid fa-pen-to-square fa-2xl" th:href="@{'/products/edit/' + ${product.id}}" style="color: #00ff33;">
+							</a>
+								&nbsp;
+								<a th:href="@{'products/delete/'+${product.id}}" th:entityId="${product.id}" 
+								title="Elimina il prodotto selezionato" 
+								class="fa-solid fa-trash fa-2xl link-delete" 
+								style="color: #ff0000;">
+							</a>
+						</th:block>
 					</td>	
 				</tr>
 			</tbody>
 		</table>
+	</div>
+	
+	<div class="less-details">
+		<table class="table table-bordered table-striped table-hover table-responsive-xl">
+			<thead class="table-dark">
+				<tr>
+					<th>Foto</th>
+					<th th:replace="~{template :: columnLink('name', #{label.description})}"></th>
+					<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+						<th>Abilitato</th>
+					</th:block>
+					<th>Azioni</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="product : ${listProducts}">
+					<td><img th:src="@{${product.getMainImagePath}}" style="max-width: 100px;" class="rounded img-fluid"></td>
+					<td>
+						<a class="link-detail" 
+						th:href="@{'/products/detail/' + ${product.id}}" 
+						th:text="${product.shortName}" 
+						th:title="${product.name}">
+						</a>
+					</td>
+					<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+						<td class="text-center">
+							<a th:if="${product.enabled == true}" class="fa-solid fa-circle-check fa-xl" style="color: #00c70d;"
+								th:href="@{'/products/' + ${product.id} + '/enabled/false' }"></a>
+							<a th:if="${product.enabled == false}" class="fa-solid fa-circle-xmark fa-xl" style="color: #ff0000;"
+								th:href="@{'/products/' + ${product.id} + '/enabled/true' }"></a>
+						</td>
+					</th:block>
+					<td class="text-center">  
+						<a class="fa-solid fa-circle-info fa-xl link-detail" style="color: #00eeff;"
+							th:href="@{'/products/detail/' + ${product.id}}" th:title="#{label.altDetail}">
+						</a>
+						<th:block sec:authorize="hasAnyAuthority('Admin','Editor','Commerciale')">
+								&nbsp;
+							<a class="fa-solid fa-pen-to-square fa-xl" th:href="@{'/products/edit/' + ${product.id}}" style="color: #00ff33;">
+							</a>
+								&nbsp;
+								<a th:href="@{'products/delete/'+${product.id}}" th:entityId="${product.id}" 
+								title="Elimina il prodotto selezionato" 
+								class="fa-solid fa-trash fa-xl link-delete" 
+								style="color: #ff0000;">
+							</a>
+						</th:block>
+					</td>	
+				</tr>
+			</tbody>
+		</table>
+	</div>
 	
 	<div th:replace="~{template :: pagination('/products', products)}"></div>
 	
@@ -99,6 +178,9 @@
 				linkDetailURL = $(this).attr("href");
 				$("#detailModal").modal("show").find(".modal-content").load(linkDetailURL);
 			});
+			$("#dropdownCategory").on("change", function(){
+				$("#searchForm").submit();
+			});
 		});
 		
 		function showDeleteConfirmModal(link, entityName){
@@ -112,6 +194,4 @@
 			window.location="[[@{/products}]]";
 		}
 	</script>
-
-	<script th:src="@{/js/common.js}"></script>
 </body>

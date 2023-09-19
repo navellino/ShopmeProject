@@ -2,6 +2,7 @@ package it.shopme.common.entity;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -128,6 +129,17 @@ public class User implements Serializable{
 	
 	public void addRole(Role role) {
 		this.roles.add(role);
+	}
+	
+	public boolean hasRole(String RoleName) {
+		Iterator<Role> iterator = roles.iterator();
+		while(iterator.hasNext()) {
+			Role role = iterator.next();
+			if(role.getName().equals(RoleName)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

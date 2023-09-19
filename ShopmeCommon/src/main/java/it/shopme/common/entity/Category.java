@@ -36,6 +36,9 @@ public class Category implements Serializable{
 	
 	private boolean enabled;
 	
+	@Column(name = "all_parent_ids", length = 256, nullable = true)
+	private String allParentIds;
+	
 	@OneToOne
 	@JoinColumn(name = "parent_id")
 	private Category parent;
@@ -87,8 +90,6 @@ public class Category implements Serializable{
 		this.alias = name;
 		this.image = "default.png";	
 	}
-	
-	
 	
 	public Category(Integer id, String name, String alias) {
 		this.id = id;
@@ -173,6 +174,14 @@ public class Category implements Serializable{
 	
 	@Transient
 	private boolean hasChildren;
+
+	public String getAllParentIds() {
+		return allParentIds;
+	}
+
+	public void setAllParentIds(String allParentIds) {
+		this.allParentIds = allParentIds;
+	}
 
 	@Override
 	public String toString() {

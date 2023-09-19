@@ -46,6 +46,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeHttpRequests()
                 .antMatchers("/users/**").hasAuthority("Admin")
                 .antMatchers("/categories/**","/brands/**").hasAnyAuthority("Admin", "Editor")
+                
+                .antMatchers("/products/new", "/products/delete/**").hasAnyAuthority("Admin", "Editor")
+                
+                .antMatchers("/products/edit/**", "/products/save", "/products/check_unique")
+                	.hasAnyAuthority("Admin", "Editor","Commerciale")
+                	
+                .antMatchers("/products", "/products/", "products/detail/**", "/products/page/**")
+                	.hasAnyAuthority("Admin", "Editor","Commerciale", "Spedizioniere")
+                	
                 .antMatchers("/products/**").hasAnyAuthority("Admin", "Editor","Commerciale")
                 .anyRequest().authenticated()
                 .and()

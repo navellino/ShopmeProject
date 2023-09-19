@@ -150,7 +150,7 @@
 
 <a th:fragment="page_link(moduleURL, pageNum, label)" 
 	class="page-link" 
-    th:href="@{${moduleURL}+'/page/'+${pageNum}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}">	
+    th:href="@{${moduleURL}+'/page/'+${pageNum}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''}+${categoryId != null ? '&categoryId='+categoryId : ''}}">	
 		[[${label}]]</a>
 
 <div th:fragment="pagination(moduleURL, entityName)" th:remove="tag">
@@ -191,7 +191,7 @@
 </div>
 
 <th th:fragment="columnLink(fieldName, colLabel)">
-	<a  th:href="@{${link}+${currentPage}+'?sortField='+${fieldName}+'&sortDir='+ ${sortField != fieldName ? sortDir : reverseSortDir} +${keyword != null ? '&keyword='+keyword : ''}}"
+	<a  th:href="@{${link}+${currentPage}+'?sortField='+${fieldName}+'&sortDir='+ ${sortField != fieldName ? sortDir : reverseSortDir} +${keyword != null ? '&keyword='+keyword : ''}+${categoryId != null ? '&categoryId='+categoryId : ''}}"
 		th:text="${colLabel}" class="text-white">
 	</a>
 	<i th:if="${sortField == fieldName}" 

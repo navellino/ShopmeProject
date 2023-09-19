@@ -18,9 +18,7 @@ import it.shopme.common.entity.Category;
 @Transactional
 public class CategoryService {
 	public static final int ROOT_CATEGORIES_PER_PAGE = 2;
-	
-	//public static final int USER_PER_PAGE = 8;
-	
+		
 	@Autowired
 	private CategoryRepository repo;
 	
@@ -63,9 +61,7 @@ public class CategoryService {
 		}else {
 			return listHierachicalCategories(rootCategories, sortDir);
 		}
-		
 	}
-	
 	
 	public List<Category> listAll(String sortDir){
 		Sort sort = Sort.by("name");
@@ -112,7 +108,6 @@ public class CategoryService {
 				listSubHierachicalCategory(hierachicalCategory, subCategory,1, sortDir);
 			}
 		}
-		
 		return hierachicalCategory;
 	}
 	
@@ -128,10 +123,15 @@ public class CategoryService {
 			hierachicalCategory.add(Category.copyFull(subCategory, name));
 			listSubHierachicalCategory(hierachicalCategory, subCategory, newSubLevel, sortDir);
 		}
-		
 	}
 	
 	public Category save(Category category) {
+		Category parent = category.getParent();
+		if(parent != null) {
+			String allParentIds = parent.getAllParentIds() == null ? "-" : parent.getAllParentIds();
+			allParentIds += String.valueOf(parent.getId())+"-";
+			category.setAllParentIds(allParentIds);
+		}
 		return repo.save(category);	
 	}
 	

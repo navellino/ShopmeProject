@@ -11,8 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import it.shopme.common.entity.Brand;
 import it.shopme.common.entity.Product;
 
 @Service
@@ -44,17 +42,35 @@ public class ProductService {
 		
 		return repo.save(product);
 	}
+	public void saveProductPrice(Product productInForm) {
+		Product productInDB = repo.findById(productInForm.getId()).get();
+		
+		productInDB.setPrice(productInForm.getPrice());
+		productInDB.setCost(productInForm.getCost());
+		productInDB.setDiscountPercent(productInForm.getDiscountPercent());
+		
+		repo.save(productInDB);
+		
+	}
 	
-	
-	public Page<Product> listByPage(int pageNum, String sortField, String sortDir, String keyword){
+	public Page<Product> listByPage(int pageNum, String sortField, String sortDir, String keyword, Integer categoryId){
 		Sort sort = Sort.by(sortField);
 		
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 		
 		Pageable pageable = PageRequest.of(pageNum-1, PRODUCT_PER_PAGE,sort);
 		
-		if(keyword != null) {
+		if(keyword != null && !keyword.isEmpty()) {
+			if(categoryId != null && categoryId > 0) {
+				String categoryIdMatch = "-"+String.valueOf(categoryId)+"-";
+				return repo.searchInCategory(categoryId, categoryIdMatch,keyword ,pageable);
+			}
 			return repo.findAll(keyword, pageable);
+		}
+		
+		if(categoryId != null && categoryId > 0) {
+			String categoryIdMatch = "-"+String.valueOf(categoryId)+"-";
+			return repo.findByCategory(categoryId, categoryIdMatch, pageable);
 		}
 		
 		return repo.findAll(pageable);

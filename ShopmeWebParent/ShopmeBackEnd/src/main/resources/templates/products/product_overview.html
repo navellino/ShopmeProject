@@ -4,49 +4,61 @@
 		<div class="row align-items-start">
 			<div class="col-6">
 				<label class="form-label pt-3">[[#{label.poductDescription}]]</label>
-				<input type="text" class="form-control" th:field="*{name}" th:placeholder="#{label.description}" required minlength="3" maxlength="256">
+				<input type="text" class="form-control"
+				th:readonly="${#authorization.expression('hasAuthority(''Commerciale'')')}" 
+				th:field="*{name}" th:placeholder="#{label.description}" required minlength="3" maxlength="256">
+			<!--con il blocco th:readony pur dando l'autorizzazione alla modifica vengono disabilitate alcune funzioni per il profilo dichiarato-->
 			</div>
 			<div class="col-6">
 				<label class="form-label pt-3">[[#{label.codASIN}]]</label>
-				<input type="text" class="form-control" th:field="*{alias}" placeholder="Codice univoco che identifica il prodotto">
+				<input type="text" class="form-control" 
+				th:readonly="${#authorization.expression('hasAuthority(''Commerciale'')')}"
+				th:field="*{alias}" placeholder="Codice univoco che identifica il prodotto">
 			</div>
 		</div>
 		<div class="row align-items-start">
 			<div class="col-6">
 				<label class="form-label pt-3">[[#{label.productBrand}]]</label>
-				<select th:field="*{brand}" class="form-select">
-					<th:block th:each="brand : ${listBrands}">
-						<option th:value="${brand.id}" th:text="${brand.name}"></option>
-					</th:block>					
-				</select>
+				<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+					
+					<select th:field="*{brand}" class="form-select">
+						<th:block th:each="brand : ${listBrands}">
+							<option th:value="${brand.id}" th:text="${brand.name}"></option>
+						</th:block>					
+					</select>
+				</th:block>
+				<th:block sec:authorize="hasAnyAuthority('Commerciale')">
+					<input type="text" class="form-control" th:value="${product.brand.name}" readonly>
+				</th:block>
 			</div>
 
 			<div class="col-6">
 				<label class="form-label pt-3">[[#{label.categoryProduct}]]</label>
-				
-				<th:block th:if="${product.category != null}"><!-- EDIT PODUCT MODE -->
-					<select th:field="*{category}" class="form-select">
-						<th:block th:each="cat : ${product.brand.categories}">
-							<option th:value="${cat.id}">[[${cat.name}]]</option>
-						</th:block>
-					</select>
+				<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+					<th:block th:if="${product.category != null}"><!-- EDIT PODUCT MODE -->
+						<select th:field="*{category}" class="form-select">
+							<th:block th:each="cat : ${product.brand.categories}">
+								<option th:value="${cat.id}">[[${cat.name}]]</option>
+							</th:block>
+						</select>
+					</th:block>
+					
+					<th:block th:if="${product.category == null}"><!-- NEW PRODUCT MODE -->
+						<select th:field="*{category}" class="form-select">		
+						</select>
+					</th:block>
 				</th:block>
-				
-				<th:block th:if="${product.category == null}"><!-- NEW PRODUCT MODE -->
-					<select th:field="*{category}" class="form-select">
-						<!--
-						<th:block th:each="brand : ${listBrands}">
-							<option th:value="${brand.id}" th:text="${brand.name}"></option>
-						</th:block>			
-						-->		
-					</select>
+				<th:block sec:authorize="hasAnyAuthority('Commerciale')">
+					<input type="text" class="form-control" th:value="${product.category.name}" readonly>
 				</th:block>
 			</div>
 		</div>
 		<div class="row align-items-start">
 			<div class="col-3">
 				<label class="form-label pt-3">[[#{label.enabledProduct}]]</label>&nbsp;&nbsp;&nbsp;
-				<input type="checkbox" th:field="*{enabled}">
+				<input type="checkbox" th:field="*{enabled}"
+					th:disabled="${#authorization.expression('hasAuthority(''Commerciale'')')}"
+				>
 			</div>
 
 			<div class="col-3">
