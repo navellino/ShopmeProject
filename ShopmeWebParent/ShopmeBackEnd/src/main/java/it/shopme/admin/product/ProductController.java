@@ -61,8 +61,6 @@ public class ProductController {
 		
 		if(categoryId != null) model.addAttribute("categoryId", categoryId);
 		
-		System.out.println("lacategoria selezionata è: "+ categoryId);
-		
 		model.addAttribute("currentPage", pageNum);
 		model.addAttribute("totalPages", page.getTotalPages());
 		model.addAttribute("startCount", startCount);
