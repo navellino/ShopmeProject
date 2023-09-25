@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import it.shopme.common.entity.Category;
+import it.shopme.common.exception.CategoryNotFoundException;
 
 @Service
 @Transactional

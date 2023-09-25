@@ -1,0 +1,17 @@
+<!--Navigation Fragment-->
+<div th:fragment="search_module">
+<div class="row">
+	<div class="col-md">
+		<nav class="navbar navbar-expand-sm bg-light">
+			<div class="collapse navbar-collapse" id="searchNavbar">
+				<form class="form-inline" th:action="@{/search}" method="get">
+					<div class="input-group ms-3">
+						<input type="search" name="keyword" th:value="${keyword}" class="form-control" required placeholder="cerca">
+						<input type="submit" class="btn btn-outline-success">
+					</div>
+				</form>
+			</div>
+		</nav>
+	</div>
+</div>
+</div>

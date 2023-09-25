@@ -16,12 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import it.shopme.admin.FileUploadUtil;
 import it.shopme.admin.brands.BrandsService;
-import it.shopme.admin.category.CategoryNotFoundException;
 import it.shopme.admin.category.CategoryService;
 import it.shopme.admin.security.ShopmeUserDetails;
 import it.shopme.common.entity.Brand;
 import it.shopme.common.entity.Category;
 import it.shopme.common.entity.Product;
+import it.shopme.common.exception.CategoryNotFoundException;
 
 @Controller
 public class ProductController {

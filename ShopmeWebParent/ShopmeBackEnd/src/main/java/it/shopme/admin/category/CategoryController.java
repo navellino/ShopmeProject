@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import it.shopme.admin.FileUploadUtil;
 import it.shopme.admin.category.export.CategoryCsvExport;
 import it.shopme.common.entity.Category;
+import it.shopme.common.exception.CategoryNotFoundException;
 
 @Controller
 public class CategoryController {

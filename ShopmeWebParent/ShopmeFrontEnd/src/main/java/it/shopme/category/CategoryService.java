@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.shopme.common.entity.Category;
+import it.shopme.common.exception.CategoryNotFoundException;
 
 @Service
 public class CategoryService {
@@ -30,8 +31,12 @@ public class CategoryService {
 	}
 	
 	
-	public Category getCategory(String alias) {
-		return repo.findByAliasEnabled(alias);
+	public Category getCategory(String alias) throws CategoryNotFoundException {
+		Category category = repo.findByAliasEnabled(alias);
+		if(category == null) {
+			throw new CategoryNotFoundException("nessuna categoria con alias: "+alias);
+		}
+		return category;
 	}
 	
 	/*Metodo per implementare il breadcrumb navigation andando a cercare tutti le sopracategorie delle categorie figlie*/

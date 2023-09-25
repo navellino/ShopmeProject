@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="~{template :: headFragment(${pageTitle}, ${'none'})}"></head>
+	<body class="container-fluid">
+		<div class="container-fluid" th:replace="~{navigation :: navFragment}"></div>
+		<div class="container-fluid" th:replace="~{breadcrumb :: content}"></div>
+			<div class="row">
+				<div class="col-sm-5">
+					<div>
+						<img id="bigImage" th:src="@{${product.mainImagePath}}" class="image-fluid" style="height:350px;" index="0">
+					</div>
+					<div class="row justify-content-center">
+						<div>
+							<img th:src="@{${product.mainImagePath}}" class="image-thumbnail m-2" style="width: 100px;" index="0">
+							<th:block th:each="image, status : ${product.images}">
+								<img th:src="@{${image.imagePath}}" class="image-thumbnail m-2" style="width: 100px;"
+									th:index="${status.count}">
+							</th:block>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-5">
+					<div><h2>[[${product.name}]]</h2></div>
+					<div><span th:text="#{label.brand}+': '+${product.brand.name}"></span></div>
+					<div>
+						<span style="display: inline;" th:text="#{label.priceList}+': '"></span>
+						<span style="display: inline;" th:if="${product.discountPercent <= 0}" th:text="'€ '+${#numbers.formatDecimal(product.price, 0, 'POINT', 2, 'COMMA')}"></span>
+						<div style="display: inline;" th:if="${product.discountPercent > 0}"><del><span th:text="'€ '+${#numbers.formatDecimal(product.price, 0, 'POINT', 2, 'COMMA')}"></span></del></div>
+					</div>
+					<div th:if="${product.discountPercent > 0}">
+						<span style="display: inline;" th:text="#{label.price}+': '"></span>
+						<span th:text="${'€ '+#numbers.formatDecimal(product.discountPrice, 0, 'POINT', 2, 'COMMA')+' '}" style="font-size: larger; color: red;"></span><h4 class="rounded" style="display: inline; color: white; background-color: red;">&nbsp;-[[${product.discountPercent}]]%&nbsp;</h4>
+					</div>
+					<div>&nbsp;</div>
+					<div th:utext="${product.shortDescription}"></div>
+				</div>
+				<div class="col-sm-2">
+					<div class="badge text-bg-success fs-6" th:if="${product.inStock}">Disponibile</div>
+					<div class="badge text-bg-danger" th:if="${!product.inStock}">Non Disponibile</div>
+					<div style="display: block;"></div>
+					<input class="m-2" style="display: block;" type="text" size="5" value="1">
+					<div th:if="${product.inStock}"><input type="button" class="btn btn-primary" value="Aggiungi al Carrello"></div>
+					<div th:if="${!product.inStock}"><input type="button" class="btn btn-secondary" value="Avvisami"></div>
+				</div>
+			</div>
+			<div><hr></div>
+			<div class="row">
+				<div class="col-8">
+					<div><h3>Descrizione Prodotto</h3></div>
+					<div th:utext="${product.fullDescription}"></div>
+				</div>
+				<div class="col-4">
+					<div><h4>Specifiche prodotto</h4></div>
+						<table class="table">
+							<th:block th:each="detail : ${product.details}">
+								<tr>
+									<td class="table-secondary" th:text="${detail.name}"></td>
+									<td th:text="${detail.value}"></td>
+								</tr>
+							</th:block>
+						</table>
+					</th:block>
+				</div>
+			</div>
+		<div th:replace="~{product/image_carousel :: content}"></div>
+		<footer class="container-fluid" th:replace="~{template :: footerFragment}"></footer>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				bigImage = $("#bigImage");
+				$(".image-thumbnail").mouseover(function(){
+					currentImageSource = $(this).attr("src");
+					currentImageIndex = $(this).attr("index");
+					bigImage.attr("src",currentImageSource);
+					bigImage.attr("index",currentImageIndex);
+				});
+				bigImage.on("click", function(){
+					$("#carousel-modal").modal("show");
+					imageIndex = parseInt(bigImage.attr("index"));
+					$("#carouselExampleIndicators").carousel(imageIndex);
+				});
+			});
+		</script>
+	</body>
+</html>
