@@ -16,6 +16,7 @@ public class MvcConfig implements WebMvcConfigurer {
 		exposeDirectory("../category-images", registry);
 		exposeDirectory("../brands-images", registry);
 		exposeDirectory("../product-images", registry);
+		exposeDirectory("../site-logo", registry);
 		
 		/*
 		String dirName = "user-photos";

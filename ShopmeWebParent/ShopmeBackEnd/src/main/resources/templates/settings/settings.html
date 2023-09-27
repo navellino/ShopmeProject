@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<head th:replace="~{template :: headFragment(#{label.titleSettings}, ${'tag'})}" />
+	<link rel="stylesheet" th:href="@{/richtext/richtext.min.css}">
+	<script th:src="@{/richtext/jquery.richtext.min.js}"></script>
+</head>
+<body>
+	<div class="container-fluid">
+		<div>
+			<nav th:replace="~{template :: navFragment}"></nav>
+		</div>
+	</div>
+		<div class="container">
+			<div th:if="${message != null}" class="alert alert-success text-center">
+				[[${message}]]
+			</div>
+			<nav>
+			  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+			    <button class="nav-link active" id="nav-general-tab" data-bs-toggle="tab" data-bs-target="#nav-general" type="button" role="tab" aria-controls="nav-general" aria-selected="true" th:text="#{label.general}"></button>
+			    <button class="nav-link" id="nav-countries-tab" data-bs-toggle="tab" data-bs-target="#nav-countries" type="button" role="tab" aria-controls="nav-countries" aria-selected="false" th:text="#{label.countries}"></button>
+			    <button class="nav-link" id="nav-states-tab" data-bs-toggle="tab" data-bs-target="#nav-states" type="button" role="tab" aria-controls="nav-states" aria-selected="false" th:text="#{label.states}"></button>
+			    <button class="nav-link" id="nav-mailServer-tab" data-bs-toggle="tab" data-bs-target="#nav-mailServer" type="button" role="tab" aria-controls="nav-mailServer" aria-selected="false" th:text="#{label.mailServer}"></button>
+			    <button class="nav-link" id="nav-mailTemplates-tab" data-bs-toggle="tab" data-bs-target="#nav-mailTemplates" type="button" role="tab" aria-controls="nav-mailTemplates" aria-selected="false" th:text="#{label.mailTemplates}"></button>
+			    <button class="nav-link" id="nav-mailTemplates-tab" data-bs-toggle="tab" data-bs-target="#nav-Payment" type="button" role="tab" aria-controls="nav-Payment" aria-selected="false" th:text="#{label.payment}"></button>
+			  </div>
+			</nav>
+			<div class="tab-content" id="nav-tabContent">
+				<div class="tab-pane fade show active" id="nav-general" role="tabpanel" aria-labelledby="nav-general-tab" tabindex="0">
+					<div th:replace="~{settings/general :: content}"></div>
+				</div>
+			  	<div class="tab-pane fade" id="nav-countries" role="tabpanel" aria-labelledby="nav-countries-tab" tabindex="0">
+					
+				</div>
+			  	<div class="tab-pane fade" id="nav-states" role="tabpanel" aria-labelledby="nav-states-tab" tabindex="0">
+
+				</div>
+			  	<div class="tab-pane fade" id="nav-mailServer" role="tabpanel" aria-labelledby="nav-mailServer-tab" tabindex="0">
+			  	</div>
+			  	<div class="tab-pane fade" id="nav-mailTemplates" role="tabpanel" aria-labelledby="nav-mailTemplates-tab" tabindex="0">
+			  	</div>
+			  	<div class="tab-pane fade" id="nav-payment" role="tabpanel" aria-labelledby="nav-payment-tab" tabindex="0">
+			  	</div>
+			</div>
+		</div>
+	</form>
+
+	<!--Footer-->
+	<div th:replace="~{template :: footerFragment}"></div>
+	<script th:src="@{/js/common.js}"></script>
+	<script type="text/javascript">
+		MAX_FILE_SIZE = 302700;//300kb
+	</script>
+</body>

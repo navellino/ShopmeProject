@@ -1,0 +1,103 @@
+<div th:fragment="content" th:remove="tag">
+	<form th:action="@{/settings/save_general}" method="post" enctype="multipart/form-data">
+		<div class="form-group row mt-2">
+			<div class="col-sm-2 mt-2">
+				<label class="form-label">Nome del Sito:</label>
+			</div>
+			<div class="col-sm-6">
+				<input type="text" class="form-control" name="SITE_NAME" 
+						th:value="${SITE_NAME}" required>
+			</div>
+		</div>
+		<div class="form-group row mt-2">
+			<div class="col-sm-2 mt-2">
+				<label class="form-label">Copyright:</label>
+			</div>
+			<div class="col-sm-6">
+				<input type="text" class="form-control" name="COPYRIGHT" 
+						th:value="${COPYRIGHT}" required>
+			</div>
+		</div>
+		<div class="form-group row mt-2">
+			<label class="col-sm-4 col-form-label">Logo del Sito:</label>
+			<div class="col-sm-8">
+				<img id="thumbnail" alt="Site Logo preview" th:src="@{${SITE_LOGO}}" class="img-fluid" style="max-width: 200px;" />
+				<input type="file" id="fileImage" name="fileImage" accept="image/png, image/jpeg" class="mb-2" />
+			</div>
+		</div>
+		<div class="form-group row mt-2">
+			<div class="col-sm-2 mt-2">
+				<label class="form-label">Valuta:</label>
+			</div>
+			<div class="col-sm-6">
+				<select name="CURRENCY_ID" class="form-select">
+					<th:block th:each="currency : ${listCurrencies}">
+						<option th:value="${currency.id}" 
+						th:text="${currency}"
+						th:selected="(${currency.id} == ${CURRENCY_ID})"></option>
+					</th:block>
+				</select>
+			</div>
+		</div>
+		<div class="form-group row mt-2">
+			<div class="col-sm-2 mt-2">
+				<label class="form-label">Posizione Simbolo Valuta:</label>
+			</div>
+			<div class="col-sm-6">
+				<select name="CURRENCY_SYMBOL_POSITION" class="form-select">
+						<option value="Prima"
+						th:selected="(${CURRENCY_SYMBOL_POSITION} == 'Prima')">Prima</option>
+						<option value="Dopo"
+						th:selected="(${CURRENCY_SYMBOL_POSITION} == 'Dopo')">Dopo</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group row mt-2">
+			<div class="col-sm-2 mt-2">
+				<label class="form-label">Separatore Decimale:</label>
+			</div>
+			<div class="col-sm-6">
+				<select name="DECIMAL_POINT_TYPE" class="form-select">
+						<option value="COMMA"
+						th:selected="(${DECIMAL_POINT_TYPE} == 'COMMA')">Virgola ( , )</option>
+						<option value="POINT"
+						th:selected="(${DECIMAL_POINT_TYPE} == 'POINT')">Punto ( . )</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group row mt-2">
+			<div class="col-sm-2 mt-2">
+				<label class="form-label">Separatore Migliaia:</label>
+			</div>
+			<div class="col-sm-6">
+				<select name="THOUSAND_POINT_TYPE" class="form-select">
+						<option value="COMMA"
+						th:selected="(${THOUSAND_POINT_TYPE} == 'COMMA')">Virgola ( , )</option>
+						<option value="POINT"
+						th:selected="(${THOUSAND_POINT_TYPE} == 'POINT')">Punto ( . )</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group row mt-2">
+			<div class="col-sm-2 mt-2">
+				<label class="form-label">Decimali dopo la virgola:</label>
+			</div>
+			<div class="col-sm-6">
+				<select name="DECIMAL_DICITS" class="form-select">
+						<option value="0"
+						th:selected="(${DECIMAL_DICITS} == 0)">0</option>
+						<option value="1"
+						th:selected="(${DECIMAL_DICITS} == 1)">1</option>
+						<option value="2"
+						th:selected="(${DECIMAL_DICITS} == 2)">2</option>
+						<option value="3"
+						th:selected="(${DECIMAL_DICITS} == 3)">3</option>
+				</select>
+			</div>
+		</div>
+		<div class="text-center">
+			<input type="submit" value="Salva" class="btn btn-primary m-3">
+		</div>
+	</form>
+	<!-- 33:12 -->
+</div>
