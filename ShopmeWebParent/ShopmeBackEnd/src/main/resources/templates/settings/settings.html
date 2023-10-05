@@ -26,14 +26,14 @@
 			  </div>
 			</nav>
 			<div class="tab-content" id="nav-tabContent">
-				<div class="tab-pane fade show active" id="nav-general" role="tabpanel" aria-labelledby="nav-general-tab" tabindex="0">
+				<div class="tab-pane fade p-3 show active" id="nav-general" role="tabpanel" aria-labelledby="nav-general-tab" tabindex="0">
 					<div th:replace="~{settings/general :: content}"></div>
 				</div>
-			  	<div class="tab-pane fade" id="nav-countries" role="tabpanel" aria-labelledby="nav-countries-tab" tabindex="0">
-					
+			  	<div class="tab-pane fade p-3" id="nav-countries" role="tabpanel" aria-labelledby="nav-countries-tab" tabindex="0">
+					<div th:replace="~{settings/countries :: content}"></div>
 				</div>
 			  	<div class="tab-pane fade" id="nav-states" role="tabpanel" aria-labelledby="nav-states-tab" tabindex="0">
-
+					<div th:replace="~{settings/states :: content}"></div>
 				</div>
 			  	<div class="tab-pane fade" id="nav-mailServer" role="tabpanel" aria-labelledby="nav-mailServer-tab" tabindex="0">
 			  	</div>
@@ -44,11 +44,22 @@
 			</div>
 		</div>
 	</form>
-
+	<div class="toast justify-content-center d-flex" role="alert" aria-live="polite" aria-atomic="true" data-delay="3000">
+		<div role="alert" aria-live="assertive" aria-atomic="true">
+			<div class="toast-body">
+				<span id="toastMessage"></span>
+			</div>
+		</div>
+	</div>
 	<!--Footer-->
 	<div th:replace="~{template :: footerFragment}"></div>
 	<script th:src="@{/js/common.js}"></script>
+	<script th:src="@{/js/coutries_settings.js}"></script>
+	<script th:src="@{/js/states_settings.js}"></script>
 	<script type="text/javascript">
 		MAX_FILE_SIZE = 302700;//300kb
+		contextPath = "[[@{/}]]";
+		var csrfHeaderName = "[[${_csrf.HeaderName}]]";
+		var csrfValue = "[[${_csrf.token}]]";
 	</script>
 </body>

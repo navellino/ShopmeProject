@@ -28,5 +28,26 @@
 			</div>
 		</nav>
 	</div>
-	<p>ShopMe OnLine Store - CopyRight &copy; ShopMe S.p.A.</p>
+	<p>[[${SITE_NAME}]] - [[${COPYRIGHT}]]</p>
+</div>
+
+<div th:fragment="symboprice" th:remove="tag">
+	<span style="display: inline;" th:text="#{label.priceList}+': '"></span>
+	<div th:if="${CURRENCY_SYMBOL_POSITION == 'Prima'}" th:remove="tag">
+		<span style="display: inline;" th:if="${product.discountPercent <= 0}" th:text="${CURRENCY_SYMBOL+' '+#numbers.formatDecimal(product.price, 0, THOUSAND_POINT_TYPE, DECIMAL_DICITS, DECIMAL_POINT_TYPE)}"></span>
+		<div style="display: inline;" th:if="${product.discountPercent > 0}"><del><span th:text="${CURRENCY_SYMBOL+' '+#numbers.formatDecimal(product.price, 0, THOUSAND_POINT_TYPE, DECIMAL_DICITS, DECIMAL_POINT_TYPE)}"></span></del></div>
+	</div>
+	<div th:if="${CURRENCY_SYMBOL_POSITION == 'Dopo'}" th:remove="tag">
+		<span style="display: inline;" th:if="${product.discountPercent <= 0}" th:text="${#numbers.formatDecimal(product.price, 0, THOUSAND_POINT_TYPE, DECIMAL_DICITS, DECIMAL_POINT_TYPE)+' '+CURRENCY_SYMBOL}"></span>
+		<div style="display: inline;" th:if="${product.discountPercent > 0}"><del><span th:text="${#numbers.formatDecimal(product.price, 0, THOUSAND_POINT_TYPE, DECIMAL_DICITS, DECIMAL_POINT_TYPE)+' '+CURRENCY_SYMBOL}"></span></del></div>
+	</div>
+	<div th:if="${product.discountPercent > 0}">
+		<span style="display: inline;" th:text="#{label.price}+': '"></span>
+		<div th:if="${CURRENCY_SYMBOL_POSITION == 'Prima'}">
+			<span th:text="${CURRENCY_SYMBOL+' '+#numbers.formatDecimal(product.discountPrice, 0, THOUSAND_POINT_TYPE, DECIMAL_DICITS, DECIMAL_POINT_TYPE)+' '}" style="font-size: larger; color: red;"></span><h4 class="rounded" style="display: inline; color: white; background-color: red;">&nbsp;-[[${product.discountPercent}]]%&nbsp;</h4>
+		</div>
+		<div th:if="${CURRENCY_SYMBOL_POSITION == 'Dopo'}" th:remove="tag">
+			<span th:text="${#numbers.formatDecimal(product.discountPrice, 0, THOUSAND_POINT_TYPE, DECIMAL_DICITS, DECIMAL_POINT_TYPE)+' '+CURRENCY_SYMBOL+' '}" style="font-size: larger; color: red;"></span><h4 class="rounded" style="display: inline; color: white; background-color: red;">&nbsp;-[[${product.discountPercent}]]%&nbsp;</h4>
+		</div>
+	</div>					
 </div>

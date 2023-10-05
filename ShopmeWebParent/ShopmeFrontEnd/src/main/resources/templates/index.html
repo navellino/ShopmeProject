@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head th:replace="~{template :: headFragment(#{label.titleIndex}, ${'none'})}"></head>
+<head th:replace="~{template :: headFragment(${SITE_NAME}, ${'none'})}"></head>
 	<body>
 		<div class="container-fluid" th:replace="~{navigation :: navFragment}"></div>
 		<div class="container-fluid" th:replace="~{product/search :: search_module}"></div>

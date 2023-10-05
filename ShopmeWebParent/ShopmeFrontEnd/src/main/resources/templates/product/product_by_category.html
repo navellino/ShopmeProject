@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head th:replace="~{template :: headFragment(${category.name}, ${'none'})}"></head>
+<head th:replace="~{template :: headFragment(${category.name}+' - '+${SITE_NAME}, ${'none'})}"></head>
 	<body>
 		<div class="container-fluid" th:replace="~{navigation :: navFragment}"></div>
 		<div class="container-fluid" th:replace="~{product/search :: search_module}"></div>
@@ -30,11 +30,11 @@
 							</a>
 						</div>
 						<div th:if="${product.discountPercent <= 0}">
-							<span th:text="'€ '+${product.price}"></span>
+							<span th:text="${CURRENCY_SYMBOL}+' '+${product.price}"></span>
 						</div>
 						<div th:if="${product.discountPercent > 0}">
-							<span th:text="'€ '+${product.discountPrice}" style="font-size: larger; color: red;"></span>
-							<del><span th:text="'€ '+${product.price}"></span></del>
+							<span th:text="${CURRENCY_SYMBOL}+' '+${product.discountPrice}" style="font-size: larger; color: red;"></span>
+							<del><span th:text="${CURRENCY_SYMBOL}+' '+${product.price}"></span></del>
 						</div>
 					</div>
 				</th:block>

@@ -1,0 +1,32 @@
+<div th:fragment="content" th:remove="tag">
+	<div>
+		<h3>Pagina di manutenzione Nazioni presenti nella registrazione utenti</h3>
+	</div>
+	<div>
+		<input type="button" class="btn btn-primary mb-3" value="Carica Nazioni da DB" id="loadCountries">
+	</div>
+	<div>
+		<select class="form-control m-2" style="height: 300px;" size="3" id="dropDownCountries">
+			
+		</select>
+	</div>
+	<div class="form-group row">
+		<div class="col-sm">
+			<label class="form-label pt-2" id="labelCountryName">Stato:</label>
+		</div>
+		<div class="col-md-2">
+			<input type="text" class="form-control" id="fieldCountryName">
+		</div>
+		<div class="col-sm">
+			<label class="form-label">Codice Stato:</label>
+		</div>
+		<div class="col-md-2">
+			<input type="text" class="form-control" id="fieldCountryCode">
+		</div>
+		<div class="col-md-6">
+			<input type="button" class="btn btn-secondary" id="btnAddCountry" value="Nuovo">
+			<input type="button" class="btn btn-secondary" id="btnUpdCountry" value="Modifica" disabled="disabled">
+			<input type="button" class="btn btn-secondary" id="btnDelCountry" value="Elimina" disabled="disabled">
+		</div>
+	</div>
+</div>
