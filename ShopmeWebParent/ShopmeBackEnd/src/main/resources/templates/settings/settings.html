@@ -36,14 +36,15 @@
 					<div th:replace="~{settings/states :: content}"></div>
 				</div>
 			  	<div class="tab-pane fade" id="nav-mailServer" role="tabpanel" aria-labelledby="nav-mailServer-tab" tabindex="0">
+					  <div th:replace="~{settings/email_server :: content}"></div>
 			  	</div>
 			  	<div class="tab-pane fade" id="nav-mailTemplates" role="tabpanel" aria-labelledby="nav-mailTemplates-tab" tabindex="0">
+					   <div th:replace="~{settings/email_template/email_template :: content}"></div>
 			  	</div>
 			  	<div class="tab-pane fade" id="nav-payment" role="tabpanel" aria-labelledby="nav-payment-tab" tabindex="0">
 			  	</div>
 			</div>
 		</div>
-	</form>
 	<div class="toast justify-content-center d-flex" role="alert" aria-live="polite" aria-atomic="true" data-delay="3000">
 		<div role="alert" aria-live="assertive" aria-atomic="true">
 			<div class="toast-body">
@@ -61,5 +62,10 @@
 		contextPath = "[[@{/}]]";
 		var csrfHeaderName = "[[${_csrf.HeaderName}]]";
 		var csrfValue = "[[${_csrf.token}]]";
+		
+		$(document).ready(function(){
+			$("#customerVerificationContent").richText();
+		});
+		
 	</script>
 </body>

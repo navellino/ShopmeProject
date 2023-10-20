@@ -89,4 +89,23 @@ public class SettingController {
 		}
 		settingService.saveAll(listSettings);
 	}
+	
+	@PostMapping("/settings/save_email_server")
+	public String saveEmailServer(HttpServletRequest request,RedirectAttributes ra) {
+		List<Settings> mailServerSetting = settingService.getMailServerSetting();
+		updateSettingValuesForm(request, mailServerSetting);
+		ra.addAttribute("message", "Impostazioni E-mail Server Salvate");
+		
+		return "redirect:/settings";
+	}
+	
+	@PostMapping("/settings/save_email_template")
+	public String saveEmailTemplate(HttpServletRequest request,RedirectAttributes ra) {
+		List<Settings> mailMailTemplate = settingService.getMailTemplateSetting();
+		updateSettingValuesForm(request, mailMailTemplate);
+		ra.addAttribute("message", "Impostazioni E-mail Server Salvate");
+		
+		return "redirect:/settings";
+	}
+	
 }

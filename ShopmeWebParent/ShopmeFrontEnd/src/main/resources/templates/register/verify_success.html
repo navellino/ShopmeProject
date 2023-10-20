@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="~{template :: headFragment(${SITE_NAME}, ${'none'})}"></head>
+	<body>
+		<div class="container-fluid" th:replace="~{navigation :: navFragment}"></div>
+
+		<div class="container text-center">
+			<p>&nbsp;</p>
+			<h2>Registrazione Cliente</h2>
+			<h4>Verifica dell'account avvenuta con successo!</h4>
+			<span>Il tuo account è stato correttamente attivato</span>
+			<p><a th:href="@{/login}"> Login </a></p>
+			<p>&nbsp;</p>
+			
+		</div>
+		<footer class="container-fluid" th:replace="~{template :: footerFragment}"></footer>
+	</body>
+</html>

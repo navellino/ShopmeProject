@@ -1,0 +1,87 @@
+<div th:fragment="content" th:remove="tag">
+	<form th:action="@{/settings/save_email_server}" method="post">
+		<div class="form-group row mt-2">
+			<div class="col-sm-4 mt-2">
+				<label class="form-label">Server SMTP:</label>
+			</div>
+			<div class="col-sm-6">
+				<input type="text" class="form-control" name="MAIL_HOST" 
+						th:value="${MAIL_HOST}" required>
+			</div>
+		</div>
+		<div class="form-group row mt-2">
+			<div class="col-sm-4 mt-2">
+				<label class="form-label">Porta:</label>
+			</div>
+			<div class="col-sm-6">
+				<input type="text" class="form-control" name="MAIL_PORT" 
+						th:value="${MAIL_PORT}" required>
+			</div>
+		</div>
+		<div class="form-group row mt-2">
+			<div class="col-sm-4 mt-2">
+				<label class="form-label">Username:</label>
+			</div>
+			<div class="col-sm-6">
+				<input type="text" class="form-control" name="MAIL_USERNAME" 
+						th:value="${MAIL_USERNAME}" required>
+			</div>
+		</div>
+		<div class="form-group row mt-2">
+			<div class="col-sm-4 mt-2">
+				<label class="form-label">Password:</label>
+			</div>
+			<div class="col-sm-6">
+				<input type="text" class="form-control" name="MAIL_PASSWORD" 
+						th:value="${MAIL_PASSWORD}" required>
+			</div>
+		</div>
+		<div class="form-group row mt-2">
+			<div class="col-sm-4 mt-2">
+				<label class="form-label">Autenticazione server richiesta:</label>
+			</div>
+			<div class="col-sm-6">
+				<select name="SMTP_AUTH" class="form-select">
+						<option value="true"
+						th:selected="(${SMTP_AUTH} == 'true')">Si</option>
+						<option value="false"
+						th:selected="(${SMTP_AUTH} == 'false')">No</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group row mt-2">
+			<div class="col-sm-4 mt-2">
+				<label class="form-label">Connessione Sicura (TLS):</label>
+			</div>
+			<div class="col-sm-6">
+				<select name="SMTP_SECURED" class="form-select">
+						<option value="true"
+						th:selected="(${SMTP_SECURED} == 'true')">Si</option>
+						<option value="false"
+						th:selected="(${SMTP_SECURED} == 'false')">No</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group row mt-2">
+			<div class="col-sm-4 mt-2">
+				<label class="form-label">Email di inoltro:</label>
+			</div>
+			<div class="col-sm-6">
+				<input type="text" class="form-control" name="MAIL_FROM" 
+						th:value="${MAIL_FROM}" required>
+			</div>
+		</div>
+				<div class="form-group row mt-2">
+			<div class="col-sm-4 mt-2">
+				<label class="form-label">Nome di inoltro:</label>
+			</div>
+			<div class="col-sm-6">
+				<input type="text" class="form-control" name="MAIL_SENDER_NAME" 
+						th:value="${MAIL_SENDER_NAME}" required>
+			</div>
+		</div>
+		<div class="text-center">
+			<input type="submit" value="Salva" class="btn btn-primary m-3">
+		</div>
+	</form>
+</div>

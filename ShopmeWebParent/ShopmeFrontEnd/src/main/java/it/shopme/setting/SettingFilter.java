@@ -38,10 +38,7 @@ public class SettingFilter implements Filter {
 		generalSetting.forEach(setting -> {
 			System.out.println(setting);
 			request.setAttribute(setting.getKey(), setting.getValue());
-		});
-		
+		});	
 		chain.doFilter(request, response);
-
 	}
-
 }
