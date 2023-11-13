@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{template :: headFragment(#{label.titleUsers}, ${'none'})}">
+</head>
+<body>
+	<div class="container-fluid">
+		<nav th:replace="~{template :: navFragment}"></nav>
+	</div>
+	<div class="container">
+		<form th:action="@{/customers/save}" th:object="${customer}" method="post" onsubmit="return">
+			<input type="hidden" th:field="*{id}">
+			<div class="form-group row align-items-start">
+				<div class="col-3">
+					<label class="form-label pt-3">[[#{label.firstName}]]</label>
+					<input type="text" class="form-control" th:field="*{firstName}">
+				</div>
+				<div class="col-3">
+					<label class="form-label pt-3">[[#{label.lastName}]]</label>
+					<input type="text" class="form-control" th:field="*{lastName}"> 
+				</div>
+				<div class="col-3">
+					<label class="form-label pt-3">[[#{label.email}]]</label>
+					<input type="text" class="form-control" th:field="*{email}"> 
+				</div>
+				<div class="col-3">
+					<label class="form-label pt-3">[[#{label.password}]]</label>
+					<input type="password" class="form-control" placeholder="Lascia il campo in bianco se non vuoi cambiare la password" th:field="*{password}">
+				</div>
+			</div>
+			<div class="form-group row align-items-start">
+				<div class="col-3">
+					<label class="form-label pt-3">[[#{label.phoneNumber}]]</label>
+					<input type="text" class="form-control" th:field="*{phoneNumber}">
+				</div>
+				<div class="col-3">
+					<label class="form-label pt-3">[[#{label.addressLine1}]]</label>
+					<input type="text" class="form-control" th:field="*{addressLine1}">
+				</div>
+				<div class="col-3">
+					<label class="form-label pt-3">[[#{label.addressLine2}]]</label>
+					<input type="text" class="form-control" th:field="*{addressLine2}">
+				</div> 
+				<div class="col-3">
+					<label class="form-label pt-3">CAP</label>
+					<input type="text" class="form-control" th:field="*{postalCode}">
+				</div> 
+			</div>
+			<div class="form-group row align-items-start">
+				 <div class="col-4">
+					<label class="form-label pt-3">[[#{label.city}]]</label>
+					<input type="text" class="form-control" th:field="*{city}"> 
+				</div>
+				<div class="col-4">
+					<label class="form-label pt-3">[[#{label.country}]]</label>
+					<select class="form-select" th:field="*{country}"> 
+						<option th:each="country : ${listCountries}" th:value="${country.id}" 
+								th:text="${country.name}">
+						</option>
+					</select>
+				</div>
+				<div class="col-4">
+					<label class="form-label pt-3">[[#{label.state}]]</label>
+					<input type="text" class="form-control" th:field="*{state}"> 
+					<datalist id="listStates">
+	
+					</datalist>
+				</div>
+			</div>
+			<div class="form-group row align-items-start">
+				<div>
+					<label class="form-label pt-3">Abilitato</label>
+					<input type="checkbox" th:checked="*{enable}">
+				</div>
+			</div>
+			<div class="text-center">
+				<input type="submit" value="Save" class="btn btn-primary m-3" /> 
+				<input type="button" value="Cancel" class="btn btn-secondary" id="buttonCancel" />
+			</div>
+		</form>
+	</div>
+	
+	<script type="text/javascript">
+		contextPath = "[[@{/}]]";
+		moduleURL = "[[@{/customers}]]";
+		
+		function checkUniqueEmail(form){
+			customerId = $("#id").val();
+			customerEmail = $("email").val();
+			csrfValue = $("input[name='_csrf'").val();
+			
+			url = "[[@{/customers/check_email}]]";
+			params = {id:customerId, email:customerEmail,_csrf:csrfValue};
+			
+			$.post(url,params,function(response){
+				if(response == "OK"){
+					form.submit();
+				}else if(response == "Duplicato"){
+					showWarningModal("Un altro cliente ha questa email: " + customerEmail);
+				}
+			}).fail(function () {
+				showErrorModal("Could not connect to the server");
+			});;
+		}
+	</script>
+	<script th:src="@{/js/common.js}"></script>
+	<script th:src="@{/js/common_form_country_state.js}"></script>
+</body>
+</html>

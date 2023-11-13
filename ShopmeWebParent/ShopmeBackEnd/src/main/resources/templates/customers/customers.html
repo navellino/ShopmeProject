@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{template :: headFragment(#{label.titleUsers}, ${'none'})}"></head>
+	<body>
+		<div class="container-fluid">
+			<div>
+				<nav th:replace="~{template :: navFragment}"></nav>
+			</div>
+		</div>
+			<div th:if="${message != null}" class="alert alert-success text-center">
+				<label th:text="${message}"></label>
+			</div>
+			<div class="container-fluid">
+				<div th:replace="~{template :: module_search('/customers/page/1')}"></div>
+			</div>
+			<div class="container-fluid full-details">
+				<table class="table table-bordered table-striped table-hover table-responsive-xl"> 
+					<thead class="table-dark">
+						<tr>
+							<th class="hideable-column" th:text="#{label.thUser}"></th>
+							<th th:replace="~{template :: columnLink('lastName', #{label.lastName})}"></th>
+							<th th:replace="~{template :: columnLink('firstName', #{label.firstName})}"></th>
+							<th class="hideable-column" th:replace="~{template :: columnLink('email', #{label.email})}"></th>
+							<th class="hideable-column" th:replace="~{template :: columnLink('country', #{label.country})}"></th>
+							<th class="hideable-column" th:replace="~{template :: columnLink('state', #{label.state})}"></th>
+							<th class="hideable-column" th:replace="~{template :: columnLink('city', #{label.city})}"></th>
+							<th th:text="#{label.enabled}"></th>
+							<th th:text="#{label.actions}"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="customer : ${listCustomer}">
+							<td class="hideable-column" th:text="${customer.id}"></td>
+							<td th:text="${customer.lastName}"></td>
+							<td th:text="${customer.firstName}"></td>
+							<td class="hideable-column" th:text="${customer.email}"></td>
+							<td class="hideable-column" th:text="${customer.country.name}"></td>
+							<td class="hideable-column" th:text="${customer.state}"></td>
+							<td class="hideable-column" th:text="${customer.city}"></td>
+							<td class="text-center">
+								<a th:if="${customer.enable == true}" th:href="@{'/customers/' + ${customer.id} + '/enabled/false' }" 
+								 title="Diabilita l'utente" class="fa-solid fa-circle-check fa-2xl" style="color: #00c70d;"></a>
+								<a th:if="${customer.enable == false}" th:href="@{'/customers/' + ${customer.id} + '/enabled/true' }"
+								title="Abilita l'utente" class="fa-solid fa-circle-xmark fa-2xl" style="color: #ff0000;"></a>
+							</td>
+							<td>
+								<a th:href="@{'/customers/edit/' + ${customer.id}}" class="fa-solid fa-user-pen fa-2xl" style="color: #00c70d;"></a>
+								&nbsp;
+								<a th:href="@{'/customers/delete/' + ${customer.id}}" class="fa-solid fa-trash fa-2xl link-delete" style="color: #ff0000;" 
+								th:userId="${customer.id}" title="elimina questo utente"></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="less-details">
+				<div th:each="customer : ${listCustomer}" class="row m-1">
+					<div class="col">
+						<div th:text="${customer.getFullName}"></div>
+						<div class="mt-1">
+							<a th:if="${customer.enable == true}" th:href="@{'/customers/' + ${customer.id} + '/enabled/false' }" 
+							 title="Diabilita l'utente" class="fa-solid fa-circle-check fa-xl" style="color: #00c70d;"></a>
+							 
+							<a th:if="${customer.enable == false}" th:href="@{'/customers/' + ${customer.id} + '/enabled/true' }"
+							title="Abilita l'utente" class="fa-solid fa-circle-xmark fa-xl" style="color: #ff0000;"></a>
+							&nbsp;
+							
+							<a th:href="@{'/customers/edit/' + ${customer.id}}" class="fa-solid fa-user-pen fa-xl" style="color: #00c70d;"></a>
+									&nbsp;
+							<a th:href="@{'/customers/delete/' + ${customer.id}}" class="fa-solid fa-trash fa-xl link-delete" style="color: #ff0000;" 
+							th:userId="${customer.id}" title="elimina questo utente"></a>
+						</div>
+					</div>
+				</div>&nbsp;			
+			</div>
+		<!--Paginating -->
+		<div class="text-center m-1" th:if="${totalItems>0}">
+			<span th:text="#{label.paginating} + ' '+ ${startCount} + ' - '+ ${endCount} + ' ' +#{label.di} + ' ' + ${totalItems}"></span>
+		</div>
+		<div class="text-center m-1" th:unless="${totalItems>0}">
+			<span th:text="#{label.nouserfound}"></span>
+		</div>
+		<div th:replace="~{template :: modal_delete_dialog}"></div>
+		<div th:if="${lastPage>1}">
+			<nav>
+			  <ul class="pagination justify-content-center flex-wrap" >
+				<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+					<a class="page-link" th:href="@{'/customers/page/1?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}" th:text="#{label.first}"></a>
+				</li>
+			    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+					<a class="page-link" th:href="@{'/customers/page/'+${currentPage-1}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}" th:text="#{label.previus}"></a>
+				</li>
+			    <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" 
+			    	th:each="i : ${#numbers.sequence(1, lastPage)}">
+					<a class="page-link" th:href="@{'/customers/page/'+ ${i}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}" th:text="${i}"></a>
+				</li>
+			    <li th:class="${currentPage < lastPage ? 'page-item' : 'page-item disabled'}">
+					<a class="page-link" th:href="@{'/customers/page/'+${currentPage+1}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}" th:text="#{label.next}"></a>
+				</li>
+			    <li th:class="${currentPage < lastPage ? 'page-item' : 'page-item disabled'}">
+					<a class="page-link" th:href="@{'/customers/page/'+${lastPage}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+${keyword != null ? '&keyword='+keyword : ''}}" th:text="#{label.last}"></a>
+				</li>
+			  </ul>
+			</nav>
+		</div>
+		<!--Footer-->
+		<div th:replace="~{template :: footerFragment}"></div>
+		<script th:src="@{/js/common.js}"></script>
+		<script type="text/javascript">
+			
+			moduleURL="[[@{/customers}]]";
+			
+			$(document).ready(function(){
+				$(".link-delete").on("click", function(e){
+					e.preventDefault();
+					link = $(this);
+					userId = link.attr("userId");
+					$("#yesButton").attr("href", link.attr("href"));
+					$("#confirmText").text("Sei sicuro di eliminalere il cliente" + userId);
+					$("#confirmModal").modal('show');
+				});
+			});
+			
+			
+			function clearFilter(){
+				window.location="[[@{/users}]]";
+			}
+		</script>
+	</body>
+</html>

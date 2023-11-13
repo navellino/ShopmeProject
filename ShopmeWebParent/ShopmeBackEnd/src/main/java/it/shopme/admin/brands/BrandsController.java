@@ -2,15 +2,9 @@ package it.shopme.admin.brands;
 
 import java.io.IOException;
 import java.util.List;
-
 import javax.servlet.http.HttpServletResponse;
-
 import it.shopme.common.entity.Category;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -22,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import it.shopme.admin.FileUploadUtil;
 import it.shopme.admin.category.CategoryService;
+import it.shopme.admin.paging.PagingAndSortingHelper;
+import it.shopme.admin.paging.PagingAndSortingParam;
 import it.shopme.common.entity.Brand;
 
 
@@ -35,12 +31,26 @@ public class BrandsController {
 	private CategoryService catService;
 
 	@GetMapping("/brands")
-	public String listFirstPage(Model model) {
+	public String listFirstPage() {
 		/*List<Brand> listAllBrands = service.listAllBrands();
 		model.addAttribute("brands", listAllBrands);*/
-		return listByPage(1, model, "name", "asc", null);
+		//return listByPage(1, model, "name", "asc", null);
+		return "redirect:/brands/page/1?sortField=name&sortDir=asc";
 	}
 	
+	@GetMapping("/brands/page/{pageNum}")
+	public String listBayPage(@PagingAndSortingParam(listName = "brands", moduleURL = "/brands") PagingAndSortingHelper helper,
+			@PathVariable(name = "pageNum") int pageNum, Model model) {
+		String curPaglink = "/brands/page/";
+		
+		service.listByPage(pageNum, helper);
+		
+		model.addAttribute("link", curPaglink);
+		
+		return "brands/brands";
+	}
+	
+	/*
 	@GetMapping("/brands/page/{pageNum}")
 	public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model,
 			@Param("sortField") String sortField, @Param("sortDir") String sortDir, 
@@ -72,6 +82,7 @@ public class BrandsController {
 		
 		return "brands/brands";
 	}
+	*/
 	
 	@GetMapping("/brands/new")
 	public String newBrands(Model model) {

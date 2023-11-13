@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import it.shopme.admin.paging.PagingAndSortingHelper;
 import it.shopme.common.entity.Role;
 import it.shopme.common.entity.User;
 
@@ -40,15 +42,21 @@ public class UserService {
 		return (List<User>) repo.findAll(Sort.by("lastName").ascending());
 	}
 	
-	public Page<User> listByPage(int pageNum, String sortField, String sortDir, String keyword){
-		Sort sort = Sort.by(sortField);
-		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+	//public Page<User> listByPage(int pageNum, String sortField, String sortDir, String keyword)
+	public void listByPage(int pageNum, PagingAndSortingHelper helper){
+		Sort sort = Sort.by(helper.getSortField());
+		sort = helper.getSortDir().equals("asc") ? sort.ascending() : sort.descending();
 		
 		Pageable pageable = PageRequest.of(pageNum - 1, USER_PER_PAGE, sort);
+		Page<User> page = null;
 		
-		if(keyword != null) return repo.findAll(keyword, pageable);
+		if(helper.getKeyword() != null) {
+			page = repo.findAll(helper.getKeyword(), pageable);
+		}else{
+			page = repo.findAll(pageable);
+		}
 		
-		return repo.findAll(pageable);
+		helper.updateModelAttribute(pageNum, page);
 	}
 	
 	public List<Role> roleList(){

@@ -44,9 +44,7 @@ public class CategoryController {
 		
 		long startCount = (pageNum-1) * CategoryService.ROOT_CATEGORIES_PER_PAGE + 1;
 		long endCount = startCount + CategoryService.ROOT_CATEGORIES_PER_PAGE- 1;
-		
 
-		
 		List<Category> listCategories = service.listByPage(pageInfo,pageNum, sortDir,keyword);
 		
 		int totalItem = service.countItem();
@@ -84,21 +82,6 @@ public class CategoryController {
 		model.addAttribute("category", new Category());
 		return "prova";
 	}
-	/* Old version prima di edit categories
-	@PostMapping("/categories/save")
-	public String saveCategory(Category category, 
-								@RequestParam("fileImage") MultipartFile multipartFile,
-								RedirectAttributes redirectAttributes) throws IOException {
-		
-		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-		category.setImage(fileName);
-		Category savedCategory = service.save(category);
-		String uploadDir = "../category-images/"+savedCategory.getId();
-		FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-		redirectAttributes.addFlashAttribute("message", "categoria salvata con successo!");
-		
-		return "redirect:/categories";
-	}*/
 	
 	@PostMapping("/categories/save")
 	public String saveCategory(Category category, 
@@ -131,7 +114,6 @@ public class CategoryController {
 			redirectAttributes.addFlashAttribute("message", ex.getMessage());
 			return "redirect:/categories";
 		}
-		
 	}
 	
 	@GetMapping("/categories/{id}/enabled/{status}")
