@@ -56,4 +56,37 @@ public class SettingRepositoryTest {
 		settings.forEach(System.out::println);
 		
 	}
+	
+	@Test
+	public void test() {
+		int ts[] = {-15, -7, -9, -14, -12};
+		int i = computeClosestToZero(ts);
+		System.out.println("Il valore piu' vicino e' "+ i);
+	}
+	
+	 public static int computeClosestToZero(int[] ts) {
+        if(ts != null && ts.length == 0){
+            return 0;
+        }
+        if(ts.length >= 0 && ts.length <= 10000){
+            int t = 0;
+            int v = 0;
+            for(int i = 0; i < ts.length; i++){
+                int j = ts[i];
+                int y = Math.abs(j);
+                if(i == 0) {
+                    t = y;
+                    v = i;
+                }
+                if(y <= t ){
+                	if(ts[v] == y && ts[i]>0) {
+                		t = y;
+                		v = i;
+                	}
+                }
+            }
+            return ts[v];
+        }
+		return -1;
+	 }
 }

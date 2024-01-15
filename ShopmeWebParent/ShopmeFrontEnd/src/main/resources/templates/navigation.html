@@ -1,6 +1,6 @@
 <!--Navigation Fragment-->
 <div th:fragment="navFragment">
-	<form th:action="@{/logout}" method="post" th:hidden="true" name="LogoutForm">
+	<form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
 		<input type="submit" />
 	</form>
 	<nav class="navbar navbar-expand-lg bg-light navbar-light">
@@ -15,6 +15,7 @@
 				<li class="nav-item"><a class="nav-link" th:href="@{/users}" th:text="#{label.users}"></a></li>
 				<li class="nav-item"><a class="nav-link" th:href="@{/categories}" th:text="#{label.categories}"></a></li>
 				<li class="nav-item"><a class="nav-link" th:href="@{/register}" th:text="#{label.register}"></a></li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/login}" th:text="#{label.login}"></a></li>
 			</ul>
 		</div>
 		<div class="dropdown pe-5 me-5">
@@ -30,4 +31,52 @@
 		  </ul>
 		</div>
 	</nav>
+</div>
+<!--Navigation Authenticated Customer -->
+<div th:fragment="search_nav" class="row">
+	<div class="col-md">
+			<th:block sec:authorize="isAuthenticated()">
+				<form th:action="@{/logout}" method="post" th:hidden="true"	name="LogoutForm">
+					<input type="submit" value="Logout" />
+				</form>
+			</th:block>
+			<nav class="navbar navbar-expand-sm bg-light">
+				<div class="collapse navbar-collapse" id="searchNavbar">
+					<form class="form-inline" th:action="@{/search}" method="get">
+						<input type="search" name="keyword" class="form-control mr-sm-2"
+							th:value="${keyword}" placeholder="keyword" required />
+						<input type="submit" value="Cerca" class="btn btn-outline-success">
+					</form>
+					<ul class="navbar-nav">
+						<th:block sec:authorize="isAuthenticated()">
+							<li class="nav-item">
+								<b>
+									<a class="nav-link" th:href="@{/customer}"
+										sec:authentication="principal.fullName"></a>
+								</b>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">Indirizzi</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">Domande</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">Recensioni</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">Ordini</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="javascript: alert('prova')">Carrello</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="logoutLink" href="javascript: document.LogoutForm.submit()">Logout</a>
+							</li>
+						</th:block>
+					</ul>
+				</div>
+			</nav>
+		</th:block>
+	</div>
 </div>

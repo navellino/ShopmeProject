@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
 
+import it.shopme.common.entity.AuthenticationType;
 import it.shopme.common.entity.Country;
 import it.shopme.common.entity.Customer;
 
@@ -69,5 +70,14 @@ public class CustomerRepositoryTest {
 		
 		assertThat(savedCustomer).isNotNull();
 		assertThat(savedCustomer.getId()).isGreaterThan(0);
+	}
+	
+	@Test
+	public void testUpdateAuthenticationType() {
+		Integer id = 3;
+		repo.uptadeAuthenticationType(id, AuthenticationType.GOOGLE);
+		Customer customer = repo.findById(id).get();
+		
+		assertThat(customer.getAuthenticationType()).isEqualTo(AuthenticationType.GOOGLE);
 	}
 }
