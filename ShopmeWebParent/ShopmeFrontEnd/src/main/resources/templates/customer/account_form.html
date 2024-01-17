@@ -5,10 +5,20 @@
 		<div class="container-fluid" th:replace="~{navigation :: navFragment}"></div>
 		<div class="container-fluid" th:replace="~{product/search :: search_module}"></div>
 		<div class="container">
-			<h1>Registrazione nuovo Cliente</h1>
+			<h1>Dettagli Cliente</h1>
+			<hr>
 			
-			<form th:action="@{/create_customer}" method="post" th:object="${customer}" onsubmit="return checkEmailUnique(this)">
+			<form th:action="@{/update_account_detail}" method="post" th:object="${customer}">
 				<div class="border border-secondary p-3">
+					<input type="hidden" th:field="*{id}">
+					<div class="form-goup row p-2">
+						<label class="col-sm-4">Login:</label>
+						<div class="col-sm-6"><input class="form-control" type="text" th:field="*{authenticationType}" readonly ></div>
+					</div>
+					<div class="form-goup row p-2">
+						<label class="col-sm-4">E-mail:</label>
+						<div class="col-sm-6"><input class="form-control" type="text" th:field="*{email}" readonly ></div>
+					</div>
 					<div class="form-goup row p-2">
 						<label class="col-sm-4">Nome:</label>
 						<div class="col-sm-6"><input class="form-control" type="text" th:field="*{firstName}" required maxlength="45" minlength="2"></div>
@@ -17,22 +27,18 @@
 						<label class="col-sm-4">Cognome:</label>
 						<div class="col-sm-6"><input class="form-control" type="text" th:field="*{lastName}" required maxlength="45" minlength="2"></div>
 					</div>
-					<div class="form-goup row p-2">
-						<label class="col-sm-4">E-mail:</label>
-					<div class="col-sm-6"><input class="form-control" type="text" th:field="*{email}" required maxlength="45" minlength="8"></div>
-					</div>
-					<div class="form-goup row p-2">
-						<label class="col-sm-4">Password:</label>
-					<div class="col-sm-6"><input class="form-control" type="password" th:field="*{password}" required maxlength="45" minlength="8"
-						oninput="checkPasswordMatch(document.getElementById('confirmPassword'))"
-						></div>
-					</div>
-					<div class="form-goup row p-2">
-						<label class="col-sm-4">Ripeti Password:</label>
-					<div class="col-sm-6"><input class="form-control" type="password" id="confirmPassword" required maxlength="45" minlength="8"
-							oninput="checkPasswordMatch(this)"
-							></div>
-					</div>
+					<th:block th:if="${customer.authenticationType.name() == 'DATABASE'}">
+						<div class="form-goup row p-2">
+							<label class="col-sm-4">Password:</label>
+						<div class="col-sm-6"><input class="form-control" type="password" th:field="*{password}" maxlength="45" minlength="8"
+							oninput="checkPasswordMatch(document.getElementById('confirmPassword'))"></div>
+						</div>
+						<div class="form-goup row p-2">
+							<label class="col-sm-4">Ripeti Password:</label>
+						<div class="col-sm-6"><input class="form-control" type="password" id="confirmPassword" maxlength="45" minlength="8"
+								oninput="checkPasswordMatch(this)"></div>
+						</div>
+					</th:block>
 					<div class="form-goup row p-2">
 						<label class="col-sm-4">Telefono:</label>
 					<div class="col-sm-6"><input class="form-control" type="text" th:field="*{phoneNumber}" required maxlength="45" minlength="6"></div>
@@ -62,7 +68,7 @@
 					<div class="form-goup row p-2">
 						<label class="col-sm-4">Regione:</label>
 						<div class="col-sm-6">
-							<input class="form-control" type="text" th:field="*{state}" list="listState" required maxlength="45" minlength="2">
+							<input class="form-select" type="text" th:field="*{state}" list="listState" required maxlength="45" minlength="2">
 							<datalist id="listState"></datalist>
 						</div>
 					</div>
@@ -71,38 +77,18 @@
 					<div class="col-sm-6"><input class="form-control" type="text" th:field="*{postalCode}"></div>
 					</div>
 					<div class="text-center mt-3">
-						<input type="submit" class="btn btn-primary" value="Registra Cliente">
+						<input type="submit" class="btn btn-primary" value="Salva Modifiche">
 					</div>
 				</div>
 			</form>
 			<div th:replace="template :: modal_dialog"></div>
+			
 		</div>
+			
 		<footer class="container-fluid" th:replace="~{template :: footerFragment}"></footer>
-		<script type="text/javascript">
-			
-
-			function checkEmailUnique(form) {
-			url = contextPath + "customers/check_unique";
-			customerEmail = $("#email").val();
-			
-			csrfValue = $("input[name='_csrf']").val();
-			params = {email: customerEmail, _csrf: csrfValue}
-
-			$.post(url, params, function (response) {
-				if (response == "OK") {
-					form.submit();
-				} else if (response == "Duplicata") {
-					showWarningModalDialog("Indirizzo e-mail già presente nel database");
-				} else {
-					showErrorModalDialog("Risposta inattesa dal server");
-				}
-			});
-			return false;
-			}		
-		</script>
-		<script type="text/javascript">
-			contextPath = "[[@{/}]]";
-		</script>
-		<script type="text/javascript" th:src="@{/js/common_customer_form.js}"></script>
 	</body>
+	<script type="text/javascript">
+		contextPath = "[[@{/}]]";
+	</script>
+	<script type="text/javascript" th:src="@{/js/common_customer_form.js}"></script>
 </html>

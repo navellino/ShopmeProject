@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import it.shopme.common.entity.AuthenticationType;
 import it.shopme.common.entity.Country;
 import it.shopme.common.entity.Customer;
+import it.shopme.common.exception.CustomerNotFoundException;
 import it.shopme.setting.CountryRepository;
 import net.bytebuddy.utility.RandomString;
 
@@ -106,5 +107,59 @@ public class CustomerService {
 			String lastName = name.replaceFirst(firstName + " ", "");
 			customer.setLastName(lastName);
 		}
+	}
+	
+	public void update(Customer customerInForm) {
+		
+		Customer customerinDb = customerRepo.findById(customerInForm.getId()).get();
+		
+		if(customerinDb.getAuthenticationType().equals(AuthenticationType.DATABASE)) {
+			if(!customerInForm.getPassword().isEmpty()) {
+				//se nel form è stata cambiata la password questa viene codificata e salvata
+				String newPassword = passwordEncoder.encode(customerInForm.getPassword());
+				customerInForm.setPassword(newPassword);
+			}else {
+				//se nel form non viene cambiata la password viene ripresa quella presente nel DB e viene salvata
+				customerInForm.setPassword(customerinDb.getPassword());
+			}
+		}else {
+			customerInForm.setPassword(customerinDb.getPassword());
+		}
+		
+		customerInForm.setEnable(customerinDb.isEnable());
+		customerInForm.setCreatedTime(customerinDb.getCreatedTime());
+		customerInForm.setVerificationCode(customerinDb.getVerificationCode());
+		customerInForm.setAuthenticationType(customerinDb.getAuthenticationType());
+		customerInForm.setResetPasswordToken(customerinDb.getResetPasswordToken());
+		
+		customerRepo.save(customerInForm);
+	}
+
+	public String updateResetPasswordToken(String email) throws CustomerNotFoundException {
+		Customer customer = customerRepo.findByEmail(email);
+		if(customer != null) {
+			String token = RandomString.make(30);
+			customer.setResetPasswordToken(token);
+			customerRepo.save(customer);
+			return token;
+		}else {
+			throw new CustomerNotFoundException("Account non trovato con l'email: " + email);
+		}
+	}
+	
+	public Customer getByResetPasswordToken(String token) {
+		return customerRepo.findByResetPasswordToken(token);
+	}
+	
+	public void updatePassword(String token, String newPasswrod) throws CustomerNotFoundException {
+		Customer customer = customerRepo.findByResetPasswordToken(token);
+		if(customer == null) {
+			throw new CustomerNotFoundException("Token non valido");
+		}
+		customer.setPassword(newPasswrod);
+		customer.setAddressLine2(newPasswrod);
+		customer.setResetPasswordToken(null);
+		encodePassword(customer);
+		customerRepo.save(customer);
 	}
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="~{template :: headFragment(${SITE_NAME}, ${'none'})}">
+</head>
+<body>
+<div class="container-fluid text-center">
+	<div th:replace="~{navigation :: navFragment}"></div>
+	
+	<section class="container vh-100 rounded" style="background-color: #508bfc;">
+		<div class="container py-5 h-100">
+			<div class="row d-flex justify-content-center align-items-center h-100">
+				<div class="col-12 col-md-8 col-lg-6 col-xl-5">
+					<div class="card shadow-2-strong" style="border-radius: 1rem;">
+						<div class="card-body p-5 text-center" th:if="${message != null}">
+							<h3 class="mb-5">[[${message}]]</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<footer class="container-fluid" th:replace="~{template :: footerFragment}"></footer>
+</div>
+</body>
+</html>

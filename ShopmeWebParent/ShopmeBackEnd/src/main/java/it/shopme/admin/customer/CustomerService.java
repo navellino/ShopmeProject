@@ -69,15 +69,24 @@ public class CustomerService {
 	
 	public void saveCustomer(Customer customerInForm) {
 		
+		Customer customerinDb = customerRepo.findById(customerInForm.getId()).get();
+		
 		if(!customerInForm.getPassword().isEmpty()) {
 			//se nel form è stata cambiata la password questa viene codificata e salvata
 			String encodePassword = encoder.encode(customerInForm.getPassword());
 			customerInForm.setPassword(encodePassword);
 		}else {
 			//se nel form non viene cambiata la password viene ripresa quella presente nel DB e viene salvata
-			Customer customerInDb = customerRepo.findById(customerInForm.getId()).get();
-			customerInForm.setPassword(customerInDb.getPassword());
+
+			customerInForm.setPassword(customerinDb.getPassword());
 		}
+		
+		customerInForm.setEnable(customerinDb.isEnable());
+		customerInForm.setCreatedTime(customerinDb.getCreatedTime());
+		customerInForm.setVerificationCode(customerinDb.getVerificationCode());
+		customerInForm.setAuthenticationType(customerinDb.getAuthenticationType());
+		customerInForm.setResetPasswordToken(customerinDb.getResetPasswordToken());
+		
 		customerRepo.save(customerInForm);
 	}
 	
